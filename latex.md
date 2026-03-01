@@ -1,4 +1,4 @@
-# How to \LaTeX using Docker Container
+# How to $\LaTeX$ using Docker Container
 
 [Refer this](https://zenn.dev/being/articles/how-to-use-my-latex)
 
