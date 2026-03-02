@@ -52,3 +52,9 @@ pdfseparate -f 2 -l 2 input.pdf onepage.pdf
 ```
 Then, do as above.
 
+## Misc
+
+Command to remove everything except files suffixed by ".tex".
+```bash
+find . -maxdepth 1 -type f ! -name '*.tex' -delete
+```
