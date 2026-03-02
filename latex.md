@@ -15,8 +15,14 @@ latex-template
 
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk main.tex
+```
+```bash
 docker run --rm -v $PWD:/workdir ghcr.io/being24/latex-docker bash -c "inkscape --version"
+```
+```bash
 docker run -it --rm --name latex-template-ja --user root ghcr.io/being24/latex-docker:latest /bin/bash
+```
+```bash
 docker run -it --rm --name latex-template-ja -v $PWD:/workdir ghcr.io/being24/latex-docker /bin/bash
 ```
 
@@ -26,7 +32,7 @@ Is the `id -u` necessary?
 
 [Explanation for using Inkscape to do pdf2svg](https://rooter.jp/data-format/pdf2svg-inkscape-cli/).
 
-The `inkscape` program is a already available inside the `latex-docker` image. When using below command, the `text` tag is existing. But, confirm first that `inkscape --version` inside the container is 1.4 or later.
+The `inkscape` program is a already available inside the `latex-docker` image. When using below command, the `text` tag is existing in the output svg. But, confirm first that `inkscape --version` inside the container is 1.4 or later.
 ```bash
 inkscape simple.pdf --pdf-font-strategy=keep --export-filename=simple_font_keep.svg
 ```
