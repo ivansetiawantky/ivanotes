@@ -1,10 +1,30 @@
 # How to $\LaTeX$ using Docker Container
 
-[Refer this](https://zenn.dev/being/articles/how-to-use-my-latex)
+## Quickstart to compile one $\LaTeX$ source file `sample.tex`
+
+1. Just pull the image: `docker pull ghcr.io/being24/latex-docker:latest` (Check with `docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc`)
+1. 
+
+For more details please refer to [this](https://zenn.dev/being/articles/how-to-use-my-latex).
+
+## What about using the template?
+
+latex-template
+
+## Typical usage
+
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk main.tex
+docker run --rm -v $PWD:/workdir ghcr.io/being24/latex-docker bash -c "inkscape --version"
+docker run -it --rm --name latex-template-ja --user root ghcr.io/being24/latex-docker:latest /bin/bash
+docker run -it --rm --name latex-template-ja -v $PWD:/workdir ghcr.io/being24/latex-docker /bin/bash
+```
+
+Is the `id -u` necessary?
 
 ## No need to use `pdf2svg`, just use `inkscape`
 
-[Inkscape for doing pdf2svg](https://rooter.jp/data-format/pdf2svg-inkscape-cli/)
+[Explanation for using Inkscape to do pdf2svg](https://rooter.jp/data-format/pdf2svg-inkscape-cli/).
 
 The `inkscape` program is a already available inside the `latex-docker` image. When using below command, the `text` tag is existing. But, confirm first that `inkscape --version` inside the container is 1.4 or later.
 ```bash
@@ -25,16 +45,4 @@ For the second warning, first we must separate the pdf, select the desired page:
 pdfseparate -f 2 -l 2 input.pdf onepage.pdf
 ```
 Then, do as above.
-
-## Typical usage
-
-```
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk main.tex
-```
-
-Is the `id -u` necessary?
-
-### How to compile just 1 tex file
-
-### Do I need to `Use this template`?
 
