@@ -1,6 +1,6 @@
 # How to $\LaTeX$ using Docker Container
 
-## Quickstart to compile 1 simple $\LaTeX$ source file "hello.tex"
+## 1. Quickstart to compile 1 simple $\LaTeX$ source file "hello.tex"
 
 ```LaTeX
 \documentclass{article}
@@ -10,7 +10,7 @@ Hello, \LaTeX World!
 \end{document}
 ```
 
-### 1. Just pull the image
+### A. Just pull the image
 ```bash
 docker pull ghcr.io/being24/latex-docker:latest
 ```
@@ -19,29 +19,74 @@ Check the image with:
 docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc
 ```
 
-### 2. Compile "hello.tex" to obtain "hello.pdf"
+### B. Compile "hello.tex" to obtain "hello.pdf"
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdf hello.tex
 ```
-### 3. Cleaning up
+### C. Cleaning up
 
 To remove intermediate files only:
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -c
 ```
 
-To remove everything unless the tex source file:
+To remove everything but the tex source file:
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -C
 ```
 
 For more details please refer to [this](https://zenn.dev/being/articles/how-to-use-my-latex) and [latexmk-howto-page](https://mgeier.github.io/latexmk.html).
 
-## What about using the template?
+## 2. It is better to provide ".latexmkrc"
 
-latex-template
+In the same directory where the tex source file exist, put below as ".latexmkrc" file.
+```perl
+#!/usr/bin/env perl
 
-## Typical usage
+$do_cd = 1;
+
+$pdflatex = 'pdflatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
+# $latex = 'platex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
+$latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
+$lualatex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+$dvipdf = 'dvipdfmx %O -o %D %S';
+$makeindex = 'makeindex %O -o %D %S';
+
+$bibtex_use=2;
+$bibtex = 'upbibtex %O %S';
+$biber = 'biber --bblencoding=utf8 -u -U --output_safechars %O %S';
+
+$clean_ext="$clean_ext run.xml dvi synctex.gz";
+
+# pdflatexは1,uplatexは3,lualatexは4
+$pdf_mode = 3;
+$max_repeat = 10;
+```
+Note that I modified `$clean_ext` to remove files with extensions dvi and synctex.gz also.
+
+Depending on the tex source file (written for compilation with platex, lualatex, etc.), configurations that may need to be set properly are `$latex`, `$pdf_mode`.
+
+The ".latexmkrc" may need to be updated when the "latex-docker" image or "latex-template-ja" is updated. Find the latest ".latexmkrc" [here](https://github.com/being24/latex-template-ja/blob/master/.latexmkrc).
+
+The command to compile and get pdf is:
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk texfile.tex
+```
+
+Then, clean up:
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -c
+```
+Or remove also the pdf with:
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -C
+```
+
+## 3. What about using the template?
+
+latex-template-ja
+
+## 4. Typical usage
 
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk main.tex
@@ -56,7 +101,7 @@ docker run -it --rm --name latex-template-ja --user root ghcr.io/being24/latex-d
 docker run -it --rm --name latex-template-ja -v $PWD:/workdir ghcr.io/being24/latex-docker /bin/bash
 ```
 
-## No need to use `pdf2svg`, just use `inkscape`
+## 5. No need to use `pdf2svg`, just use `inkscape`
 
 [Explanation for using Inkscape to do pdf2svg](https://rooter.jp/data-format/pdf2svg-inkscape-cli/).
 
@@ -80,7 +125,7 @@ pdfseparate -f 2 -l 2 input.pdf onepage.pdf
 ```
 Then, do as above.
 
-## Misc
+## 6. Misc
 
 Command to remove everything except files suffixed by ".tex".
 ```bash
