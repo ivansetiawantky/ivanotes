@@ -1,11 +1,41 @@
 # How to $\LaTeX$ using Docker Container
 
-## Quickstart to compile one $\LaTeX$ source file `sample.tex`
+## Quickstart to compile 1 simple $\LaTeX$ source file "hello.tex"
 
-1. Just pull the image: `docker pull ghcr.io/being24/latex-docker:latest` (Check with `docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc`)
-1. 
+```LaTeX
+\documentclass{article}
 
-For more details please refer to [this](https://zenn.dev/being/articles/how-to-use-my-latex).
+\begin{document}
+Hello, \LaTeX World!
+\end{document}
+```
+
+### 1. Just pull the image
+```bash
+docker pull ghcr.io/being24/latex-docker:latest
+```
+Check the image with:
+```bash
+docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc
+```
+
+### 2. Compile "hello.tex" to obtain "hello.pdf"
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdf hello.tex
+```
+### 3. Cleaning up
+
+To remove intermediate files only:
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -c
+```
+
+To remove everything unless the tex source file:
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -C
+```
+
+For more details please refer to [this](https://zenn.dev/being/articles/how-to-use-my-latex) and [latexmk-howto-page](https://mgeier.github.io/latexmk.html).
 
 ## What about using the template?
 
@@ -25,8 +55,6 @@ docker run -it --rm --name latex-template-ja --user root ghcr.io/being24/latex-d
 ```bash
 docker run -it --rm --name latex-template-ja -v $PWD:/workdir ghcr.io/being24/latex-docker /bin/bash
 ```
-
-Is the `id -u` necessary?
 
 ## No need to use `pdf2svg`, just use `inkscape`
 
