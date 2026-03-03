@@ -127,7 +127,7 @@ Then, do as above.
 
 ## 6. Misc
 
-Command to remove everything except files suffixed by ".tex".
+Command to remove everything except files suffixed by ".tex". NOT TOO GOOD, because ".latexmkrc" will be removed also.
 ```bash
 find . -maxdepth 1 -type f ! -name '*.tex' -delete
 ```
