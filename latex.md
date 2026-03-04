@@ -40,7 +40,7 @@ For more details please refer to [this](https://zenn.dev/being/articles/how-to-u
 ## 2. It is better to provide ".latexmkrc"
 
 In the same directory where the tex source file exist, put below as ".latexmkrc" file.
-```perl
+```perl:.latexmkrc
 #!/usr/bin/env perl
 
 $do_cd = 1;
