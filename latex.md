@@ -82,9 +82,38 @@ Or remove also the pdf with:
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -C
 ```
 
-## 3. What about using the template?
+## 3. Use $\LaTeX$ template
 
-latex-template-ja
+For a real $\LaTeX$ source writing (NOT just compiling as above), it is better to use template as explained in 「[VSCodeとDockerでLaTeXを用いた多機能論文執筆環境を整える](https://zenn.dev/being/articles/」how-to-use-my-latex)」. The "latex-template-ja" is available [here](https://github.com/being24/latex-template-ja).
+
+### A. "Use this template"
+
+Login to github, go to [https://github.com/being24/latex-template-ja](https://github.com/being24/latex-template-ja) then click "Use this template". Select "Create a new repository", and give a name aligned with your project name. For example "awesame-proj".
+
+Clone the above "awesome-proj" to local host. Then remove tex file, "main.tex", "main.pdf", even class that has nothing to do with your project. This repository is now the repository for your "awesome-proj".
+
+If you want to create tex for other project, then repeat "Use this template" and give a name aligned with the other project.
+
+VScode settings, ".vscode/settings.json" and ".devcontainer/devcontainer.json" etc., are already provided! 
+
+### B. Open the folder (of the cloned repository) with VScode
+
+But first, don't forget to run Docker Desktop.
+
+Because the folder has ".devcontainer/devcontainer.json", when VScode open the folder, then the "ghcr.io/being24/latex-docker:latest" image will be run. VScode will ask whether to open in a new container. Answer "yes".
+
+### C. Create a new tex file and build this new tex file
+
+The build button is the green-play-button. You can preview the output pdf also. Click "TEX" (LaTeX Workshop extension) then select "Clean up auxiliary files" to remove build intermediate files.
+
+To automatically build after saving tex file, change ".vscode/settings.json" below configuration:
+```json
+"latex-workshop.latex.autoBuild.run": "never",
+```
+to
+```json
+"latex-workshop.latex.autoBuild.run": "onSave"
+```
 
 ## 4. Typical usage
 
