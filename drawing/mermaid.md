@@ -1,0 +1,1 @@
+# mermaid記法 (mermaid notation)
