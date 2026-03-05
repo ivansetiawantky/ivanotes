@@ -35,7 +35,7 @@ Access the [(rendered) markdown syntax explanation](https://docs.github.com/en/g
   $$\int_{-\infty}^{\infty} e^{-x^2} = \sqrt{\pi}$$
   ```
   $$\int_{-\infty}^{\infty} e^{-x^2} = \sqrt{\pi}$$
-* In vscode, right click at the preview to open context menu, then export to html
+* In vscode, right click at the preview to open context menu, then export to html (cdn hosted)
 * [Markdown Preview Enhanced usage](https://shd101wyy.github.io/markdown-preview-enhanced/#/)
 * [Mermaid notation syntax](https://mermaid.js.org/intro/syntax-reference.html)
 * [For flowchart](https://mermaid.js.org/syntax/flowchart.html)
