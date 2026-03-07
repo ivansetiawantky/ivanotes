@@ -39,7 +39,8 @@ Access the [(rendered) markdown syntax explanation](https://docs.github.com/en/g
 * [Markdown Preview Enhanced usage](https://shd101wyy.github.io/markdown-preview-enhanced/#/)
 * [Mermaid notation syntax](https://mermaid.js.org/intro/syntax-reference.html)
 * [For flowchart](https://mermaid.js.org/syntax/flowchart.html)
-* Mermaid Live Editor, just like go playground
+* `Mermaid Live Editor`, just like go playground
+  Use `Mermaid Live Editor` to convert mermaid markdown text to `.svg`. In the *Action* download as `.svg`. However, the svg file is targeting browser only. So, open with browser then export to pdf with the browser if needed.
 
 ## Some mermaid examples
 
