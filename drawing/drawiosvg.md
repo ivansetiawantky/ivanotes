@@ -1,4 +1,4 @@
-# draw.io for creating diagrams
+# Use `draw.io` to create diagram with GUI in vscode (result is `.drawio.svg` file)
 
 `draw.io` (now diagrams.net) is a web-based tool used to create diagrams, including flowcharts, network diagrams, organizational charts, UML, and floor plans. Also used to create technical and business diagrams such as Entity Relationship Diagrams (ERD), process maps, Venn diagrams, and mind maps.
 
