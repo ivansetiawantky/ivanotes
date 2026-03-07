@@ -1,4 +1,4 @@
-# `mermaid`記法 (mermaid notation)
+# Use `mermaid` notation to create diagram in Markdown (result is `.md` text file)
 
 `mermaid` is a markdown-inspired (so, it is a text-based) notation (programming language) to draw diagram. `mermaid` blends naturally with markdown.
 
