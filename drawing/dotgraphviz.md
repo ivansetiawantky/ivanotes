@@ -46,5 +46,8 @@ Use below command to export `.gv` to `.svg`:
 dot -Tsvg inputfile.dot -o outputfile.svg
 ```
 
+Below is the `digraph G`:\
+![digraphG.svg](./digraphG.svg)
+
 > \[!NOTE]
 > See [here](https://graphviz.org/docs/outputs/svg/) for SVG option of `dot` program.
