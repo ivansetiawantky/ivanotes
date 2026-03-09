@@ -49,5 +49,7 @@ dot -Tsvg inputfile.dot -o outputfile.svg
 Below is the `digraph G`:\
 ![digraphG.svg](/drawing/digraphG.svg)
 
+<img src="/drawing/digraphG.svg">
+
 > \[!NOTE]
 > See [here](https://graphviz.org/docs/outputs/svg/) for SVG option of `dot` program.
