@@ -10,7 +10,7 @@ Install vscode-extension, `Markdown Preview Enhanced` (also `Markdown All in One
 
 Open an `.md` file.
 
-Input below to the `.md` file:
+Write below to the `.md` file:
 ````markdown
 ```dot
 digraph G {
@@ -45,3 +45,6 @@ Use below command to export `.gv` to `.svg`:
 ```bash
 dot -Tsvg inputfile.dot -o outputfile.svg
 ```
+
+> \[!NOTE]
+> See [here](https://graphviz.org/docs/outputs/svg/) for SVG option of `dot` program.
