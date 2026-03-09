@@ -43,11 +43,15 @@ digraph G {
 
 Use below command to export `.gv` to `.svg`:
 ```bash
-dot -Tsvg inputfile.dot -o outputfile.svg
+dot -Tsvg inputfile.dot -o digraphG.svg
 ```
-
-Below is the `digraph G`:\
-![digraphG.svg](/drawing/digraphG.svg)
 
 > \[!NOTE]
 > See [here](https://graphviz.org/docs/outputs/svg/) for SVG option of `dot` program.
+
+Below is the `digraphG.svg`:\
+![digraphG.svg](/drawing/digraphG.svg)
+
+> \[!WARNING]
+> DO NOT USE HEADER-LESS SVG WHEN INCLUDING SVG IN MARKDOWN.\
+> Use the option `-Tsvg`!!!!
