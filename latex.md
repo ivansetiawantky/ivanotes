@@ -46,6 +46,7 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-dock
 
 > \[!CAUTION]
 > `lualatex` needs to create fonts and put it to directory writable only by root. So, ***DO NOT*** `docker run` ***WITH*** `-u $(id -u)` ***!!!***\
+> Use below `docker run` WITHOUT `-u $(id -u)` for executing `lualatex`.
 > ```bash
 > docker run --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdflua luahello.tex
 > ```
