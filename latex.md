@@ -3,10 +3,11 @@
 ## 1. Quickstart to compile 1 simple $\LaTeX$ source file "hello.tex"
 
 ```LaTeX
-\documentclass{article}
+\documentclass[uplatex,dvipdfmx]{jsarticle}
 
 \begin{document}
-Hello, \LaTeX World!
+Hello, \LaTeX World!\\
+And this is 日本語.
 \end{document}
 ```
 
@@ -36,7 +37,12 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-dock
 
 > \[!IMPORTANT]
 > Due to their Japanese support, use either `uplatex` (`-pdfdvi`, `$pdf_mode=3`) or `lualatex` (`-pdflua`, `-lualatex`, `pdf_mode=4`).\
-> `platex` and `uplatex` are very old, so use [`lualatex`](#6-lualatex) as possible.
+> `platex` and `uplatex` are very old, so use [`lualatex`](#b-use-lualatex-engine-as-possible) as possible.
+
+> \[!TIP]
+> [自分がどのLaTeXを使ってるか知りたい話](https://qiita.com/zr_tex8r/items/a924be192ecea7e6bbe4)にリンクされる `hello.tex` を使って、自分の $\LaTeX$ を確認できる。\
+> `latexmk hello.tex` のを実行し、`hello.pdf` に `latexmk` が実行した $\LaTeX$ エンジンがわかる。\
+> もちろん `latexmk -{pdfdvi|pdf|pdflua} hello.tex`を実行すると、出来上がった `hello.pdf` は、それぞれ `uplatex+dvipdfmx`、`pdflatex`と、`lualatex`となる。
 
 ### C. Cleaning up
 
@@ -169,7 +175,13 @@ pdfseparate -f 2 -l 2 input.pdf onepage.pdf
 ```
 Then, do as above.
 
-## 6. `lualatex`
+## 6. Knowledge about $\LaTeX$
+
+### A. Some $\LaTeX$ engines
+
+Read this [$\LaTeX$エンジンと文書クラスについて (engine and `\documentclass`)](https://qiita.com/kou-JP/items/60b63963f2ae7fdefddd) first.
+
+### B. Use `lualatex` engine as possible
 
 
 ## 7. Misc
