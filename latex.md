@@ -44,6 +44,12 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-dock
 > `latexmk hello.tex` のを実行し、`hello.pdf` に `latexmk` が実行した $\LaTeX$ エンジンがわかる。\
 > もちろん `latexmk -{pdfdvi|pdf|pdflua} hello.tex`を実行すると、出来上がった `hello.pdf` は、それぞれ `uplatex+dvipdfmx`、`pdflatex`と、`lualatex`となる。
 
+> \[!CAUTION]
+> `lualatex` needs to create fonts and put it to directory writable only by root. So, ***DO NOT*** `docker run` ***WITH*** `-u $(id -u)` ***!!!***\
+> ```bash
+> docker run --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdflua luahello.tex
+> ```
+
 ### C. Cleaning up
 
 To remove intermediate files only:
