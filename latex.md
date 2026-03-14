@@ -177,12 +177,35 @@ Then, do as above.
 
 ## 6. Knowledge about $\LaTeX$
 
-### A. Some $\LaTeX$ engines
+### A. Some $\LaTeX$ engines and `\documentclass` for Japanese
 
 Read this [$\LaTeX$エンジンと文書クラスについて (engine and `\documentclass`)](https://qiita.com/kou-JP/items/60b63963f2ae7fdefddd) first.
 
+日本語が扱えるおすすめの `\documentclass` は [`jlreq`](https://github.com/abenori/jlreq/blob/master/README-ja.md)。使いたい $\LaTeX$ engine は、`[option]` として渡す。Default の `jlreq` は、`article` 相当のスタイルとなる。他のスタイル `book` や `report` は、engine の種類と同じく `[option]` として渡す。
+
+以下のソースは、`uplatex+dvipdfmx` でコンパイル (`latexmk -pdfdvi uplhello.tex`):
+```latex:uplhello.tex
+\documentclass[uplatex,dvipdfmx]{jlreq}
+
+\begin{document}
+Hello, \LaTeX World!\\
+And this is 日本語.
+\end{document}
+```
+
+以下のソースは、`lualatex` でコンパイル (`atexmk -pdflua luahello.tex`):
+```latex:luahello.tex
+\documentclass[lualatex]{jlreq}
+
+\begin{document}
+Hello, \LaTeX World!\\
+And this is 日本語.
+\end{document}
+```
+
 ### B. Use `lualatex` engine as possible
 
+[pLaTeX から LuaLaTeX に移行](https://qiita.com/zr_tex8r/items/ac9176e4611bf233a3e0)を参考に `lualatex` のソースを書けば良い。
 
 ## 7. Misc
 
