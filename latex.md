@@ -136,7 +136,7 @@ The build button is the green-play-button. You can preview the output pdf also. 
 
 ### D. My customization
 
-#### <u>Customize my `.latexmkrc`</u>
+#### D.1. Customize my `.latexmkrc`
 
 * `latexmk -c` will clean `dvi`, s`ynctex.gz` also:
   ```
@@ -147,7 +147,7 @@ The build button is the green-play-button. You can preview the output pdf also. 
   $pdf_mode = 4;
   ```
 
-#### <u>Customize my `.vscode/settings.json`</u>
+#### D.2. Customize my `.vscode/settings.json`
 
 To automatically build after saving tex file, change ".vscode/settings.json" below configuration:
 ```json
@@ -158,7 +158,7 @@ to
 "latex-workshop.latex.autoBuild.run": "onSave"
 ```
 
-#### <u>Customize my `.devcontainer/devcontainer.json`</u>
+#### D.3. Customize my `.devcontainer/devcontainer.json`
 
 Install vscode-extension to be persistent inside the container. [Required vscode-extensions](./drawing/mermaid.md/#vscode-extension-for-markdown-must-install--use) are:
 * vscode-pdf
