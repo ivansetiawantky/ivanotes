@@ -134,6 +134,21 @@ Because the folder has ".devcontainer/devcontainer.json", when VScode open the f
 
 The build button is the green-play-button. You can preview the output pdf also. Click "TEX" (LaTeX Workshop extension) then select "Clean up auxiliary files" to remove build intermediate files.
 
+### D. My customization
+
+#### Customize my `.latexmkrc`
+
+* `latexmk -c` will clean `dvi`, s`ynctex.gz` also:
+  ```
+  $clean_ext="$clean_ext run.xml dvi synctex.gz";
+  ```
+* Use `lualatex` as default:
+  ```
+  $pdf_mode = 4;
+  ```
+
+#### Customize my `.vscode/settings.json`
+
 To automatically build after saving tex file, change ".vscode/settings.json" below configuration:
 ```json
 "latex-workshop.latex.autoBuild.run": "never",
@@ -142,6 +157,19 @@ to
 ```json
 "latex-workshop.latex.autoBuild.run": "onSave"
 ```
+
+#### Customize my `.devcontainer/devcontainer.json`
+
+Install vscode-extension to be persistent inside the container. [Required vscode-extensions](./drawing/mermaid.md/#vscode-extension-for-markdown-must-install--use) are:
+* vscode-pdf
+* Markdown All in One
+* Markdown Preview Enhanced
+* Markdownlint
+
+To install it persistently (so it will be installed also next time the container is run), follow below steps:
+1. In vscode window, click *Extensions* on the left
+2. Search Markdown Preview Enhanced
+3. Click the *Settings Gear* icon, then select *Add to devcontainer.json*
 
 ## 4. Typical usage
 
