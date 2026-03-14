@@ -29,7 +29,7 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-dock
 > Depends on the $\LaTeX$ source code type, matching $\LaTeX$ engine MUST be used.\
 > There are 3 types: `platex` (or its Unicode version `uplatex`), `pdflatex`, and `lualatex`.\
 > Set accordingly in the [`.latexmkrc`](#2-it-is-better-to-provide-latexmkrc) file's `$pdf_mode`, OR use below `latexmk` command line option (as [above](#1-quickstart-to-compile-1-simple--source-file-hellotex)'s `docker run ... latexmk -pdfdvi ... `):
-> * `-pdf`: Use `pdflatex` to produce pdf (`$pdf_mode=1`)
+> * ~~`-pdf`: Use `pdflatex` to produce pdf (`$pdf_mode=1`)~~ 日本語サポート無し
 > * `-pdfdvi`: Use `uplatex` to produce pdf (`$pdf_mode=3`)
 > * `-pdflua` OR `-lualatex`: Use `lualatex` to produce pdf (`$pdf_mode=4`)
 >
@@ -193,7 +193,7 @@ And this is 日本語.
 \end{document}
 ```
 
-以下のソースは、`lualatex` でコンパイル (`atexmk -pdflua luahello.tex`):
+以下のソースは、`lualatex` でコンパイル (`latexmk -pdflua luahello.tex`):
 ```latex:luahello.tex
 \documentclass[lualatex]{jlreq}
 
