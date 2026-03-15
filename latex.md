@@ -158,6 +158,10 @@ to
 "latex-workshop.latex.autoBuild.run": "onSave"
 ```
 
+> \[!NOTE]
+> Need to add below in `.vscode/settings.json`:\
+> `"markdown-preview-enhanced.latexEngine": "lualatex"`
+
 #### D.3. Customize my `.devcontainer/devcontainer.json`
 
 Install vscode-extension to be persistent inside the container. [Required vscode-extensions](./drawing/mermaid.md/#vscode-extension-for-markdown-must-install--use) are:
@@ -171,10 +175,11 @@ To install it persistently (so it will be installed also next time the container
 2. Search Markdown Preview Enhanced
 3. Click the *Settings Gear* icon, then select *Add to devcontainer.json*
 
+> \[!NOTE]
+> In Markdown Preview Enhanced setting, use `lualatex` as $\LaTeX$ engine instead of the default `pdflatex`. Set for both *User* and *Remote [Dev Container:...]* settings.
+
 > \[!CAUTION]
-> In Markdown Preview Enhanced setting, use `lualatex` as $\LaTeX$ engine instead of the default `pdflatex`. Set for both *User* and *Remote [Dev Container:...]* settings.\
-> May need to add below in `.vscode/settings.json`:\
-> `"markdown-preview-enhanced.latexEngine": "lualatex"`
+> Inside `.devcontainer/devcontainer.json`, change the image from `ghcr.io/being24/latex-docker` to `latex-docker-iv`. Also, the `DOCKER_IMAGE` in `Makefile`.
 
 ## 4. Typical usage
 
@@ -214,6 +219,10 @@ For the second warning, first we must separate the pdf, select the desired page:
 pdfseparate -f 2 -l 2 input.pdf onepage.pdf
 ```
 Then, do as above.
+
+> \[!CAUTION]
+> Markdown Preview Enhanced requires `pdf2svg`, instead of `inkscape`. So, need to install `pdf2svg` to execute $\LaTeX$ code chunk in `md` file.\
+> My docker image tagged as [latex-docker-iv](https://github.com/ivansetiawantky/latex-docker) already installed the `pdf2svg`. Use this!
 
 ## 6. Knowledge about $\LaTeX$
 
