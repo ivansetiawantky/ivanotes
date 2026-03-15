@@ -179,7 +179,8 @@ To install it persistently (so it will be installed also next time the container
 > In Markdown Preview Enhanced setting, use `lualatex` as $\LaTeX$ engine instead of the default `pdflatex`. Set for both *User* and *Remote [Dev Container:...]* settings.
 
 > \[!CAUTION]
-> Inside `.devcontainer/devcontainer.json`, change the image from `ghcr.io/being24/latex-docker` to `latex-docker-iv`. Also, the `DOCKER_IMAGE` in `Makefile`.
+> Inside `.devcontainer/devcontainer.json`, change the image from `ghcr.io/being24/latex-docker` to `latex-docker-iv`. Also, the `DOCKER_IMAGE` in `Makefile`.\
+> Also add `"runArgs": ["--name", "latexdockerivcont"],` below the `"image": "latex-docker-iv",`, such that the container name is always the same.
 
 ## 4. Typical usage
 
