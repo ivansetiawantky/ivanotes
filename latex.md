@@ -171,6 +171,11 @@ To install it persistently (so it will be installed also next time the container
 2. Search Markdown Preview Enhanced
 3. Click the *Settings Gear* icon, then select *Add to devcontainer.json*
 
+> \[!CAUTION]
+> In Markdown Preview Enhanced setting, use `lualatex` as $\LaTeX$ engine instead of the default `pdflatex`. Set for both *User* and *Remote [Dev Container:...]* settings.\
+> May need to add below in `.vscode/settings.json`:\
+> `"markdown-preview-enhanced.latexEngine": "lualatex"`
+
 ## 4. Typical usage
 
 ```bash
