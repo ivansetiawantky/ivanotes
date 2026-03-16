@@ -11,7 +11,7 @@ And this is 日本語.
 \end{document}
 ```
 
-### A. Just pull the image
+### A. ~~Just pull the image~~
 ```bash
 docker pull ghcr.io/being24/latex-docker:latest
 ```
@@ -20,9 +20,28 @@ Check the image with:
 docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc
 ```
 
+#### A.1. Use [customized image](https://github.com/ivansetiawantky/latex-docker)
+
+This customized image is forked from [https://github.com/being24/latex-docker](https://github.com/being24/latex-docker). First, clone the repository:
+```bash
+git clone https://github.com/ivansetiawantky/latex-docker.git
+```
+
+Then, build the image from Dockerfile:
+```bash
+docker build --no-cache -t latex-docker-iv -f Dockerfile .
+```
+
 ### B. Compile "hello.tex" to obtain "hello.pdf"
+
+When using being24:
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdfdvi hello.tex
+```
+
+When using customized image with `pdf2svg` included:
+```bash
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -pdfdvi hello.tex
 ```
 
 > \[!CAUTION]
@@ -48,19 +67,19 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-dock
 > `lualatex` needs to create fonts and put it to directory writable only by root. So, ***DO NOT*** `docker run` ***WITH*** `-u $(id -u)` ***!!!***\
 > Use below `docker run` WITHOUT `-u $(id -u)` for executing `lualatex`.
 > ```bash
-> docker run --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdflua luahello.tex
+> docker run --rm -v $PWD:/workdir latex-docker-iv latexmk -pdflua luahello.tex
 > ```
 
 ### C. Cleaning up
 
 To remove intermediate files only:
 ```bash
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -c
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -c
 ```
 
 To remove everything but the tex source file:
 ```bash
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -C
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -C
 ```
 
 For more details please refer to [this](https://zenn.dev/being/articles/how-to-use-my-latex) and [latexmk-howto-page](https://mgeier.github.io/latexmk.html).
@@ -98,16 +117,16 @@ The ".latexmkrc" may need to be updated when the "latex-docker" image or "latex-
 
 The command to compile and get pdf is:
 ```bash
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk texfile.tex
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk texfile.tex
 ```
 
 Then, clean up:
 ```bash
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -c
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -c
 ```
 Or remove also the pdf with:
 ```bash
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -C
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -C
 ```
 
 ## 3. Use $\LaTeX$ template
@@ -128,7 +147,7 @@ VScode settings, ".vscode/settings.json" and ".devcontainer/devcontainer.json" e
 
 But first, don't forget to run Docker Desktop.
 
-Because the folder has ".devcontainer/devcontainer.json", when VScode open the folder, then the "ghcr.io/being24/latex-docker:latest" image will be run. VScode will ask whether to open in a new container. Answer "yes".
+Because the folder has ".devcontainer/devcontainer.json", when VScode open the folder, then the "latex-docker-iv:latest" image will be run. VScode will ask whether to open in a new container. Answer "yes".
 
 ### C. Create a new tex file and build this new tex file
 
@@ -185,16 +204,16 @@ To install it persistently (so it will be installed also next time the container
 ## 4. Typical usage
 
 ```bash
-docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk main.tex
+docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk main.tex
 ```
 ```bash
-docker run --rm -v $PWD:/workdir ghcr.io/being24/latex-docker bash -c "inkscape --version"
+docker run --rm -v $PWD:/workdir latex-docker-iv bash -c "inkscape --version"
 ```
 ```bash
-docker run -it --rm --name latex-template-ja --user root ghcr.io/being24/latex-docker:latest /bin/bash
+docker run -it --rm --name latex-template-ja --user root latex-docker-iv:latest /bin/bash
 ```
 ```bash
-docker run -it --rm --name latex-template-ja -v $PWD:/workdir ghcr.io/being24/latex-docker /bin/bash
+docker run -it --rm --name latex-template-ja -v $PWD:/workdir latex-docker-iv /bin/bash
 ```
 
 ## 5. No need to use `pdf2svg`, just use `inkscape`
