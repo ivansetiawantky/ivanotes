@@ -10,4 +10,5 @@ Mainly how-to notes.
   - [Use `mermaid` notation to create diagram in Markdown (result is `.md` text file)](drawing/mermaid.md)
   - [Use `draw.io` to create diagram with GUI in vscode (result is `.drawio.svg` file)](drawing/drawiosvg.md)
   - [Use `DOT language` (graph description language, part of Graphviz project) to draw tree/graph (result is `.gv` text file)](drawing/dotgraphviz.md)
-  - [Use `inkscape` to draw math illustration, use $\LaTeX$'s `\TikZ` or `geogebra` to draw exact math figure/graph](drawing/mathillustration.md)
+  - [Use and install locally `inkscape + $\LaTeX$` to draw math illustration (result is `.svg` file)](drawing/inkscape_latex_local.md)
+  - [Use $\LaTeX$'s `\TikZ` or `geogebra` to draw exact math figure/graph](drawing/mathillustration.md)
