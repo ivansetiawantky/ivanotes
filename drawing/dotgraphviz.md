@@ -11,6 +11,7 @@ Install vscode-extension, `Markdown Preview Enhanced` (also `Markdown All in One
 Open an `.md` file.
 
 Write below to the `.md` file:
+
 ````markdown
 ```dot
 digraph G {
@@ -32,6 +33,7 @@ Then, preview with [MPE for graphviz](https://shd101wyy.github.io/markdown-previ
 `dot` command-line tool (part of Graphviz suite) can be installed using `brew install graphviz`.
 
 The `.gv` must be like this:
+
 ```bash
 $ cat inputfile.gv
 digraph G {
@@ -42,12 +44,13 @@ digraph G {
 ```
 
 Use below command to export `.gv` to `.svg`:
+
 ```bash
 dot -Tsvg inputfile.dot -o digraphG.svg
 ```
 
 > \[!NOTE]
-> See [here](https://graphviz.org/docs/outputs/svg/) for SVG option of `dot` program.
+> See [graphviz document](https://graphviz.org/docs/outputs/svg/) for SVG option of `dot` program.
 
 Below is the `digraphG.svg`:\
 ![digraphG.svg](/drawing/digraphG.svg)

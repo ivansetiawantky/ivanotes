@@ -12,10 +12,13 @@ And this is 日本語.
 ```
 
 ### A. ~~Just pull the image~~
+
 ```bash
 docker pull ghcr.io/being24/latex-docker:latest
 ```
+
 Check the image with:
+
 ```bash
 docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc
 ```
@@ -23,11 +26,13 @@ docker image inspect ghcr.io/being24/latex-docker:latest | jqosarc
 #### A.1. Use [customized image](https://github.com/ivansetiawantky/latex-docker)
 
 This customized image is forked from [https://github.com/being24/latex-docker](https://github.com/being24/latex-docker). First, clone the repository:
+
 ```bash
 git clone https://github.com/ivansetiawantky/latex-docker.git
 ```
 
 Then, build the image from Dockerfile:
+
 ```bash
 docker build --no-cache -t latex-docker-iv -f Dockerfile .
 ```
@@ -35,11 +40,13 @@ docker build --no-cache -t latex-docker-iv -f Dockerfile .
 ### B. Compile "hello.tex" to obtain "hello.pdf"
 
 When using being24:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir ghcr.io/being24/latex-docker latexmk -pdfdvi hello.tex
 ```
 
 When using customized image with `pdf2svg` included:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -pdfdvi hello.tex
 ```
@@ -47,25 +54,30 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -p
 > \[!CAUTION]
 > Depends on the $\LaTeX$ source code type, matching $\LaTeX$ engine MUST be used.\
 > There are 3 types: `platex` (or its Unicode version `uplatex`), `pdflatex`, and `lualatex`.\
-> Set accordingly in the [`.latexmkrc`](#2-it-is-better-to-provide-latexmkrc) file's `$pdf_mode`, OR use below `latexmk` command line option (as [above](#1-quickstart-to-compile-1-simple--source-file-hellotex)'s `docker run ... latexmk -pdfdvi ... `):
+> Set accordingly in the [`.latexmkrc`](#2-it-is-better-to-provide-latexmkrc) file's `$pdf_mode`, OR use below `latexmk` command line option (as [above](#1-quickstart-to-compile-1-simple--source-file-hellotex)'s `docker run ... latexmk -pdfdvi ...`):<!-- markdownlint-disable-line MD051 -->
+>
 > * ~~`-pdf`: Use `pdflatex` to produce pdf (`$pdf_mode=1`)~~ 日本語サポート無し
 > * `-pdfdvi`: Use `uplatex` to produce pdf (`$pdf_mode=3`)
 > * `-pdflua` OR `-lualatex`: Use `lualatex` to produce pdf (`$pdf_mode=4`)
 >
 > See [texwiki/latexmk](https://texwiki.texjp.org/?Latexmk).
 
+As an important matter, use `(u)platex` or `lualatex` due to its Japanese support:
 > \[!IMPORTANT]
 > Due to their Japanese support, use either `uplatex` (`-pdfdvi`, `$pdf_mode=3`) or `lualatex` (`-pdflua`, `-lualatex`, `pdf_mode=4`).\
 > `platex` and `uplatex` are very old, so use [`lualatex`](#b-use-lualatex-engine-as-possible) as possible.
 
+Tip to know what $\LaTeX$ engine you are using:
 > \[!TIP]
 > [自分がどのLaTeXを使ってるか知りたい話](https://qiita.com/zr_tex8r/items/a924be192ecea7e6bbe4)にリンクされる `hello.tex` を使って、自分の $\LaTeX$ を確認できる。\
 > `latexmk hello.tex` のを実行し、`hello.pdf` に `latexmk` が実行した $\LaTeX$ エンジンがわかる。\
 > もちろん `latexmk -{pdfdvi|pdf|pdflua} hello.tex`を実行すると、出来上がった `hello.pdf` は、それぞれ `uplatex+dvipdfmx`、`pdflatex`と、`lualatex`となる。
 
+Caution, use *root* user in container when using `lualatex` with `docker run`:
 > \[!CAUTION]
 > `lualatex` needs to create fonts and put it to directory writable only by root. So, ***DO NOT*** `docker run` ***WITH*** `-u $(id -u)` ***!!!***\
 > Use below `docker run` WITHOUT `-u $(id -u)` for executing `lualatex`.
+>
 > ```bash
 > docker run --rm -v $PWD:/workdir latex-docker-iv latexmk -pdflua luahello.tex
 > ```
@@ -73,11 +85,13 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -p
 ### C. Cleaning up
 
 To remove intermediate files only:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -c
 ```
 
 To remove everything but the tex source file:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -C
 ```
@@ -87,6 +101,7 @@ For more details please refer to [this](https://zenn.dev/being/articles/how-to-u
 ## 2. It is better to provide ".latexmkrc"
 
 In the same directory where the tex source file exist, put below as ".latexmkrc" file.
+
 ```perl:.latexmkrc
 #!/usr/bin/env perl
 
@@ -109,29 +124,34 @@ $clean_ext="$clean_ext run.xml dvi synctex.gz";
 $pdf_mode = 3;
 $max_repeat = 10;
 ```
+
 Note that I modified `$clean_ext` to remove files with extensions dvi and synctex.gz also.
 
 Depending on the tex source file (written for compilation with platex, lualatex, etc.), configurations that may need to be set properly are `$latex`, `$pdf_mode`.
 
-The ".latexmkrc" may need to be updated when the "latex-docker" image or "latex-template-ja" is updated. Find the latest ".latexmkrc" [here](https://github.com/being24/latex-template-ja/blob/master/.latexmkrc).
+The ".latexmkrc" may need to be updated when the "latex-docker" image or "latex-template-ja" is updated. Find the latest ".latexmkrc" [in latex-template-ja by being24](https://github.com/being24/latex-template-ja/blob/master/.latexmkrc).
 
 The command to compile and get pdf is:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk texfile.tex
 ```
 
 Then, clean up:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -c
 ```
+
 Or remove also the pdf with:
+
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -C
 ```
 
 ## 3. Use $\LaTeX$ template
 
-For a real $\LaTeX$ source writing (NOT just compiling as above), it is better to use template as explained in 「[VSCodeとDockerでLaTeXを用いた多機能論文執筆環境を整える](https://zenn.dev/being/articles/」how-to-use-my-latex)」. The "latex-template-ja" is available [here](https://github.com/being24/latex-template-ja).
+For a real $\LaTeX$ source writing (NOT just compiling as above), it is better to use template as explained in 「[VSCodeとDockerでLaTeXを用いた多機能論文執筆環境を整える](https://zenn.dev/being/articles/」how-to-use-my-latex)」. The "latex-template-ja" is available [at latex-template-ja by being24](https://github.com/being24/latex-template-ja).
 
 ### A. "Use this template"
 
@@ -141,7 +161,7 @@ Clone the above "awesome-proj" to local host. Then remove tex file, "main.tex", 
 
 If you want to create tex for other project, then repeat "Use this template" and give a name aligned with the other project.
 
-VScode settings, ".vscode/settings.json" and ".devcontainer/devcontainer.json" etc., are already provided! 
+VScode settings, ".vscode/settings.json" and ".devcontainer/devcontainer.json" etc., are already provided!
 
 ### B. Open the folder (of the cloned repository) with VScode
 
@@ -158,21 +178,27 @@ The build button is the green-play-button. You can preview the output pdf also. 
 #### D.1. Customize my `.latexmkrc`
 
 * `latexmk -c` will clean `dvi`, s`ynctex.gz` also:
-  ```
+
+  ```perl
   $clean_ext="$clean_ext run.xml dvi synctex.gz";
   ```
+
 * Use `lualatex` as default:
-  ```
+
+  ```perl
   $pdf_mode = 4;
   ```
 
 #### D.2. Customize my `.vscode/settings.json`
 
 To automatically build after saving tex file, change ".vscode/settings.json" below configuration:
+
 ```json
 "latex-workshop.latex.autoBuild.run": "never",
 ```
+
 to
+
 ```json
 "latex-workshop.latex.autoBuild.run": "onSave"
 ```
@@ -184,12 +210,14 @@ to
 #### D.3. Customize my `.devcontainer/devcontainer.json`
 
 Install vscode-extension to be persistent inside the container. [Required vscode-extensions](./drawing/mermaid.md/#vscode-extension-for-markdown-must-install--use) are:
+
 * vscode-pdf
 * Markdown All in One
 * Markdown Preview Enhanced
 * Markdownlint
 
 To install it persistently (so it will be installed also next time the container is run), follow below steps:
+
 1. In vscode window, click *Extensions* on the left
 2. Search Markdown Preview Enhanced
 3. Click the *Settings Gear* icon, then select *Add to devcontainer.json*
@@ -197,6 +225,7 @@ To install it persistently (so it will be installed also next time the container
 > \[!NOTE]
 > In Markdown Preview Enhanced setting, use `lualatex` as $\LaTeX$ engine instead of the default `pdflatex`. Set for both *User* and *Remote [Dev Container:...]* settings.
 
+Remember to modify `.devcontainer/devcontainer.json` to use `latex-docker-iv` as image:
 > \[!CAUTION]
 > Inside `.devcontainer/devcontainer.json`, change the image from `ghcr.io/being24/latex-docker` to `latex-docker-iv`. Also, the `DOCKER_IMAGE` in `Makefile`.\
 > Also add `"runArgs": ["--name", "latexdockerivcont"],` below the `"image": "latex-docker-iv",`, such that the container name is always the same.
@@ -206,12 +235,15 @@ To install it persistently (so it will be installed also next time the container
 ```bash
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk main.tex
 ```
+
 ```bash
 docker run --rm -v $PWD:/workdir latex-docker-iv bash -c "inkscape --version"
 ```
+
 ```bash
 docker run -it --rm --name latex-template-ja --user root latex-docker-iv:latest /bin/bash
 ```
+
 ```bash
 docker run -it --rm --name latex-template-ja -v $PWD:/workdir latex-docker-iv /bin/bash
 ```
@@ -221,12 +253,14 @@ docker run -it --rm --name latex-template-ja -v $PWD:/workdir latex-docker-iv /b
 [Explanation for using Inkscape to do pdf2svg](https://rooter.jp/data-format/pdf2svg-inkscape-cli/).
 
 The `inkscape` program is a already available inside the `latex-docker` image. When using below command, the `text` tag is existing in the output svg. But, confirm first that `inkscape --version` inside the container is 1.4 or later.
+
 ```bash
 inkscape simple.pdf --pdf-font-strategy=keep --export-filename=simple_font_keep.svg
 ```
 
 But, there are warnings:
-```
+
+```text
 ** (inkscape:11): WARNING **: 09:33:47.157: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
 ** (inkscape:11): WARNING **: 09:33:47.236: No pages selected, getting first page only.
 ** (inkscape:11): WARNING **: 09:33:47.245: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
@@ -235,9 +269,11 @@ But, there are warnings:
 The 1st and 3rd are warnings due to headless CLI usage (NO X-server), instead of GUI usage of inkscape, so should be no problem.
 
 For the second warning, first we must separate the pdf, select the desired page:
+
 ```bash
 pdfseparate -f 2 -l 2 input.pdf onepage.pdf
 ```
+
 Then, do as above.
 
 > \[!CAUTION]
@@ -253,6 +289,7 @@ Read this [$\LaTeX$エンジンと文書クラスについて (engine and `\docu
 日本語が扱えるおすすめの `\documentclass` は [`jlreq`](https://github.com/abenori/jlreq/blob/master/README-ja.md)。使いたい $\LaTeX$ engine は、`[option]` として渡す。Default の `jlreq` は、`article` 相当のスタイルとなる。他のスタイル `book` や `report` は、engine の種類と同じく `[option]` として渡す。
 
 以下のソースは、`uplatex+dvipdfmx` でコンパイル (`latexmk -pdfdvi uplhello.tex`):
+
 ```latex:uplhello.tex
 \documentclass[uplatex,dvipdfmx]{jlreq}
 
@@ -263,6 +300,7 @@ And this is 日本語.
 ```
 
 以下のソースは、`lualatex` でコンパイル (`latexmk -pdflua luahello.tex`):
+
 ```latex:luahello.tex
 \documentclass[lualatex]{jlreq}
 
@@ -279,6 +317,7 @@ And this is 日本語.
 ## 7. Misc
 
 Command to remove everything except files suffixed by ".tex". NOT TOO GOOD, because ".latexmkrc" will be removed also.
+
 ```bash
 find . -maxdepth 1 -type f ! -name '*.tex' -delete
 ```

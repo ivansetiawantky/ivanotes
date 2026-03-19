@@ -12,10 +12,10 @@ So, to have a correct mermaid preview during editing, it is better to edit the m
 
 * vscode-pdf
 * Markdown All in One (To preview md, print md to html)
-  - Insert table of contents (TOC)
-    + github can creates TOC (by clicking Outline menu icon at top right) for markdown docs, so no need for github docs.
-  - [How to suppress toc detection](https://markdown-all-in-one.github.io/docs/guide/table-of-contents.html#suppressing-toc-detection)
-    + Add a comment `<!-- omit in toc -->` at the end of a heading or above it.
+  - Insert table of contents (TOC)<!-- markdownlint-disable-line MD004 -->
+    + github can creates TOC (by clicking Outline menu icon at top right) for markdown docs, so no need for github docs.<!-- markdownlint-disable-line MD004 -->
+  - [How to suppress toc detection](https://markdown-all-in-one.github.io/docs/guide/table-of-contents.html#suppressing-toc-detection)<!-- markdownlint-disable-line MD004 -->
+    + Add a comment `<!-- omit in toc -->` at the end of a heading or above it.<!-- markdownlint-disable-line MD004 -->
 * Markdown Preview Enhanced
 * Markdownlint
 
@@ -31,9 +31,11 @@ Access the [(rendered) markdown syntax explanation](https://docs.github.com/en/g
 
 * [Mermaid使い方メモ](https://qiita.com/opengl-8080/items/a275119c5ff3012ff23a)
 * $\TeX$ (`$\TeX$`) math is also OK to be previewed!!!! (Surround with single `$` for inline, double `$$` for display/stand alone math equation)
+
   ```LaTeX
   $$\int_{-\infty}^{\infty} e^{-x^2} = \sqrt{\pi}$$
   ```
+
   $$\int_{-\infty}^{\infty} e^{-x^2} = \sqrt{\pi}$$
 * In vscode, right click at the preview to open context menu, then export to html (cdn hosted)
 * [Markdown Preview Enhanced usage](https://shd101wyy.github.io/markdown-preview-enhanced/#/)

@@ -15,6 +15,7 @@ The `Draw.io Integration` vscode-extension will start automatically when opening
 > \[!IMPORTANT]
 > When using "draw.io" to create "svg" file, create the file with filename-extension "drawio.svg"!
 
+Use browser to export "svg" file to "pdf":
 > \[!TIP]
 > The exported "svg" file created by "draw.io" is meant to be displayed in web pages.\
 > So, to export the "svg" as "pdf", first open the exported "svg" file with a browser.\
@@ -40,6 +41,6 @@ Click `+` → *Text*, input for example `$$\alpha = x^2$$`.
 
 See [this FAQ](https://www.drawio.com/doc/faq/math-typesetting), in case the math equation is NOT rendered. There is probably hidden html tags.
 
-## mermaid notation can be used also!
+## mermaid notation can be used also
 
 Click `+` → *Advanced* → *Mermaid*
