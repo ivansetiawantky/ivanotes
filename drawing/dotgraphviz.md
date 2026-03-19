@@ -55,6 +55,108 @@ dot -Tsvg inputfile.dot -o digraphG.svg
 Below is the `digraphG.svg`:\
 ![digraphG.svg](/drawing/digraphG.svg)
 
+The above `.svg` is included in `.md` (markdown) file using below syntax:
+
+```markdown
+![digraphG.svg](/drawing/digraphG.svg)
+```
+
 > \[!WARNING]
 > DO NOT USE HEADER-LESS SVG WHEN INCLUDING SVG IN MARKDOWN.\
 > Use the option `-Tsvg`!!!!
+
+## As of 2026/03/19, GitHub does not support rendering graphviz `dot` program inside `.md` file
+
+Mermaid notation inside `.md` file is rendered correctly in GitHub webpages. So, inside an `.md` file, if you write `mermaid` notation like below:
+
+````markdown
+```mermaid
+gitGraph:
+    commit "Ashish"
+    branch newbranch
+    checkout newbranch
+    commit id:"1111"
+    commit tag:"test"
+    checkout main
+    commit type: HIGHLIGHT
+    commit
+    merge newbranch
+    commit
+    branch b2
+    commit
+```
+````
+
+, then below *commit flow diagram* will be rendered in the GitHub page.
+
+```mermaid
+gitGraph:
+    commit "Ashish"
+    branch newbranch
+    checkout newbranch
+    commit id:"1111"
+    commit tag:"test"
+    checkout main
+    commit type: HIGHLIGHT
+    commit
+    merge newbranch
+    commit
+    branch b2
+    commit
+```
+
+However, unlike `mermaid`, graphviz (`DOT language`) inside a markdown file is not rendered in the GitHub page. So, inside an `.md` file, if you write graphviz `DOT` program like below:
+
+````markdown
+```dot
+digraph finite_state_machine {
+ fontname="Helvetica,Arial,sans-serif"
+ node [fontname="Helvetica,Arial,sans-serif"]
+ edge [fontname="Helvetica,Arial,sans-serif"]
+ rankdir=LR;
+ node [shape = doublecircle]; 0 3 4 8;
+ node [shape = circle];
+ 0 -> 2 [label = "SS(B)"];
+ 0 -> 1 [label = "SS(S)"];
+ 1 -> 3 [label = "S($end)"];
+ 2 -> 6 [label = "SS(b)"];
+ 2 -> 5 [label = "SS(a)"];
+ 2 -> 4 [label = "S(A)"];
+ 5 -> 7 [label = "S(b)"];
+ 5 -> 5 [label = "S(a)"];
+ 6 -> 6 [label = "S(b)"];
+ 6 -> 5 [label = "S(a)"];
+ 7 -> 8 [label = "S(b)"];
+ 7 -> 5 [label = "S(a)"];
+ 8 -> 6 [label = "S(b)"];
+ 8 -> 5 [label = "S(a)"];
+}
+```
+````
+
+, an example of finite automaton will NOT be rendered. The text of the `DOT` program will be shown. However, it will be rendered by VS Code's extension `Markdown Preview Enhanced`.
+
+```dot
+digraph finite_state_machine {
+ fontname="Helvetica,Arial,sans-serif"
+ node [fontname="Helvetica,Arial,sans-serif"]
+ edge [fontname="Helvetica,Arial,sans-serif"]
+ rankdir=LR;
+ node [shape = doublecircle]; 0 3 4 8;
+ node [shape = circle];
+ 0 -> 2 [label = "SS(B)"];
+ 0 -> 1 [label = "SS(S)"];
+ 1 -> 3 [label = "S($end)"];
+ 2 -> 6 [label = "SS(b)"];
+ 2 -> 5 [label = "SS(a)"];
+ 2 -> 4 [label = "S(A)"];
+ 5 -> 7 [label = "S(b)"];
+ 5 -> 5 [label = "S(a)"];
+ 6 -> 6 [label = "S(b)"];
+ 6 -> 5 [label = "S(a)"];
+ 7 -> 8 [label = "S(b)"];
+ 7 -> 5 [label = "S(a)"];
+ 8 -> 6 [label = "S(b)"];
+ 8 -> 5 [label = "S(a)"];
+}
+```

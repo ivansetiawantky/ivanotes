@@ -94,3 +94,6 @@ ln -s `which dvips` .
 ```
 
 ## `inkscape` tutorial
+
+`Inkscape` is used to draw a math conceptual illustration, which possibly include $\LaTeX$ formula like this:
+![inkscape.svg](inkscape.svg)
