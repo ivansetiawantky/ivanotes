@@ -4,9 +4,70 @@ To draw math illustration, it is good to use `inkscape`. The $\LaTeX$ may be use
 
 However, `inkscape` inside Docker container seems slow, so ***install inkscape directly to the localhost***. And, to enable writing $\LaTeX$ formula to the svg, ***install $\LaTeX$ locally also***.
 
-## Install `mactex` $\LaTeX$ locally (NOT in container)
+## Install `MacTeX` $\LaTeX$ locally (NOT in container)
+
+### Make sure there is no $\TeX$ system installed using `brew`
+
+Execute below commands to check whether there is $\TeX$ installed using `brew`.
+
+```bash
+arch -x86_64 /usr/local/bin/brew list | grep tex
+arch -arm64 /opt/homebrew/bin/brew list | grep tex
+```
+
+### If some $\TeX$ system is already installed, then remove it
+
+> \[!TIP]
+> See [TeX User Grup (TUG) uninstallation page](https://www.tug.org/mactex/uninstalling.html).\
+> See also [mac で tex環境を削除 (***REMOVE ALL, CLEAN***)](https://qiita.com/tetsuo_jp/items/04a66b8f42946b5c5a5a).
+
+Execute below command to confirm/remove `basictex`, `ghostscript`, and `imagemagick`, which may be installed using `brew`. If needed, use `.dmg` package to install `ghostscript` or `imagemagick`.
+
+```bash
+brew uninstall basictex
+brew list --cask | grep tex
+brew list --cask | grep ghost
+brew list | grep ghost
+brewx86 list | grep ghost
+brew uninstall --force imagemagick
+brew uninstall ghostscript (Better: brew uninstall --ignore-dependencies ghostscript)
+brewx86 uninstall --force imagemagick
+brewx86 uninstall ghostscript
+```
+
+> \[!CAUTION]
+> Doing `brew uninstall --force imagemagick` might erase `python3.9`. To install it again, execute:
+>
+> ```bash
+> brewx86 install python@3.9
+> ```
+
+### Uninstall, remove all of `MacTeX` (& also its largest piece, `TeX Live`)
+
+Following the [TIP for uninstalling $\TeX$](#if-some--system-is-already-installed-then-remove-it), execute belows (confirm first the config file location from `/usr/local/texlive/2024/texmf.cnf`):<!-- markdownlint-disable-line MD051 -->
+
+```bash
+sudo rm -rf /usr/local/texlive
+rm -rf ~/Library/texmf
+rm -rf ~/Library/texlive
+rm -rf ~/Library/TeXShop
+sudo rm -rf /Applications/TeX
+sudo rm -rf /Library/TeX/
+```
+
+### Install `MacTeX`
+
+Install MacTeX from [The MacTeX-20?? Distribution](https://tug.org/mactex/). From [MacTeX download page](https://tug.org/mactex/mactex-download.html), download `MacTeX.pkg`. Read this download page!
+
+By standard `MacTeX` installation, `ghostscript` will be installed. So, no need to install `ghostcript` using `brew`, NOR remove the old version of `ghostscript`. After installation, check whether ghostscript is updated (`gs --version`).
+
+Use ***TeX Live Utility*** in `/Applications/TeX` to update programs to the current version.
 
 ## Install `inkscape` locally (NOT in container)
+
+### Download inkscape `Inkscape-1.4.3_arm64.dmg`
+
+Go to [inkscape website](https://inkscape.org/), then download `Inkscape-1.4.3_arm64.dmg` and double-click.
 
 ### Make `inkscape` started from icon know the path to `pdflatex`
 
@@ -16,10 +77,11 @@ If `inkscape` is started from icon, and because `inkscape` does not know the pat
 open -a /Applications/Inkscape.app
 ```
 
-Then, inside `inkscape` GUI, click *Extension → Text → Formula (pdflatex)* to insert $\LaTeX$ formula.
+Then, inside `inkscape` GUI, click *Extension → Text → Formula 公式 (pdflatex)* to insert $\LaTeX$ formula.
 
 > \[!WARNING]
-> *Extension → Rendering → Math* *CAN NOT* insert $\LaTeX$ formula.
+> *Extension → Rendering → Mathematics* *CAN NOT* insert $\LaTeX$ formula.\
+> Use *Extension → Text → Formula 公式 (pdflatex)* to insert $\LaTeX$ formula.
 
 To enable `inkscape` started from icon (contrary to be started from command line by `open -a ...` above) and able to use $\LaTeX$ formula, then path to the `pdflatex` must be set to `inkscape`. Do the setting as below, that is putting a link to `pdflatex` in the binary directory known by `inkscape`:
 
@@ -30,3 +92,5 @@ ln -s `which pdflatex` .
 ln -s `which dvips` .
 # ln -s `which pstoedit` .
 ```
+
+## `inkscape` tutorial

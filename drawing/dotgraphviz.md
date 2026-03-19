@@ -6,7 +6,7 @@
 
 ## Use vscode + Markdown Preview Enhanced to `DOT` preview and export
 
-Install vscode-extension, `Markdown Preview Enhanced` (also `Markdown All in One`, `Markdownlint`, `vscode-pdf`).
+Install vscode-extension, `Markdown Preview Enhanced` (also `Markdown All in One`, `Markdownlint`, `vscode-pdf`). Set `true` to *Markdown-preview-enhanced: Enable Script Execution*.
 
 Open an `.md` file.
 
