@@ -44,7 +44,7 @@ brewx86 uninstall ghostscript
 
 ### Uninstall, remove all of `MacTeX` (& also its largest piece, `TeX Live`)
 
-Following the [TIP for uninstalling $\TeX$](#if-some--system-is-already-installed-then-remove-it), execute belows (confirm first the config file location from `/usr/local/texlive/2024/texmf.cnf`):<!-- markdownlint-disable-line MD051 -->
+Following the [TIP for uninstalling $\TeX$](#if-some-tex-system-is-already-installed-then-remove-it), execute belows (confirm first the config file location from `/usr/local/texlive/2024/texmf.cnf`):
 
 ```bash
 sudo rm -rf /usr/local/texlive

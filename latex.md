@@ -54,7 +54,7 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -p
 > \[!CAUTION]
 > Depends on the $\LaTeX$ source code type, matching $\LaTeX$ engine MUST be used.\
 > There are 3 types: `platex` (or its Unicode version `uplatex`), `pdflatex`, and `lualatex`.\
-> Set accordingly in the [`.latexmkrc`](#2-it-is-better-to-provide-latexmkrc) file's `$pdf_mode`, OR use below `latexmk` command line option (as [above](#1-quickstart-to-compile-1-simple--source-file-hellotex)'s `docker run ... latexmk -pdfdvi ...`):<!-- markdownlint-disable-line MD051 -->
+> Set accordingly in the [`.latexmkrc`](#2-it-is-better-to-provide-latexmkrc) file's `$pdf_mode`, OR use below `latexmk` command line option (as [above](#1-quickstart-to-compile-1-simple-latex-source-file-hellotex)'s `docker run ... latexmk -pdfdvi ...`):
 >
 > * ~~`-pdf`: Use `pdflatex` to produce pdf (`$pdf_mode=1`)~~ 日本語サポート無し
 > * `-pdfdvi`: Use `uplatex` to produce pdf (`$pdf_mode=3`)
