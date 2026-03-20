@@ -97,3 +97,41 @@ ln -s `which dvips` .
 
 `Inkscape` is used to draw a math conceptual illustration, which possibly include $\LaTeX$ formula like this:
 ![inkscape.svg](inkscape.svg)
+
+To write
+See this, this, and this.
+
+### Initial setting when creating svg file
+
+#### Size in milimeter
+
+To write.
+
+#### Set svg image background to white (do ***after first saving to svg file***)
+
+By default, the background of `.svg` file is transparent. This will make it look bad for a dark theme browser. So, we need to change the background color to white, but in svg, it seems *NOT* possible.
+
+Refering to [stackoverflow's background color of svg root-element](https://stackoverflow.com/a/69899106), we can add a very big circle (below) as the first child of svg tag:
+
+```svg
+<circle r="1e5" fill="red"/>
+```
+
+Use text editor to edit the svg (which is a text file), so the final svg file will look like this:
+
+```svg
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <circle r="1e5" fill="white"/>
+  <!-- circle must be the first child, so it is placed right after svg tag -->
+  ...
+</svg>
+```
+
+> \[!NOTE]
+> It seems using `inkscape` *File → Document Properties → Display (表示)* CANNOT change the background color to white. It keeps transparent.
+
+#### How to crop the svg?
+
+The size of drawing image in svg file is A4 paper. How to crop this?
+To write.

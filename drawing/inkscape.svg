@@ -7,12 +7,19 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
-   sodipodi:docname="testing.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   sodipodi:docname="inkscape.svg"
+   inkscape:export-filename="inkscape.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <circle
+     r="1e5"
+     fill="white"
+     id="circle1" />
   <sodipodi:namedview
      id="namedview1"
      pagecolor="#ffffff"
@@ -28,8 +35,8 @@
      inkscape:cy="381.86379"
      inkscape:window-width="1376"
      inkscape:window-height="829"
-     inkscape:window-x="58"
-     inkscape:window-y="94"
+     inkscape:window-x="61"
+     inkscape:window-y="99"
      inkscape:window-maximized="0"
      inkscape:current-layer="g1" />
   <defs
