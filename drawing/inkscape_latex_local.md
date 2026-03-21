@@ -93,23 +93,29 @@ ln -s `which dvips` .
 # ln -s `which pstoedit` .
 ```
 
-## `inkscape` tutorial
+## `inkscape` flow for creating `.svg` file to be included in `.md` file or $\LaTeX$
 
-`Inkscape` is used to draw a math conceptual illustration, which possibly include $\LaTeX$ formula like this:
-![inkscape.svg](inkscape.svg)
+There is 2 types of `svg` file, that is:
 
-To write
-See this, this, and this.
+1. `Source inkscape svg` file (an `svg` file edited using `inkscape`; maybe edited later),
+2. `Exported plain svg` file (an `svg` file exported by `inkscape`; NOT to be edited further; FINAL READ-ONLY `plain svg`).
+
+First, create the `Source inkscape svg` file. Then, using `inkscape`, select the region-of-interest, and export to `Exported plain svg` file. Include the `Exported plain svg` file to `.md` or $\LaTeX$.
 
 ### Initial setting when creating svg file
 
 #### Size in milimeter
 
-To write.
+DOING.
 
-#### Set svg image background to white (do ***after first saving to svg file***)
+### Create the `Source inkscape svg` file (MAYBE EDITED LATER)
 
-By default, the background of `.svg` file is transparent. This will make it look bad for a dark theme browser. So, we need to change the background color to white, but in svg, it seems *NOT* possible.
+The `Source inkscape svg` is like below, is having a transparent background:
+![inkscape.svg](inkscape_source.svg)
+
+### Set `Exported plain svg` image background to white (NOT TO BE EDITED, FINAL READ-ONLY FILE; ***after doing this, the `plain svg` file CAN NOT be edited using `inkscape`***)
+
+By default, the background of `Exported plain svg` file is transparent. This will make it look bad for a dark theme browser. So, we need to change the background color to white, but in svg, it seems *NOT* possible.
 
 Refering to [stackoverflow's background color of svg root-element](https://stackoverflow.com/a/69899106), we can add a very big circle (below) as the first child of svg tag:
 
@@ -131,7 +137,18 @@ Use text editor to edit the svg (which is a text file), so the final svg file wi
 > \[!NOTE]
 > It seems using `inkscape` *File → Document Properties → Display (表示)* CANNOT change the background color to white. It keeps transparent.
 
-#### How to crop the svg?
+But be careful, as stated above, this `plain svg` CAN NOT be edited using `inkscape` anymore:
+> \[!CAUTION]
+> Due to the size of *very big* background circle object, this circle will prevent other objects selection inside `inkscape` UI. Re-export again from the source `inkscape svg`, when needed.
 
-The size of drawing image in svg file is A4 paper. How to crop this?
-To write.
+Below is exported as plain svg, then the background is set to yellow circle:
+![ink_src_1_exported_plain.svg](ink_src_1_exported_plain.svg)
+
+Below is exported as plain svg, then the background is set to white circle:
+![ink_src_2_exported_plain.svg](ink_src_2_exported_plain.svg)
+
+## `inkscape` tutorial
+
+`Inkscape` is used to draw a math conceptual illustration, which possibly include $\LaTeX$ formula. The flow for creating the source `.svg` file (and exporting to `plain svg` file for inclusion) is mentioned [above](#inkscape-flow-for-creating-svg-file-to-be-included-in-md-file-or-latex).
+
+See this, this, and this. DOING.
