@@ -141,10 +141,10 @@ But be careful, as stated above, this `plain svg` CAN NOT be edited using `inksc
 > \[!CAUTION]
 > Due to the size of *very big* background circle object, this circle will prevent other objects selection inside `inkscape` UI. Re-export again from the source `inkscape svg`, when needed.
 
-Below is exported as plain svg, then the background is set to yellow circle:\
+The above A4 svg equation region is selected, then export as plain svg. The background is then set to yellow circle:\
 ![ink_src_1_exported_plain.svg](ink_src_1_exported_plain.svg)
 
-Below is exported as plain svg, then the background is set to white circle:\
+The above A4 svg image region is selected, then export as plain svg. The background is then set to white circle:\
 ![ink_src_2_exported_plain.svg](ink_src_2_exported_plain.svg)
 
 ## `inkscape` tutorial
