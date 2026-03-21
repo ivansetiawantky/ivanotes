@@ -110,7 +110,7 @@ DOING.
 
 ### Create the `Source inkscape svg` file (MAYBE EDITED LATER)
 
-The `Source inkscape svg` is like below, is having a transparent background:
+The `Source inkscape svg` is like below, is having a transparent background, with A4 size:
 ![inkscape.svg](inkscape_source.svg)
 
 ### Set `Exported plain svg` image background to white (NOT TO BE EDITED, FINAL READ-ONLY FILE; ***after doing this, the `plain svg` file CAN NOT be edited using `inkscape`***)
@@ -141,10 +141,10 @@ But be careful, as stated above, this `plain svg` CAN NOT be edited using `inksc
 > \[!CAUTION]
 > Due to the size of *very big* background circle object, this circle will prevent other objects selection inside `inkscape` UI. Re-export again from the source `inkscape svg`, when needed.
 
-Below is exported as plain svg, then the background is set to yellow circle:
+Below is exported as plain svg, then the background is set to yellow circle:\
 ![ink_src_1_exported_plain.svg](ink_src_1_exported_plain.svg)
 
-Below is exported as plain svg, then the background is set to white circle:
+Below is exported as plain svg, then the background is set to white circle:\
 ![ink_src_2_exported_plain.svg](ink_src_2_exported_plain.svg)
 
 ## `inkscape` tutorial
