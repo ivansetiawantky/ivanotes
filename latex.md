@@ -102,6 +102,11 @@ For more details please refer to [this](https://zenn.dev/being/articles/how-to-u
 
 In the same directory where the tex source file exist, put below as ".latexmkrc" file.
 
+> \[!TIP]
+> The `.latexmkrc` in the user's home directory (`~`) will be used, when there is NO `.latexmkrc` in the directory of the $\TeX$ file,\
+> The order of `.latexmkrc` reading is, first read the one in home directory, secondly the one in the directory where the $\TeX$ file exist.\
+> The configuration read later will overwrite the previously set.
+
 ```perl:.latexmkrc
 #!/usr/bin/env perl
 
