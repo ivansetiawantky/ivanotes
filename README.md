@@ -6,7 +6,7 @@ Mainly how-to notes.
 
 ## Table of Contents
 
-* [How to prepare & use $\LaTeX$ docker environment](./latex.md)
+* [How to prepare & use $\LaTeX$ docker environment](./dockerlatex.md)
 * How to create drawings, diagram, figure:
   - [Use `mermaid` notation to create diagram in Markdown (result is `.md` text file)](drawing/mermaid.md)<!-- markdownlint-disable-line MD004 -->
   - [Use `draw.io` to create diagram with GUI in vscode (result is `.drawio.svg` file)](drawing/drawiosvg.md)<!-- markdownlint-disable-line MD004 -->

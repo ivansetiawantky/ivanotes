@@ -33,7 +33,7 @@ Set `Hediet > Vscode-drawio: Theme` to `kennedy`.
 
 Read [this `draw.io のメモ`](https://sogog.hatenablog.com/entry/2022/06/06/232723).
 
-It is better to use inside the [$\LaTeX$ devcontainer](../latex.md/#3-use--template).
+It is better to use inside the [$\LaTeX$ devcontainer](../dockerlatex.md#3-use-latex-template).
 
 Open a `*.drawio.svg` file. Make sure that *Extras* →  *Mathematical Typesetting*, is checked.
 
