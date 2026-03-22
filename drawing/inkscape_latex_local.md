@@ -4,7 +4,7 @@ To draw math illustration, it is good to use `inkscape`. The $\LaTeX$ may be use
 
 However, `inkscape` inside Docker container seems slow, so ***install inkscape directly to the localhost***. And, to enable writing $\LaTeX$ formula to the svg, ***install $\LaTeX$ locally also***.
 
-## Install `MacTeX` $\LaTeX$ locally (NOT in container)
+## Install `MacTeX` $\LaTeX$ in host locally (NOT in container)
 
 ### Make sure there is no $\TeX$ system installed using `brew`
 
@@ -62,6 +62,38 @@ Install MacTeX from [The MacTeX-20?? Distribution](https://tug.org/mactex/). Fro
 By standard `MacTeX` installation, `ghostscript` will be installed. So, no need to install `ghostcript` using `brew`, NOR remove the old version of `ghostscript`. After installation, check whether ghostscript is updated (`gs --version`).
 
 Use ***TeX Live Utility*** in `/Applications/TeX` to update programs to the current version.
+
+### How to set VScode to use `MacTeX` in host (NOT in the container)
+
+The $\LaTeX$ source code for testing is available in `hostlatex` directory. Put `.latexmkrc` file in this directory, so the source $\LaTeX$ file and the `.latexmkrc` file is ***IN THE SAME DIRECTORY***. Use `hello.tex` to know which $\LaTeX$ engine is used, as in [the TIP here](../dockerlatex.md#b-compile-hellotex-to-obtain-hellopdf).
+
+Install vscode-extension Latex-Workshop. Then, create Workspace [`settings.json`](../.vscode/settings.json) as below:
+
+```json:settings.json
+{
+    "[latex]": {
+        "editor.formatOnSave": false,
+    },
+    "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+}
+```
+
+For $\LaTeX$ source, because I am not sure currently on how to use the Formatter nor the Linter, do not format the source file when it is saved.
+
+Then also set the default recipe to look at the `.latexmkrc` because by default Latex-Workshop will use `pdflatex`.
+
+> \[!CAUTION]
+> Set the preferences of the ***Workspace Settings*** (i.e., this `ivanotes` workspace), instead of the ***User Settings***.\
+> This is in order NOT to mix-up dockerized-Latex and host (local)-Latex settings.
+
+See below TIP for opening the `settings.json` file.
+
+> \[!TIP]
+> Open ***Workspace Settings***: Command+Shift+P, then Preferences: Open Workspace Settings (JSON)\
+> Open ***User Settings***: Command+Shift+P, then Preferences: Open User Settings (JSON)\
+> *User Settings* has a wider influence, but can be overriden by *Workspace Settings*.\
+> The location of *User Settings' settings.json* is somewhere below home directory, while the location of *Workspace Settings' settings.json* is in the root directory of the project.
 
 ## Install `inkscape` locally (NOT in container)
 
