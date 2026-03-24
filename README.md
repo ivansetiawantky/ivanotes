@@ -4,6 +4,43 @@ Repository for my notes
 
 Mainly how-to notes.
 
+## Preparation 1. vscode extension to be installed and set
+
+* Markdown All in One (To preview md, print md to html)
+  - Insert table of contents (TOC)<!-- markdownlint-disable-line MD004 -->
+    + github can creates TOC (by clicking Outline menu icon at top right) for markdown docs, so no need for github docs.<!-- markdownlint-disable-line MD004 -->
+  - [How to suppress toc detection](https://markdown-all-in-one.github.io/docs/guide/table-of-contents.html#suppressing-toc-detection)<!-- markdownlint-disable-line MD004 -->
+    + Add a comment `<!-- omit in toc -->` at the end of a heading or above it.<!-- markdownlint-disable-line MD004 -->
+* Markdown Preview Enhanced (Set `true` to *Markdown-preview-enhanced: Enable Script Execution*)
+* Markdownlint
+* Indent Rainbow
+* Trailing Spaces
+* ~~Dictionary Completion~~ **DO NOT** install this extension because it will hide suggesting word inside the current file.
+
+## Preparation 2. Set vscode built-in `IntelliSense` (***NOT IntelliCode***)
+
+In the command palette (Command+Shift+P), select *Preferences: Open User Settings (UI)*, then search for "suggest". Select the item to set.
+
+It seems that `markdown` is by default NOT activating `IntelliSense` suggestion. So, again from the command palette (Command+Shift+P), select *Preferences: Open User Settings (JSON)*, and edit to be like below:
+
+```json
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+  "editor.suggestSelection": "recentlyUsed",
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "off"
+  }
+```
+
+May need to add *editor.quickSuggestions* also to *"[go]"* in the `settings.json`.
+
 ## Table of Contents
 
 * [How to prepare & use $\LaTeX$ docker environment](./dockerlatex.md)
