@@ -50,4 +50,6 @@ May need to add *editor.quickSuggestions* also to *"[go]"* in the `settings.json
   - [Use `DOT language` (graph description language, part of Graphviz project) to draw tree/graph (result is `.gv` text file)](drawing/dotgraphviz.md)<!-- markdownlint-disable-line MD004 -->
   - [Install locally and use `inkscape + $\LaTeX$` to draw math illustration (result is `.svg` file)](drawing/inkscape_latex_local.md)<!-- markdownlint-disable-line MD004 -->
   - [How to preview TikZ ($\LaTeX$ drawing package) inside `.md` file](drawing/tikzinmd.md)<!-- markdownlint-disable-line MD004 -->
-  - [Use $\LaTeX$'s `\TikZ` or `geogebra` to draw exact math figure/graph](drawing/mathillustration.md)<!-- markdownlint-disable-line MD004 -->
+  - [How to write TikZ in $\LaTeX$](drawing/tikzinlatex/tikztutorial.md)<!-- markdownlint-disable-line MD004 -->
+  - [TODO Put `geogebra` link here](drawing/geogebra.md)<!-- markdownlint-disable-line MD004 -->
+  - [Conclusion: Use `inkscape` to draw conceptual math illustration; use $\LaTeX$'s `\TikZ` or `geogebra` to draw exact math figure/graph](drawing/mathillustration.md)<!-- markdownlint-disable-line MD004 -->
