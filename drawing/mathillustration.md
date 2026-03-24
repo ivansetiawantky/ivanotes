@@ -8,7 +8,7 @@ Use [inkscape and $\LaTeX$](./inkscape_latex_local.md).
 
 TikZ is a $\LaTeX$ package to create drawing. TikZ can be included in markdown, as explained in ["How to preview TikZ ($\LaTeX$ drawing package) inside `.md` file"](./tikzinmd.md).
 
-Broad explanation on how to write TikZ is available in [my markdown TikZ tutorial](./tikzinlatex/tikztutorial.md).
+Broad explanation on how to write TikZ is available in [my TikZ tutorial](./tikzinlatex/tikztutorial.md).
 
 ## Drawing exact figure/diagram/graph: Use web-service `geogebra`
 
