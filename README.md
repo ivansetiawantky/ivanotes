@@ -19,7 +19,7 @@ Mainly how-to notes.
 
 ## Preparation 2. Set vscode built-in `IntelliSense` (***NOT IntelliCode***)
 
-In the command palette (Command+Shift+P), select *Preferences: Open User Settings (UI)*, then search for "suggest". Select the item to set.
+In the command palette (Command+Shift+P), select *Preferences: Open User Settings (UI)*, then search for "suggest". Select the item to set. Then, also search for "wordBasedSuggestions", and set to "allDocuments".
 
 It seems that `markdown` is by default NOT activating `IntelliSense` suggestion. So, again from the command palette (Command+Shift+P), select *Preferences: Open User Settings (JSON)*, and edit to be like below:
 
@@ -36,7 +36,8 @@ It seems that `markdown` is by default NOT activating `IntelliSense` suggestion.
     "other": "on",
     "comments": "off",
     "strings": "off"
-  }
+  },
+  "editor.wordBasedSuggestions": "allDocuments"
 ```
 
 May need to add *editor.quickSuggestions* also to *"[go]"* in the `settings.json`.
