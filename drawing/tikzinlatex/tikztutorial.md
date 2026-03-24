@@ -34,10 +34,11 @@ The file [./uplatikz/.latexmkrc](./uplatikz/.latexmkrc) in the same `./uplatikz`
 
 ## References
 
-* https://math-note.xyz/latex/tikz/tikz-line/<!-- markdownlint-disable-line MD034-->
-* https://texample.net/
-* https://note.com/dan_oyama/n/n6c3ae2a270ac
-* https://alg-d.com/math/tikz.pdf
-* http://phys.co-suite.jp/tex/Intro_Tikz.pdf
-* https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing
-* https://www.ams.org/arc/resources/pdfs/tikz_tutorials_all-brown.pdf
+* [LaTeXで図を直接描けるTikZの使い方 by TikZ職人山本拓人](https://math-note.xyz/latex/tikz/tikz-line/)
+* [TikZ 入門(1) ～線を描く～ by 大山壇](https://note.com/dan_oyama/n/n6c3ae2a270ac)
+* [Ti$k$Z の使い方](https://alg-d.com/math/tikz.pdf)
+* [Ti$k$Z への入門](http://phys.co-suite.jp/tex/Intro_Tikz.pdf)
+* [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 1)—Basic Drawing](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing)
+* [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 2)—Generating TikZ Code from GeoGebra](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_2)%E2%80%94Generating_TikZ_Code_from_GeoGebra)
+* [TikZ tutorials](https://www.ams.org/arc/resources/pdfs/tikz_tutorials_all-brown.pdf)
+* [A lot of example in texample.net](https://texample.net/)
