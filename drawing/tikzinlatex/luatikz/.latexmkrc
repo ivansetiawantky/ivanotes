@@ -13,7 +13,7 @@ $bibtex_use=2;
 $bibtex = 'upbibtex %O %S';
 $biber = 'biber --bblencoding=utf8 -u -U --output_safechars %O %S';
 
-$clean_ext="$clean_ext run.xml dvi synctex.gz";
+$clean_ext="$clean_ext run.xml dvi synctex.gz bak0";
 
 # pdflatexは1,uplatexは3,lualatexは4
 $pdf_mode = 4;

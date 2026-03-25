@@ -109,7 +109,18 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
     "latex-workshop.linting.run": "onType",
     "latex-workshop.formatting.latex": "latexindent",
     "latex-workshop.format.fixQuotes.enabled": true,
-    "latex-workshop.format.fixMath.enabled": true
+    "latex-workshop.format.fixMath.enabled": true,
+    "latex-workshop.formatting.latexindent.path": "latexindent",
+    "latex-workshop.formatting.latexindent.args": [
+        "-c",
+        "%DIR%/",
+        "-l",
+        "%WORKSPACE_FOLDER%/.vscode/localSettings.yaml",
+        "-w",
+        "-s",
+        "-r",
+        "%DOC%"
+    ]
 }
 ```
 
@@ -128,6 +139,10 @@ Again, be careful:
 > \[!CAUTION]
 > `formatOnSave` must be set to `false` when `autoBuild.run` is `onSave`, to prevent race condition of formatter and builder from writing the same file.\
 > Run formatter by right-click the $\TeX$ source file and select *Format Document*.
+
+Maybe now we are using a better $\LaTeX$ formatter:
+> \[!TIP]
+> Set the *latex-workshop.formatting.latexindent.args* in Workspace `settings.json` as above. Use the configuration of `latexindent` in [/.vscode/localSettings.yaml](/.vscode/localSettings.yaml).
 
 ## Table of Contents
 

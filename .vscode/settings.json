@@ -46,5 +46,16 @@
     "latex-workshop.linting.run": "onType",
     "latex-workshop.formatting.latex": "latexindent",
     "latex-workshop.format.fixQuotes.enabled": true,
-    "latex-workshop.format.fixMath.enabled": true
+    "latex-workshop.format.fixMath.enabled": true,
+    "latex-workshop.formatting.latexindent.path": "latexindent",
+    "latex-workshop.formatting.latexindent.args": [
+        "-c",
+        "%DIR%/",
+        "-l",
+        "%WORKSPACE_FOLDER%/.vscode/localSettings.yaml",
+        "-w",
+        "-s",
+        "-r",
+        "%DOC%"
+    ]
 }
