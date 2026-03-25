@@ -63,8 +63,9 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
 ```json:settings.json
 {
     "[latex]": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "James-Yu.latex-workshop"
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "James-Yu.latex-workshop",
+        "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?．。，、（）「」［］｛｝《》てにをはがのともへでや",
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
@@ -122,6 +123,11 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
 > Install using below command. ***May need to repeat this command several times!***:
 >
 > `sudo cpan -i File::HomeDir`
+
+Again, be careful:
+> \[!CAUTION]
+> `formatOnSave` must be set to `false` when `autoBuild.run` is `onSave`, to prevent race condition of formatter and builder from writing the same file.\
+> Run formatter by right-click the $\TeX$ source file and select *Format Document*.
 
 ## Table of Contents
 

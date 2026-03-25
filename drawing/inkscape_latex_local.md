@@ -71,6 +71,7 @@ Install vscode-extension Latex-Workshop. Then, create Workspace [`settings.json`
 
 ```json:settings.json
 {
+    // This is only a part of Workspace's settings.json.
     "[latex]": {
         "editor.formatOnSave": false,
     },
@@ -78,8 +79,6 @@ Install vscode-extension Latex-Workshop. Then, create Workspace [`settings.json`
     "latex-workshop.latex.autoBuild.run": "onSave",
 }
 ```
-
-For $\LaTeX$ source, because I am not sure currently on how to use the Formatter nor the Linter, do not format the source file when it is saved.
 
 Then also set the default recipe to look at the `.latexmkrc` because by default Latex-Workshop will use `pdflatex`.
 

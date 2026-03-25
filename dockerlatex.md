@@ -220,6 +220,8 @@ Install vscode-extension to be persistent inside the container. [Required vscode
 * Markdown All in One
 * Markdown Preview Enhanced
 * Markdownlint
+* Indent Rainbow
+* Trailing Spaces
 
 To install it persistently (so it will be installed also next time the container is run), follow below steps:
 

@@ -1,7 +1,8 @@
 {
     "[latex]": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "James-Yu.latex-workshop"
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "James-Yu.latex-workshop",
+        "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?．。，、（）「」［］｛｝《》てにをはがのともへでや",
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
