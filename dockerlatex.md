@@ -215,7 +215,8 @@ to
 Also, change the $\LaTeX$ linter to `chktex`. See [https://github.com/ivansetiawantky/latex-template-ja](https://github.com/ivansetiawantky/latex-template-ja)'s `.vscode/settings.json`.
 
 > \[!CAUTION]
-> We must install `chktex` in the docker image of [latex-docker-iv](https://github.com/ivansetiawantky/latex-docker).
+> We must install `chktex` in the docker image of [latex-docker-iv](https://github.com/ivansetiawantky/latex-docker).\
+> Install with TeXLive Manager: `tlmgr install chktex`.
 
 #### D.3. Customize my `.devcontainer/devcontainer.json`
 
