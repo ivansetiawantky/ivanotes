@@ -212,6 +212,11 @@ to
 > Need to add below in `.vscode/settings.json`:\
 > `"markdown-preview-enhanced.latexEngine": "lualatex"`
 
+Also, change the $\LaTeX$ linter to `chktex`. See [https://github.com/ivansetiawantky/latex-template-ja](https://github.com/ivansetiawantky/latex-template-ja)'s `.vscode/settings.json`.
+
+> \[!CAUTION]
+> We must install `chktex` in the docker image of [latex-docker-iv](https://github.com/ivansetiawantky/latex-docker).
+
 #### D.3. Customize my `.devcontainer/devcontainer.json`
 
 Install vscode-extension to be persistent inside the container. [Required vscode-extensions](./drawing/mermaid.md/#vscode-extension-for-markdown-must-install--use) are:
