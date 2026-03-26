@@ -90,6 +90,9 @@ To remove intermediate files only:
 docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -c
 ```
 
+> \[!TIP]
+> Or, in $\LaTeX$ Workshop [`settings.json`](/.vscode/settings.json) (Command palette: *Command+Shift+P Preferences: Open Workspace Settings (JSON)*), set *"latex-workshop.latex.autoClean.run": "onBuilt"*.
+
 To remove everything but the tex source file:
 
 ```bash

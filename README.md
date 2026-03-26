@@ -69,7 +69,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
-    "latex-workshop.latex.autoClean.run": "onFailed",
+    "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux",
         "*.bbl",
@@ -143,6 +143,13 @@ Again, be careful:
 Maybe now we are using a better $\LaTeX$ formatter:
 > \[!TIP]
 > Set the *latex-workshop.formatting.latexindent.args* in Workspace `settings.json` as above. Use the configuration of `latexindent` in [/.vscode/localSettings.yaml](/.vscode/localSettings.yaml).
+
+### 5. Some tips of $\LaTeX$ Workshop in vscode
+
+* Mouseover to see the rendered equation
+* Use $\TeX$ → MATH SYMBOL, to input $\int_0^\infty$ for example
+* Select region, then *Command palette → Surround selection with $\LaTeX$ command → \\(*
+* [Good $\LaTeX$ preambule](https://qiita.com/moinslut/items/bc1d1b1e13cb38377406#%E3%83%97%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%96%E3%83%AB)
 
 ## Table of Contents
 
