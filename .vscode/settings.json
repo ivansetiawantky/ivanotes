@@ -53,8 +53,8 @@
         "%DIR%/",
         "-l",
         "%WORKSPACE_FOLDER%/.vscode/localSettings.yaml",
-        "-w",
-        "-s",
+        // "-w",
+        // "-s",
         "-r",
         "%DOC%"
     ]

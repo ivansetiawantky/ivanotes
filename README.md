@@ -116,8 +116,8 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
         "%DIR%/",
         "-l",
         "%WORKSPACE_FOLDER%/.vscode/localSettings.yaml",
-        "-w",
-        "-s",
+        // "-w",
+        // "-s",
         "-r",
         "%DOC%"
     ]
