@@ -91,7 +91,8 @@ docker run -u $(id -u):$(id -g) --rm -v $PWD:/workdir latex-docker-iv latexmk -c
 ```
 
 > \[!TIP]
-> Or, in $\LaTeX$ Workshop [`settings.json`](/.vscode/settings.json) (Command palette: *Command+Shift+P Preferences: Open Workspace Settings (JSON)*), set *"latex-workshop.latex.autoClean.run": "onBuilt"*.
+> Or, in $\LaTeX$ Workshop [`settings.json`](/.vscode/settings.json) (Command palette: *Command+Shift+P Preferences: Open Workspace Settings (JSON)*), set *"latex-workshop.latex.autoClean.run": "onBuilt"*.\
+> However, be careful, this will lose the previous latex compilation info, so compilation will always executed even when there is NO change in the file.
 
 To remove everything but the tex source file:
 
@@ -208,7 +209,7 @@ To automatically build after saving tex file, change ".vscode/settings.json" bel
 to
 
 ```json
-"latex-workshop.latex.autoBuild.run": "onSave"
+"latex-workshop.latex.autoBuild.run": "onSave",
 ```
 
 > \[!NOTE]

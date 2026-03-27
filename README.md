@@ -69,7 +69,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
-    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.latex.autoClean.run": "onFailed",
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux",
         "*.bbl",
