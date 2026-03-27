@@ -70,6 +70,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
         "editor.showFoldingControls": "always",
         "editor.wordWrap": "on",
         "files.trimTrailingWhitespace": true,
+        "files.trimFinalNewlines": true,
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
