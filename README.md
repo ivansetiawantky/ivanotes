@@ -66,6 +66,10 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
         "editor.formatOnSave": false,
         "editor.defaultFormatter": "James-Yu.latex-workshop",
         "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?．。，、（）「」［］｛｝《》てにをはがのともへでや",
+        "editor.folding": true,
+        "editor.showFoldingControls": "always",
+        "editor.wordWrap": "on",
+        "files.trimTrailingWhitespace": true,
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
@@ -120,7 +124,8 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
         // "-s",
         "-r",
         "%DOC%"
-    ]
+    ],
+    "latex-workshop.intellisense.includegraphics.preview.enabled": true,
 }
 ```
 
@@ -149,7 +154,11 @@ Maybe now we are using a better $\LaTeX$ formatter:
 * Mouseover to see the rendered equation
 * Use $\TeX$ → MATH SYMBOL, to input $\int_0^\infty$ for example
 * Select region, then *Command palette → Surround selection with $\LaTeX$ command → \\(*
+* OR, while in-selecting, go to above the selection, and then type **\section**, will also give the same effect like *surround selection with...*.
 * [Good $\LaTeX$ preambule](https://qiita.com/moinslut/items/bc1d1b1e13cb38377406#%E3%83%97%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%96%E3%83%AB)
+* Type `@a` it will change to `\alpha` etc.
+* Type `SCH`, `SSE` it will change to `\chapter{}`, `\section{}` etc. See the TEX Structure.
+* `\equation` will expand bo begin-end environment.
 
 ## Table of Contents
 

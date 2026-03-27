@@ -3,6 +3,10 @@
         "editor.formatOnSave": false,
         "editor.defaultFormatter": "James-Yu.latex-workshop",
         "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?．。，、（）「」［］｛｝《》てにをはがのともへでや",
+        "editor.folding": true,
+        "editor.showFoldingControls": "always",
+        "editor.wordWrap": "on",
+        "files.trimTrailingWhitespace": true,
     },
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
     "latex-workshop.latex.autoBuild.run": "onSave",
@@ -57,5 +61,6 @@
         // "-s",
         "-r",
         "%DOC%"
-    ]
+    ],
+    "latex-workshop.intellisense.includegraphics.preview.enabled": true,
 }
