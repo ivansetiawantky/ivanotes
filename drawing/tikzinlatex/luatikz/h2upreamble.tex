@@ -1,0 +1,73 @@
+% h2upreamble.tex
+\documentclass[lualatex]{jlreq}
+\input{00preamble}
+
+\counterwithout{equation}{section}
+\geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
+\title{\bfseries {\huge Testing My Preamble for Lua\LaTeX{}} \\[0.5em] {\Large Lua\LaTeX{}用のプレアンブルのテスト}}
+\author{\LARGE Ivan Setiawan}
+\createdate{2026年3月28日}
+\upddate{2026/03/28}
+
+\begin{document}
+\maketitle
+
+% Do this tutorial:
+% This file: [LaTeXで図を直接描けるTikZの使い方 by TikZ職人山本拓人](https://math-note.xyz/latex/tikz/tikz-line/)
+% [TikZ 入門(1) ～線を描く～ by 大山壇](https://note.com/dan_oyama/n/n6c3ae2a270ac)
+% [Ti \(k \) Z の使い方](https://alg-d.com/math/tikz.pdf)
+% [Ti \(k \) Z への入門](http://phys.co-suite.jp/tex/Intro_Tikz.pdf)
+% [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 1)—Basic Drawing](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing)
+% [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 2)—Generating TikZ Code from GeoGebra](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_2)%E2%80%94Generating_TikZ_Code_from_GeoGebra)
+% [TikZ tutorials](https://www.ams.org/arc/resources/pdfs/tikz_tutorials_all-brown.pdf)
+
+\section{00preambleの使い方}
+
+How to use \LaTeXe{} linter, for example when there is trailing space. Will it be erased?
+\LaTeX{} \LaTeXe{} Seems good
+\alpha{} \beta{} \begin{enumerate}
+    \item \alpha{}
+    \item \beta{}
+    \item \chi{}
+    \item \delta{}
+    \item \Gamma{}
+    \item \zeta{}
+\end{enumerate}
+\begin{equation}
+    \sum_{k=0}^{\infty} \frac{1}{k} = lualatex example
+\end{equation}
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+# Code goes here
+\end{lstlisting}
+
+how \(\frac{1}{\pi^2}\)
+\[\frac{1}{\pi^2}\]
+\LaTeXe{}
+lualatex how to use linter linter seems good will it be will and erased? \alpha{}
+\begin{equation}
+    \label{asdf}
+    E = mc^2,
+\end{equation}
+\begin{equation}
+    \label{fast}
+    dB = \frac{\mu_0}{4 \pi} \frac{idl \sin \theta}{r^2}
+\end{equation}
+how to seems and show again show \(\beta^2 \), and again \[\gamma^3. \] erased
+He said this, ``alamo''. Again, ``I am done with it''.
+\(E=mc^2 \)
+\(a^2+b^2 = c^2 \)
+\(\lambda=\Gamma+c^2 \) \(\nu^2=\zeta_3 \)
+
+日本語でも chktex はOKかな？ \[\Delta_7.\] テストです．
+\(\frac{d^2 y}{d x^2}\)
+
+\section{Deep Diffusion}
+
+\begin{equation}
+    \label{eq:diffusion}
+    \frac{\partial u}{\partial t} = D \nabla^2 u
+\end{equation}
+
+\end{document}

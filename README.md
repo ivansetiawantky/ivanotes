@@ -130,6 +130,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
     "latex-workshop.linting.chktex.exec.args": [
         "-wall",
         "-n19",
+        "-n21",
         "-n22",
         "-n30",
         "-e16",
@@ -164,7 +165,7 @@ Maybe now we are using a better $\LaTeX$ formatter:
 * Use $\TeX$ → MATH SYMBOL, to input $\int_0^\infty$ for example
 * Select region, then *Command palette → Surround selection with $\LaTeX$ command → \\(*
 * OR, while in-selecting, go to above the selection, and then type **\section**, will also give the same effect like *surround selection with...*.
-* [Good $\LaTeX$ preambule](https://qiita.com/moinslut/items/bc1d1b1e13cb38377406#%E3%83%97%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%96%E3%83%AB)
+* [Good $\LaTeX$ preamble](https://qiita.com/moinslut/items/bc1d1b1e13cb38377406#%E3%83%97%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%96%E3%83%AB)
 * Type `@a` it will change to `\alpha` etc.
 * Type `SCH`, `SSE` it will change to `\chapter{}`, `\section{}` etc. See the TEX Structure.
 * `\equation` will expand bo begin-end environment.

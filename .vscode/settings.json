@@ -67,6 +67,7 @@
     "latex-workshop.linting.chktex.exec.args": [
         "-wall",
         "-n19",
+        "-n21",
         "-n22",
         "-n30",
         "-e16",
