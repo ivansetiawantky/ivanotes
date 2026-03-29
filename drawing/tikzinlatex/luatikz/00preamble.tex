@@ -8,11 +8,13 @@
 \usepackage{float}
 \usepackage{url}
 \usepackage{listings}
+\usepackage{caption2}
 \usepackage{lscape}
 \usepackage{pdflscape}
 \usepackage{csvsimple}
 \usepackage{wrapfig}
 \usepackage{comment}
+\usepackage{cprotect}
 \usepackage{tikz}
 % 数式系パッケージ
 \usepackage{amsmath,amssymb,amsfonts}
@@ -48,3 +50,12 @@
 
 % Remove section number from equation number, so that it is just 1, 2, NOT 1.1, 2.1:
 % \counterwithout{equation}{section}
+
+% Source code listing settings (listings package)
+\lstset{
+    frame=tb,
+    basicstyle=\small,
+    numbers=left,
+    firstnumber=1,
+    numberstyle=\scriptsize,
+}

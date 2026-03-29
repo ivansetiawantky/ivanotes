@@ -12,7 +12,7 @@ Because `pdflatex` is NOT GOOD FOR Japanese, here we only provide souces for `lu
 \end{document}
 ```
 
-The tutorial lualatex source is available in [./luatikz/luatikztutorial.tex](./luatikz/luatikztutorial.tex).
+The tutorial lualatex source files are available in [this directory ./luatikz/](./luatikz/). First, read [how to use the preamble](./luatikz/h2upreamble.tex).
 
 The file [./luatikz/.latexmkrc](./luatikz/.latexmkrc) in the same `./luatikz/` directory, set the engine to `lualatex` (`$pdf_mode = 4;`).
 
@@ -28,7 +28,7 @@ When using `uplatex` or `platex` engine to compile $\LaTeX$ source, the [`dvipdf
 \end{document}
 ```
 
-The tutorial uplatex source is available in [./uplatikz/uplatikztutorial.tex](./uplatikz/uplatikztutorial.tex).
+The tutorial uplatex source files are available in [this directory ./uplatikz/](./uplatikz/).
 
 The file [./uplatikz/.latexmkrc](./uplatikz/.latexmkrc) in the same `./uplatikz` directory, set the engine to `uplatex` (`$pdf_mode = 3;`). So, the $\LaTeX$ engine switch should be seamless.
 

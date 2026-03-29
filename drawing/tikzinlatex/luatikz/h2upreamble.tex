@@ -4,70 +4,93 @@
 
 \counterwithout{equation}{section}
 \geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
-\title{\bfseries {\huge Testing My Preamble for Lua\LaTeX{}} \\[0.5em] {\Large Lua\LaTeX{}用のプレアンブルのテスト}}
+\title{\bfseries {\huge Testing My Preamble for Lua{\LaTeX{}}}\\[0.5em] {\Large Lua{\LaTeX{}}用のプレアンブルのテスト}}
+\author{\LARGE Ivan Setiawan}
+\createdate{2026年3月28日}
+\upddate{2026/03/29}
+
+\begin{document}
+\maketitle
+
+\lstlistoflistings{}
+
+\section{00preambleの使い方}
+
+Copy and paste the code in Listing~\ref{lst:inputfile} to \texttt{inputfile.tex} and compile it with Lua{\LaTeX}.
+
+\begin{lstlisting}[
+ language={[LaTeX] TeX},
+ caption={Template \LaTeX{} file (\texttt{inputfile.tex}) to use 00preamble},
+ label={lst:inputfile},
+ % basicstyle=\ttfamily \footnotesize,
+ % firstnumber=3,
+]
+% inputfile.tex
+\documentclass[lualatex]{jlreq}
+\input{00preamble}
+
+\counterwithout{equation}{section}
+\geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
+\title{\bfseries {\huge Title}\\[0.5em] {\Large Subtitle}}
 \author{\LARGE Ivan Setiawan}
 \createdate{2026年3月28日}
 \upddate{2026/03/28}
 
 \begin{document}
 \maketitle
-
-% Do this tutorial:
-% This file: [LaTeXで図を直接描けるTikZの使い方 by TikZ職人山本拓人](https://math-note.xyz/latex/tikz/tikz-line/)
-% [TikZ 入門(1) ～線を描く～ by 大山壇](https://note.com/dan_oyama/n/n6c3ae2a270ac)
-% [Ti \(k \) Z の使い方](https://alg-d.com/math/tikz.pdf)
-% [Ti \(k \) Z への入門](http://phys.co-suite.jp/tex/Intro_Tikz.pdf)
-% [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 1)—Basic Drawing](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing)
-% [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 2)—Generating TikZ Code from GeoGebra](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_2)%E2%80%94Generating_TikZ_Code_from_GeoGebra)
-% [TikZ tutorials](https://www.ams.org/arc/resources/pdfs/tikz_tutorials_all-brown.pdf)
-
-\section{00preambleの使い方}
-
-How to use \LaTeXe{} linter, for example when there is trailing space. Will it be erased?
-\LaTeX{} \LaTeXe{} Seems good
-\alpha{} \beta{} \begin{enumerate}
-    \item \alpha{}
-    \item \beta{}
-    \item \chi{}
-    \item \delta{}
-    \item \Gamma{}
-    \item \zeta{}
-\end{enumerate}
-\begin{equation}
-    \sum_{k=0}^{\infty} \frac{1}{k} = lualatex example
-\end{equation}
-
-\begin{lstlisting}[language=Python]
-import numpy as np
-# Code goes here
+\end{document}
 \end{lstlisting}
 
-how \(\frac{1}{\pi^2}\)
-\[\frac{1}{\pi^2}\]
-\LaTeXe{}
-lualatex how to use linter linter seems good will it be will and erased? \alpha{}
-\begin{equation}
-    \label{asdf}
-    E = mc^2,
-\end{equation}
-\begin{equation}
-    \label{fast}
-    dB = \frac{\mu_0}{4 \pi} \frac{idl \sin \theta}{r^2}
-\end{equation}
-how to seems and show again show \(\beta^2 \), and again \[\gamma^3. \] erased
-He said this, ``alamo''. Again, ``I am done with it''.
-\(E=mc^2 \)
-\(a^2+b^2 = c^2 \)
-\(\lambda=\Gamma+c^2 \) \(\nu^2=\zeta_3 \)
+\cprotect\section{The \verb|\counterwithout{}| command}
 
-日本語でも chktex はOKかな？ \[\Delta_7.\] テストです．
-\(\frac{d^2 y}{d x^2}\)
+By default, the equation numbering in \LaTeX{} is like (1.1), (1.2), etc., where the first number is the section number and the second number is the equation number within that section.
 
-\section{Deep Diffusion}
+If you want to number equations without the section number, use the \verb|\counterwithout{}| command as shown in Listing~\ref{lst:equationnumbernosection}. After using this command, the equation numbering will be like (1), (2), etc., without the section number. Just comment out the \verb|\counterwithout{}| command if you want to revert to the default numbering style, or do not call it in the first place.
 
-\begin{equation}
-    \label{eq:diffusion}
-    \frac{\partial u}{\partial t} = D \nabla^2 u
-\end{equation}
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={Equation numbering without section number},
+    label={lst:equationnumbernosection},
+    firstnumber=5,
+]
+\counterwithout{equation}{section}
+\end{lstlisting}
+
+\cprotect\section{The \verb|\geometry{}| command}
+
+To change the size of the page margins, use the \verb|\geometry{}| command from the \texttt{geometry} package. The example in Listing~\ref{lst:geometrycommand} sets the top margin to 20mm, the bottom margin to 25.4mm (1 inch), and both the inner and outer margins to 19.05mm (0.75 inch). Adjust these values as needed for your document.
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={\texttt{\textbackslash{}geometry{}} command},
+    label={lst:geometrycommand},
+    firstnumber=6,
+]
+\geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
+\end{lstlisting}
+
+You can modify the \verb|\geometry{}| command in your document to set custom margins, or simply comment it out to use the default margins defined in the preamble (file \texttt{00preamble.tex}).
+
+\section{Miscellaneous}
+
+\cprotect\subsection{Use braces \verb|{}| around the \LaTeX{} command to protect it from being separated from the preceeding word by \texttt{latexindent} (\LaTeX{} source file formatter)}
+
+During ``Format Document'', to prevent \texttt{latexindent} from inserting space between a word and the subsequent \LaTeX{} command, place the subsequent command in curly braces directly after the word. For example in the source textfile, write \verb|Lua{\LaTeX{}}| instead of \verb|Lua\LaTeX{}|. The former will be treated as a single unit and will not be separated by \texttt{latexindent}, while the latter may be split into ``Lua'' and ``\verb|\LaTeX{}|'' with a space in between.
+
+\cprotect\subsection{Use \verb|\cprotect| to allow verbatim text in section/subsection titles}
+
+To include verbatim text (e.g., code snippets) in section, subsection titles, or captions, use the \verb|\cprotect| command from the \texttt{cprotect} package. This allows you to write verbatim text without causing errors in the title formatting. For example, you can write:
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={Allow verbatim text \texttt{\textbackslash{}verb|text|} in section, subsection titles, or captions},
+    label={lst:cprotectallowverbatimtextintitles},
+    numbers=none,
+]
+\cprotect\section{This is a section title with verbatim text: \verb|\LaTeX{}|}
+\end{lstlisting}
+
+\cprotect\subsection{Use \verb|\textbackslash{}|}
+
+Use the command \verb|\textbackslash{}| to produce a single backslash character in running text. For example, \verb|This is a backslash: \textbackslash{}| will produce ``This is a backslash: \textbackslash{}'' in the compiled document.
 
 \end{document}
