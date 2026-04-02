@@ -124,6 +124,40 @@ ln -s `which dvips` .
 # ln -s `which pstoedit` .
 ```
 
+## Install Inkscape extension TexText
+
+### Problem with *Extension → Text → Formula 公式 (pdflatex)*
+
+Once the $\LaTeX$ equation is rendered, the equation source code is eliminated, so that we cannot re-edit the equation anymore. To prevent this, use *Extension → Text → TexText*.
+
+### URL for downloading TexText and installation
+
+Download and install, following [the macos installation of TexText](https://textext.github.io/textext/install/macos.html).
+
+> \[!CAUTION]
+> For inkscape ver 1.4.3, use TexText ver 1.13.0
+
+Unzip the zip source of TexText, and execute below commands. The later command may be not necessary in the future:
+
+```bash
+python3.10 setup.py --lualatex-executable=$(which lualatex) --pdflatex-executable=$(which pdflatex) --skip-requirements-check
+mv /Applications/Inkscape.app/Contents/Resources/lib/python3.10/site-packages/gi/overrides/GioUnix.py /Applications/Inkscape.app/Contents/Resources/lib/python3.10/site-packages/gi/overrides/GioUnix.py.disabled
+```
+
+### Insert $\LaTeX$ equation with *Extension → Text → TexText*
+
+See [the manual for using the TexText Inkscape-extension UI](https://textext.github.io/textext/usage/gui.html#gui)
+
+Use `lualatex` as the $\LaTeX$ equation compiler. Use `$ $` or `\[ \]` or `\( \)`.
+
+> \[!CAUTION]
+> TexText editor cannot input backslash, it will show yen mark.\
+> Press Alt + \, to input "\".
+
+### How to re-edit the equation?
+
+In Layer and Object tab, select the equation group (g243 etc), then select *Extension → Text → TexText*.
+
 ## `inkscape` flow for creating `.svg` file to be included in `.md` file or $\LaTeX$
 
 There is 2 types of `svg` file, that is:
@@ -135,9 +169,29 @@ First, create the `Source inkscape svg` file. Then, using `inkscape`, select the
 
 ### Initial setting when creating svg file
 
-#### Size in milimeter
+#### Size in ***pixel (px)***
 
-DOING.
+0. *表示 → ウィドスクリーン*
+1. Open `inkscape`, *File → Document Properties → **Set unit to pixel***. Confirm size is A4 and scale (尺度) is 1.0.
+2. Save to svg file.
+
+#### Basic knowledge for using `inkscape`
+
+* Object, Path, Stroke
+  - Path: a set of nodes (or points) and segments forming a curve, which can be filled or stroked. A path itself has no width.<!-- markdownlint-disable-line MD004 -->
+  - Stroke: A contour or outline applied to a vector path or shape, which can have varying widths, colors, and styles.<!-- markdownlint-disable-line MD004 -->
+  - Object to path: converts parametric shapes (like circles or rectangles) into editable path nodes, but ignores the stroke.<!-- markdownlint-disable-line MD004 -->
+* ***Press shift & left-click to specify stroke (outline) color. Just left-click to specify fill color.***
+* Be careful with ***Snap controls*** (The magnet icon on top right).
+* ***Ctrl***: draw square/circle (instead of rectangle/ellipse), move (handles) to horizontal/vertical only, keep proportion, 15 degree step rotation, change length/width only.
+* ***Shift***: draw from center, select multiple objects.
+* To rotate, skew, or change size of the object: change to selector tool (arrow), then ***1 click, 2 times***.
+* To show handles to modify object: ***double click the object***. Then, must select the appropriate object (select Circle-shape tools to modify circle, arc, etc.)
+* 3 types of handles: tiny square, circle, diamond.
+* Notice the ***tool controls bar***! Change shape to arc, circle, etc, here.
+* Depending on the mouse position (inside or outside imaginary circle) when dragging circle handle, circle can become arc or segment (pie wedge).
+* ***Pencil tool is for drawing free curve*** with click and dragging mouse. ***Pen tool is for drawing segments/polyline (折れ線)*** with double click to end.
+* Select the object with selector tool (arrow), then in the menu select *Path → Object to path*.
 
 ### Create the `Source inkscape svg` file (MAYBE EDITED LATER)
 
@@ -182,4 +236,18 @@ The above A4 svg image region is selected, then export as plain svg. The backgro
 
 `Inkscape` is used to draw a math conceptual illustration, which possibly include $\LaTeX$ formula. The flow for creating the source `.svg` file (and exporting to `plain svg` file for inclusion) is mentioned [above](#inkscape-flow-for-creating-svg-file-to-be-included-in-md-file-or-latex).
 
-See this, this, and this. DOING.
+### References
+
+* Read ["Welcome to the Inkscape Beginners' Guide!"](https://inkscape-manuals.readthedocs.io/en/latest/)
+* How to separate $\LaTeX$ and figure (but, I don't think will adopt this method) in [How I draw figures for my mathematical lecture notes using Inkscape](https://castel.dev/post/lecture-notes-2/)
+* VERY GOOD inkscape tutorial by DrChangMathGuitar [Inkscape for Math Instructors](https://www.youtube.com/playlist?list=PLdr5XE6u9kEpOlqaxqaE9y41ac0FBYAZk)
+
+### In inkspace, how to split arc, so we can have 2 stroke style of ellipse (one with dash-style, one with real-line) ?
+
+Watch [2 Ways to Create Arc in Inkscape](https://www.youtube.com/watch?v=-0SBABNtXJc)
+
+1. Draw ellipse with no fill
+2. Ensure snap, 境界枠 (エッジ、角、中央)、ノード is ON
+3. Use pen tool and draw the path (i.e., the cutter-path) to cut the ellipse
+4. Press shift, select the cutter-path and ellipse (or from layer & object tab, select both paths)
+5. Then click menu *Path → Cut path (パスをカット)*. Use real-line stroke style for a path, and dash line for the other path.
