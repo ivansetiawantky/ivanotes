@@ -152,7 +152,7 @@ Use `lualatex` as the $\LaTeX$ equation compiler. Use `$ $` or `\[ \]` or `\( \)
 
 > \[!CAUTION]
 > TexText editor cannot input backslash, it will show yen mark.\
-> Press Alt + \, to input "\".
+> Press Alt(Option) + \\, to input "\\".
 
 ### How to re-edit the equation?
 
