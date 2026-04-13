@@ -180,5 +180,5 @@ Maybe now we are using a better $\LaTeX$ formatter:
   - [Install locally and use `inkscape + $\LaTeX$` to draw math illustration (result is `.svg` file)](drawing/inkscape_latex_local.md)<!-- markdownlint-disable-line MD004 -->
   - [How to preview TikZ ($\LaTeX$ drawing package) inside `.md` file](drawing/tikzinmd.md)<!-- markdownlint-disable-line MD004 -->
   - [How to write TikZ in $\LaTeX$](drawing/tikzinlatex/tikztutorial.md)<!-- markdownlint-disable-line MD004 -->
-  - [TODO Put `geogebra` link here](drawing/geogebra.md)<!-- markdownlint-disable-line MD004 -->
+  - [Use `geogebra` for plotting function or accurate illustration](drawing/geogebra.md)<!-- markdownlint-disable-line MD004 -->
   - [Conclusion: Use `inkscape` to draw conceptual math illustration; use $\LaTeX$'s `\TikZ` or `geogebra` to draw exact math figure/graph](drawing/mathillustration.md)<!-- markdownlint-disable-line MD004 -->

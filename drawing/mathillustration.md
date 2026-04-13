@@ -12,4 +12,4 @@ Broad explanation on how to write TikZ is available in [my TikZ tutorial](./tikz
 
 ## Drawing exact figure/diagram/graph: Use web-service `geogebra`
 
-And also geogebra+ (TODO Put `geogebra` link here)
+And also [use `geogebra` + `inkscape`](./geogebra.md) for plotting function or more accurate illustration. For example, draw exactly angle of 60 degree.
