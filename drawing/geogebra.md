@@ -22,14 +22,47 @@ Access [geogebra](https://www.geogebra.org/), then click "Start calculator"「�
   * Input: $z^2=x^2+y^2$
   * Input point (1,0,0), (0,1,0), (0,0,1), then plane trough 3 points
   * ***In "Geometry":***
-  * From 28:00 to 32:20, plotting **ray** and `how to cut ray` (actually, write a segment on the portion of ray, then hide (uncheck "Show Object") the ray...)
-  * Save to `ggb` extension, then download as `svg`.
+  * From 28:00 to 32:20, plotting **ray** and `how to cut ray` (actually, draw a segment on the portion of ray, then hide (uncheck "Show Object") the ray...)
+  * Save to [`angledemo.ggb`](angledemo.ggb) extension, then download as [`angledemo-ggb.svg`](angledemo-ggb.svg). Then see [How to open `geogebra`-produced svg file in `inkscape`](#how-to-open-geogebra-produced-svg-file-in-inkscape)
+  * *Edit → XML Editor*: Good for changing text only, for example.
+  * *Save a Copy → Optimized svg*
+  * *Save a Copy → EPS (encapsulated post script)*
+  * ![`angledemo.svg`](angledemo.svg)
 * ***CAS***: Computer Algebra System, to do symbolic math.
-* geogebra usage: https://www.youtube.com/watch?v=cKpqVOmqRb0 NOT YET
+* geogebra usage: https://www.youtube.com/watch?v=cKpqVOmqRb0 DOING1
 
 ## Use `geogebra` then `inkscape`
 
-[Programming for Mathematicians day 33](https://www.youtube.com/watch?v=RJBo795ZmII) from 38:18~.
+### How to open `geogebra`-produced svg file in `inkscape`
+
+This method is from [Programming for Mathematicians day 33](https://www.youtube.com/watch?v=RJBo795ZmII) from 37:50:
+
+1. Copy `angledemo-ggb.svg` to `angledemo.svg`. We will operate and save to `angledemo.svg`.
+2. Then open `angledemo.svg` with `inkscape`, we can see that it is in one group.
+3. Ungroup the group (Command+Shift+g). Click the white-background ONLY, and delete the white background. This is an important step!
+4. Create a canvas at (0,0) with size of 3 by 3 inch, for example:
+   1. *File →　Document Properties*, select *Front Page*, size as *Custom*, set unit to "inch" first, then 3 by 3.
+   2. Be careful, the svg object background is still transparent.
+5. ***Add a layer for white background image*** (to prevent transparent background) ***of size A4***:
+   1. Add a layer in ***the most bottom***.
+   2. In this *BackgroundLayer*, add a rectangle, with stroke width 0, at (0,0), with size (210x297), fill color as white. The svg shown will be with canvas size, so A4 size should be no problem (if you ***export from "Page" tab and NOT "Selection" tab***).
+   3. Lock this BackgroundLayer. Also lock the white rectangle object.
+
+Below is a method in `inkscape` to export selections across layers so that the background is also selected:
+
+1. Select the object in a layer.
+2. Then go to "Layers and Objects", press Shift and select the white rectangle object in the *BackgroundLayer*.
+3. In "Export", ***"Page" tab (NOT "Selection" Tab)***, check "Export Selected Only" to plain svg.
+
+In case a lot of drawings are existing in one svg file, and we want to export just 1 drawing:
+
+1. Create a rectangle (Region Of Interest) that covering the drawing we want to export,
+2. Then move the rectangle to the bottom of the drawing.
+3. Change the color of the rectangle to white.
+4. Select the drawing and the rectangle.
+5. Export with "Export Selected Only" to plain svg (independent of DPI). In case of export to png, set the DPI to 300.
+
+### TODO other part DOING2
 
 * Good TUTORIAL: Use geogebra, then inkscape:
   * https://www.math.purdue.edu/~bradfor3/ProgrammingFundamentals/InteractivePlotting/#interactive-plotting-with-geogebra-and-inkscape
