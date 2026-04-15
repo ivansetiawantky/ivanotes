@@ -245,6 +245,15 @@ The above A4 svg equation region is selected, then export as plain svg. The back
 The above A4 svg image region is selected, then export as plain svg. The background is then set to white circle:\
 ![ink_src_2_exported_plain.svg](ink_src_2_exported_plain.svg)
 
+> \[!TIP]
+> A better way (without adding a very big circle as above method) to export just 1 drawing in an svg file that has a lot of drawings:
+>
+> 1. Create a rectangle with 0-width stroke (Region Of Interest) that covering the drawing we want to export,
+> 2. Then move the rectangle to the bottom of the drawing.
+> 3. Change the color of the rectangle to white.
+> 4. Select the drawing and the rectangle.
+> 5. Export with "Export Selected Only" to plain svg (independent of DPI). In case of export to png, set the DPI to 300.
+
 ## `inkscape` tutorial
 
 `Inkscape` is used to draw a math conceptual illustration, which possibly include $\LaTeX$ formula. The flow for creating the source `.svg` file (and exporting to `plain svg` file for inclusion) is mentioned [above](#inkscape-flow-for-creating-svg-file-to-be-included-in-md-file-or-latex).
