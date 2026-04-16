@@ -132,6 +132,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
         "-n19",
         "-n21",
         "-n22",
+        "-n24",
         "-n30",
         "-e16",
         "-q"
