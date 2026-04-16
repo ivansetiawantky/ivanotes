@@ -6,7 +6,7 @@
 
 ## Use vscode + Markdown Preview Enhanced to `DOT` preview and export
 
-Install vscode-extension, `Markdown Preview Enhanced` (also `Markdown All in One`, `Markdownlint`, `vscode-pdf`). Set `true` to *Markdown-preview-enhanced: Enable Script Execution*.
+Install vscode-extension, `Markdown Preview Enhanced` (also `Markdown All in One`, `Markdownlint`, `vscode-pdf`). Set `true` to *Markdown-preview-enhanced: Enable Script Execution*, set `github-dark.css` to *Markdown-preview-enhanced: Preview Theme*.
 
 Open an `.md` file.
 

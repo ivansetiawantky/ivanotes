@@ -13,7 +13,7 @@ Mainly how-to notes.
     + github can creates TOC (by clicking Outline menu icon at top right) for markdown docs, so no need for github docs.<!-- markdownlint-disable-line MD004 -->
   - [How to suppress toc detection](https://markdown-all-in-one.github.io/docs/guide/table-of-contents.html#suppressing-toc-detection)<!-- markdownlint-disable-line MD004 -->
     + Add a comment `<!-- omit in toc -->` at the end of a heading or above it.<!-- markdownlint-disable-line MD004 -->
-* Markdown Preview Enhanced (Set `true` to *Markdown-preview-enhanced: Enable Script Execution*)
+* Markdown Preview Enhanced (Set `true` to *Markdown-preview-enhanced: Enable Script Execution*, set `github-dark.css` to *Markdown-preview-enhanced: Preview Theme*.)
 * Markdownlint
 * Indent Rainbow
 * Trailing Spaces

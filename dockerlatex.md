@@ -242,6 +242,7 @@ To install it persistently (so it will be installed also next time the container
 > \[!NOTE]
 > In Markdown Preview Enhanced setting, use `lualatex` as $\LaTeX$ engine instead of the default `pdflatex`. Set for both *User* and *Remote [Dev Container:...]* settings.\
 > Also, set `true` to *Markdown-preview-enhanced: Enable Script Execution*.
+> Then, set `github-dark.css` to *Markdown-preview-enhanced: Preview Theme*.
 
 Remember to modify `.devcontainer/devcontainer.json` to use `latex-docker-iv` as image:
 > \[!CAUTION]
@@ -298,6 +299,7 @@ Then, do as above.
 > Markdown Preview Enhanced requires `pdf2svg`, instead of `inkscape`. So, need to install `pdf2svg` to execute $\LaTeX$ code chunk in `md` file.\
 > My docker image tagged as [latex-docker-iv](https://github.com/ivansetiawantky/latex-docker) already installed the `pdf2svg`. Use this!\
 > In Markdown Preview Enhanced settings, set `true` to *Markdown-preview-enhanced: Enable Script Execution*.
+> Then, set `github-dark.css` to *Markdown-preview-enhanced: Preview Theme*.
 
 ## 6. Knowledge about $\LaTeX$
 
