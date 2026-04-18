@@ -4,15 +4,17 @@
 
 \counterwithout{equation}{section}
 \geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
-\title{\bfseries {\huge Testing My Preamble for Lua{\LaTeX{}}}\\[0.5em] {\Large Lua{\LaTeX{}}用のプレアンブルのテスト}}
-\author{\LARGE Ivan Setiawan}
-\createdate{2026年3月28日}
-\upddate{2026/03/29}
+\title{\bfseries {\huge Testing My Preamble for Lua{\LaTeX{}}}\\[0.3em]{\Large Lua{\LaTeX{}}用のプレアンブルのテスト}}
+\author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
+\date{Created: 2026年3月28日\\[0.3em]Last Updated: 2026/04/18}
 
 \begin{document}
 \maketitle
-
+\hrule
 \lstlistoflistings{}
+\vspace{0.5em}
+\hrule
+\vspace{1em}
 
 \section{00preambleの使い方}
 
@@ -31,13 +33,19 @@ Copy and paste the code in Listing~\ref{lst:inputfile} to \texttt{inputfile.tex}
 
 \counterwithout{equation}{section}
 \geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
-\title{\bfseries {\huge Title}\\[0.5em] {\Large Subtitle}}
-\author{\LARGE Ivan Setiawan}
-\createdate{2026年3月28日}
-\upddate{2026/03/28}
+\title{\bfseries {\huge Testing My Preamble for Lua{\LaTeX{}}}}
+\author{{\LARGE Ivan Setiawan}
+\date{2026年3月28日}
 
 \begin{document}
 \maketitle
+\hrule
+\lstlistoflistings{}
+\vspace{0.5em}
+\hrule
+\vspace{1em}
+
+\section{00preambleの使い方}
 \end{document}
 \end{lstlisting}
 
@@ -92,5 +100,53 @@ To include verbatim text (e.g., code snippets) in section, subsection titles, or
 \cprotect\subsection{Use \verb|\textbackslash{}|}
 
 Use the command \verb|\textbackslash{}| to produce a single backslash character in running text. For example, \verb|This is a backslash: \textbackslash{}| will produce ``This is a backslash: \textbackslash{}'' in the compiled document.
+
+\cprotect\subsection{Use \verb|\url{}| to insert clickable URL link}
+
+To include clickable URL link, write like below:
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={How to insert a clickable URL},
+    label={lst:urlinsert},
+    numbers=none,
+]
+\url{https://math-note.xyz/latex/tikz/tikz-line/}
+\end{lstlisting}
+, which will produce \url{https://math-note.xyz/latex/tikz/tikz-line/}.
+
+\cprotect\subsection{Use \texttt{Sbox, minipage, verbatim*, shadowbox, fbox, ovalbox} to display \LaTeX{} code snippet in a box}
+
+\vspace{1em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8\textwidth}
+            \begin{verbatim*}
+                \begin{tikzpicture}
+                    \draw 〜〜〜〜;
+                \end{tikzpicture}\end{verbatim*}
+        \end{minipage}
+    \end{Sbox}
+    \shadowbox{\TheSbox}
+\end{center}
+
+The above \LaTeX{} code snippet inside shadowbox is produced using the following code in Listing~\ref{lst:displaylatexcodeinabox}.
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={How to display \LaTeX{} code snippet in a box},
+    label={lst:displaylatexcodeinabox},
+]
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8\textwidth}
+            \begin{verbatim*}
+                \begin{tikzpicture}
+                    \draw 〜〜〜〜;
+                \end{tikzpicture}\end{verbatim*}
+        \end{minipage}
+    \end{Sbox}
+    \shadowbox{\TheSbox}
+\end{center}
+\end{lstlisting}
 
 \end{document}

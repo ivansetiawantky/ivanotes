@@ -16,6 +16,8 @@
 \usepackage{comment}
 \usepackage{cprotect}
 \usepackage{tikz}
+\usetikzlibrary{intersections, calc, arrows.meta}
+\usepackage{fancybox}
 % 数式系パッケージ
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{mathtools,amssymb,amsfonts}
@@ -32,19 +34,6 @@
     \@addtoreset{equation}{section}
     \renewcommand{\figurename}{Figure }
     \renewcommand{\tablename}{Table }
-    \newcommand{\createdate}{\gdef\@createdate}
-    \createdate{}
-    \newcommand{\upddate}{\gdef\@upddate}
-    \upddate{}
-    \renewcommand{\maketitle}{
-        \begin{center}
-            {\@title}\\[1em]
-            {\@author}\\[1em]
-            {Created: \@createdate}\\[1em]
-            {Last Updated: \@upddate}\\[1em]
-            \hrule
-        \end{center}
-    }
 \makeatother
 \geometry{top=15truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
 
@@ -54,8 +43,11 @@
 % Source code listing settings (listings package)
 \lstset{
     frame=tb,
-    basicstyle=\small,
+    basicstyle=\ttfamily\small,
     numbers=left,
     firstnumber=1,
     numberstyle=\scriptsize,
+    breaklines=true,
 }
+% \renewcommand{\lstlistlistingname}{List of Source Codes}
+% \renewcommand{\lstlistingname}{リスト}

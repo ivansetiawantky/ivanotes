@@ -1,8 +1,190 @@
-% Do this tutorial:
-% This file: [LaTeXで図を直接描けるTikZの使い方 by TikZ職人山本拓人](https://math-note.xyz/latex/tikz/tikz-line/)
-% [TikZ 入門(1) ～線を描く～ by 大山壇](https://note.com/dan_oyama/n/n6c3ae2a270ac)
-% [Ti \(k \) Z の使い方](https://alg-d.com/math/tikz.pdf)
-% [Ti \(k \) Z への入門](http://phys.co-suite.jp/tex/Intro_Tikz.pdf)
-% [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 1)—Basic Drawing](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing)
-% [LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 2)—Generating TikZ Code from GeoGebra](https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_2)%E2%80%94Generating_TikZ_Code_from_GeoGebra)
-% [TikZ tutorials](https://www.ams.org/arc/resources/pdfs/tikz_tutorials_all-brown.pdf)
+% luatikztutorial.tex
+\documentclass[lualatex]{jlreq}
+\input{00preamble}
+
+\counterwithout{equation}{section}
+\geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
+\title{\bfseries {\huge Test of 「\LaTeX{}で図を直接描けるTikZの使い方」}}
+\author{\LARGE Ivan Setiawan}
+\author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
+\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/18}
+
+\renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
+\renewcommand{\lstlistingname}{リスト}
+
+\begin{document}
+\maketitle
+\hrule
+\lstlistoflistings{}
+\vspace{0.5em}
+\hrule
+\vspace{1em}
+
+\section*{Always use TikZ inside \texttt{tikzpicture} environment}
+
+TikZ command can be used in its shortened form like below:
+\vspace{0.5em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8 \textwidth}
+            \begin{verbatim*}
+                \tikz{\draw 〜〜〜〜}
+                \tikz \draw 〜〜〜〜;\end{verbatim*}
+        \end{minipage}
+    \end{Sbox}
+    \shadowbox{\TheSbox}
+\end{center}
+However, the \texttt{chktex} program will give a lot of warnings if TikZ is used in this shortened form. Therefore, it is recommended to use TikZ commands inside the \texttt{tikzpicture} environment.
+
+\section*{Inline mode \texttt{tikzpicture} environment}
+
+Both syntaxes below are valid for using TikZ in inline mode:
+\vspace{0.5em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8 \textwidth}
+            \begin{verbatim}
+\begin{tikzpicture}
+\draw 〜〜〜〜;
+\end{tikzpicture}
+
+\(
+\begin{tikzpicture}
+\draw 〜〜〜〜;
+\end{tikzpicture}
+\) \end{verbatim}
+        \end{minipage}
+    \end{Sbox}
+    \shadowbox{\TheSbox}
+\end{center}
+
+So, when we write like this:
+\vspace{0.5em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8 \textwidth}
+            \begin{verbatim}
+``An example of inline TikZ:\
+\begin{tikzpicture}
+\draw (0,0) -- (2,1);
+\end{tikzpicture}
+inside a sentence''\end{verbatim}
+        \end{minipage}
+    \end{Sbox}
+    \fbox{\TheSbox}
+\end{center}
+, we get
+``An example of inline TikZ:\
+\begin{tikzpicture}
+    \draw (0,0) -- (2,1);
+\end{tikzpicture}
+inside a sentence''.
+
+Also, when we write like this:
+\vspace{0.5em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8 \textwidth}
+            \begin{verbatim}
+``Now, an example of inline math and TikZ:\
+\(
+\alpha + \beta = \gamma \,
+\begin{tikzpicture}
+\draw (0,0) -- (2,1);
+\end{tikzpicture}
+\)
+inside a sentence''\end{verbatim}
+        \end{minipage}
+    \end{Sbox}
+    \fbox{\TheSbox}
+\end{center}
+, we get
+``Now, an example of inline math and TikZ:\
+\(
+\alpha + \beta = \gamma \,
+\begin{tikzpicture}
+    \draw (0,0) -- (2,1);
+\end{tikzpicture}
+\)
+inside a sentence''.
+
+\section*{Display mode \texttt{tikzpicture} environment}
+
+Use below syntax for using TikZ in display mode:
+\vspace{0.5em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8 \textwidth}
+            \begin{verbatim}
+\[
+\begin{tikzpicture}
+\draw 〜〜〜〜;
+\end{tikzpicture}
+\] \end{verbatim}
+        \end{minipage}
+    \end{Sbox}
+    \shadowbox{\TheSbox}
+\end{center}
+
+So, when we write like this:
+\vspace{0.5em}
+\begin{center}
+    \begin{Sbox}
+        \begin{minipage}{0.8 \textwidth}
+            \begin{verbatim}
+``Finally, an example of display math and TikZ:\
+\[
+\alpha^2 + \beta^2 = \gamma^2 \,
+\begin{tikzpicture}
+\draw (0,0) -- (2,-1);
+\end{tikzpicture}
+\]
+''\end{verbatim}
+        \end{minipage}
+    \end{Sbox}
+    \fbox{\TheSbox}
+\end{center}
+, we get
+``Finally, an example of display math and TikZ:\
+\[
+    \alpha^2 + \beta^2 = \gamma^2 \,
+    \begin{tikzpicture}
+        \draw (0,0) -- (2,-1);
+    \end{tikzpicture}
+\]
+''.
+
+\section{「\LaTeX{}で図を直接描けるTikZの使い方１｜基本的な描線」}
+\label{linebasic}
+
+第~\ref{linebasic}章では，\url{https://math-note.xyz/latex/tikz/tikz-line/}にあるコードを，いくつか試してみる．
+
+リスト~\ref{lst:straightline}で，線を描く．略記方では，\verb*|\tikz| の後ろに，命令を書いて，最後に ``;'' (semicolon)で命令を閉じなければならない．しかし，略記方の場合は，\texttt{chktex}の false positive が多いので，\texttt{tikzpicture}環境で使うことが推奨される．
+\begin{lstlisting}[
+ language={[LaTeX] TeX},
+ caption={直線を描く},
+ label={lst:straightline},
+ firstnumber=1,
+]
+\begin{tikzpicture}
+\draw (0,0) -- (2,0);
+\end{tikzpicture}
+\end{lstlisting}
+上記のコマンドは，次のような「本文中の」直線：
+\begin{tikzpicture}
+    \draw (0,0) -- (2,0);
+\end{tikzpicture}
+，になる．
+
+\begin{tikzpicture}
+    \draw (0,0) arc (30:70:3);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw (0,0) -- (2,0);
+    \draw (1,1) -- (3,1);
+    \draw (0,0) to [out=45,in=135,relative] ({2*sqrt(2)},{2*sqrt(2)});
+    \draw (0,0) to [out=45,in=135] (3,3);
+\end{tikzpicture}
+
+\end{document}
