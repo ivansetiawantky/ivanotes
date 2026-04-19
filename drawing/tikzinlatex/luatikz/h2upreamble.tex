@@ -114,7 +114,8 @@ To include clickable URL link, write like below:
 \end{lstlisting}
 , which will produce \url{https://math-note.xyz/latex/tikz/tikz-line/}.
 
-\cprotect\subsection{Use \texttt{Sbox, minipage, verbatim*, shadowbox, fbox, ovalbox} to display \LaTeX{} code snippet in a box}
+\cprotect\subsection{Use \texttt{center, Sbox, minipage, verbatim*, shadowbox, fbox, ovalbox} to display \LaTeX{} code snippet in a box}
+\label{sec:displaylatexcodeinabox}
 
 \vspace{1em}
 \begin{center}
@@ -135,6 +136,8 @@ The above \LaTeX{} code snippet inside shadowbox is produced using the following
     language={[LaTeX] TeX},
     caption={How to display \LaTeX{} code snippet in a box},
     label={lst:displaylatexcodeinabox},
+    xleftmargin=0.2\textwidth,
+    xrightmargin=0.2\textwidth,
 ]
 \begin{center}
     \begin{Sbox}
@@ -147,6 +150,68 @@ The above \LaTeX{} code snippet inside shadowbox is produced using the following
     \end{Sbox}
     \shadowbox{\TheSbox}
 \end{center}
+\end{lstlisting}
+
+\section[short]{Better to use \textit{center}-ed \texttt{lstlisting}}
+
+Instead of using \texttt{center, Sbox, minipage, verbatim*, shadowbox, fbox, ovalbox} as shown in Subsection~\ref{sec:displaylatexcodeinabox}, it is better to use the \texttt{lstlisting} environment.
+
+The \texttt{center} environment-like is obtained by setting \texttt{xleftmargin, xrightmargin}. The fbox-like is obtained by setting \texttt{frame=single}. Furthermore, redundant whitespace in front of each line can be removed by setting \texttt{gobble} to the number of whitespace characters to remove. For example, if each line starts with 8 spaces, set \texttt{gobble=8}.
+
+\lstnewenvironment{TeXlstlisting}
+{\lstset{
+        language=[LaTeX]TeX,
+        caption={How to use \textit{center}-ed \texttt{lstlisting}},
+        label={lst:centeringlstlisting},
+        frame=tb,
+        basicstyle=\ttfamily\small,
+        columns=fullflexible,
+        keepspaces=true,
+        numbers=left,
+        firstnumber=1,
+        numberstyle=\scriptsize,
+        breaklines=true,
+    }
+}
+{}
+
+% \begin{noindent}
+\begin{TeXlstlisting}
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    frame=single,
+    gobble=8,
+    xleftmargin=0.2\textwidth,
+    xrightmargin=0.2\textwidth,
+]
+        ``Now, an example of inline math and TikZ:\
+        \(
+        \alpha + \beta = \gamma \,
+        \begin{tikzpicture}
+            \draw (0,0) -- (2,1);
+        \end{tikzpicture}
+        \)
+        inside a sentence''.
+\end{lstlisting}
+\end{TeXlstlisting}
+% \end{noindent}
+
+The above code Listing~\ref{lst:centeringlstlisting} will produce a centered \texttt{lstlisting} with a single frame and no leading whitespace, which is ideal for displaying \LaTeX{} code snippets, like below:
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    frame=single,
+    gobble=8,
+    xleftmargin=0.2\textwidth,
+    xrightmargin=0.2\textwidth,
+]
+        ``Now, an example of inline math and TikZ:\
+        \(
+        \alpha + \beta = \gamma \,
+        \begin{tikzpicture}
+            \draw (0,0) -- (2,1);
+        \end{tikzpicture}
+        \)
+        inside a sentence''.
 \end{lstlisting}
 
 \end{document}

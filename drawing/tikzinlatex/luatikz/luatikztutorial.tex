@@ -154,12 +154,18 @@ So, when we write like this:
 \]
 ''.
 
+\section{Good TikZ manual}
+
+「TikZ の使い方」, which is available in \url{https://alg-d.com/math/tikz.pdf}.
+
+The massive document for TikZ can be opened with the command line \texttt{texdoc tikz}.
+
 \section{「\LaTeX{}で図を直接描けるTikZの使い方１｜基本的な描線」}
 \label{linebasic}
 
 第~\ref{linebasic}章では，\url{https://math-note.xyz/latex/tikz/tikz-line/}にあるコードを，いくつか試してみる．
 
-リスト~\ref{lst:straightline}で，線を描く．略記方では，\verb*|\tikz| の後ろに，命令を書いて，最後に ``;'' (semicolon)で命令を閉じなければならない．しかし，略記方の場合は，\texttt{chktex}の false positive が多いので，\texttt{tikzpicture}環境で使うことが推奨される．
+リスト~\ref{lst:straightline}で，線を描く．略記方では，\verb*|\tikz| の後ろに，命令を書いて，最後に ``;'' (semicolon)で命令を閉じなければならない．しかし，略記方の場合は，\texttt{chktex}の false positive (warning)が多いので，\texttt{tikzpicture}環境で使うことが推奨される．
 \begin{lstlisting}[
  language={[LaTeX] TeX},
  caption={直線を描く},
