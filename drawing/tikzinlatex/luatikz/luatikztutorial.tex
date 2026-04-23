@@ -7,7 +7,7 @@
 \title{\bfseries {\huge Test of 「\LaTeX{}で図を直接描けるTikZの使い方」}}
 \author{\LARGE Ivan Setiawan}
 \author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
-\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/18}
+\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/23}
 
 \renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
 \renewcommand{\lstlistingname}{リスト}
@@ -135,11 +135,12 @@ Use below syntax for using TikZ in display mode:
 \end{center}
 
 So, when we write like this:
-\vspace{0.5em}
-\begin{center}
-    \begin{Sbox}
-        \begin{minipage}{0.8 \textwidth}
-            \begin{verbatim}
+\begin{lstlisting}[
+ language={[LaTeX] TeX},
+ frame=single,
+ xleftmargin=0.2 \textwidth,
+ xrightmargin=0.2 \textwidth,
+]
 ``Finally, an example of display math and TikZ:\
 \[
 \alpha^2 + \beta^2 = \gamma^2 \,
@@ -147,11 +148,8 @@ So, when we write like this:
 \draw (0,0) -- (2,-1);
 \end{tikzpicture}
 \]
-''\end{verbatim}
-        \end{minipage}
-    \end{Sbox}
-    \fbox{\TheSbox}
-\end{center}
+''
+\end{lstlisting}
 , we get
 ``Finally, an example of display math and TikZ:\
 \[
@@ -191,16 +189,173 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
 ，になる．
 
 表~\ref{tab:basictikzcommandoutput}に TikZ コマンドと対応する出力を示す．\LaTeX{} コマンドは，\verb|\begin{tikzpicture}| と \verb|\end{tikzpicture}| との間に囲んで，使うこと．
+
+\newcommand{\cwA}{5.5cm} % column 1's width (macro cannot have number as identifier)
+\newcommand{\cwB}{4cm} % column 2's width
+\newcommand{\cwC}{5.5cm} % column 3's width
+\newcommand{\tablerowseparatorline}{
+    \addlinespace[0.3em]
+    \cmidrule{1-3}
+    \addlinespace[0.2em]
+}
+\begin{longtable}{p{\cwA} p{\cwB} p{\cwC}}
+    \caption{基礎TikZコマンドとその出力} \label{tab:basictikzcommandoutput}                                      \\[-1em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output} & \textbf{説明}                                         \\
+    \midrule
+    \endfirsthead % chktex 1
+
+    % \midrule
+    \multicolumn{3}{c}{表~\ref{tab:basictikzcommandoutput}:~\nameref{tab:basictikzcommandoutput}（の続き）} \\[0.3em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output} & \textbf{説明}                                         \\
+    \midrule
+    \endhead % chktex 1
+
+    % \midrule
+    \multicolumn{3}{r}{表~\ref{tab:basictikzcommandoutput}（次のページへ続く）}                                  \\
+    \midrule
+    \endfoot % chktex 1
+
+    \midrule
+    \multicolumn{3}{r}{表~\ref{tab:basictikzcommandoutput}終了}                                          \\
+    \bottomrule
+    \endlastfoot % chktex 1
+
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0)--(2,1.5);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0)--(2,1.5);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        (0,0) から (\qty{2}{\cm}, \qty{1.5}{\cm}) まで線分を引く
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0+7,0+8)--(2+7,1.5+8);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0+7,0+8)--(2+7,1.5+8);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        並行移動しても表示されたりせず，上と同じく
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0)--(2,0);
+\draw (1,1)--(3,1);
+\draw (-1,-1)--(2,-1.5) (2,-1)--(-1,-1.5);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0)--(2,0);
+            \draw (1,1)--(3,1);
+            \draw (-0.5,-1)--(2,-1.5) (2,-1)--(-0.5,-1.5);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        1本ごとに \verb|\draw| を書くか，1つの \verb|\draw| の後ろに複数本を書く
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        線を閉じるときは，\verb|--cycle| を使う．太い線を描く時に，\verb|--cycle| だとキレイに閉じる
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) rectangle (3,2);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) rectangle (3,2);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        (0,0) から (3,2) への対角線を持った四角形を描く
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) -- (3,0);
+\draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) -- (3,0);
+            \draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \verb|($(0,0)!(1,1)!(3,0)$)| は，線分 \verb|(0,0) -- (3,0)| に点 (1,1) から下ろした「垂線の足」である
+    \end{adjustbox}
+    \\
+    \addlinespace[0.3em]
+\end{longtable}
+
 \begin{table}[h]
-    \newcommand{\cwA}{5.5cm} % column 1's width (macro cannot have number as identifier)
-    \newcommand{\cwB}{4cm} % column 2's width
-    \newcommand{\cwC}{5.5cm} % column 3's width
-    \newcommand{\tablerowseparatorline}{
+    \renewcommand{\cwA}{5.5cm} % column 1's width (macro cannot have number as identifier)
+    \renewcommand{\cwB}{4cm} % column 2's width
+    \renewcommand{\cwC}{5.5cm} % column 3's width
+    \renewcommand{\tablerowseparatorline}{
         \addlinespace[0.3em]
         \cmidrule{1-3}
-        \addlinespace[0.3em]
+        \addlinespace[0.2em]
     }
     \centering
+    \caption{円や円弧のTikZコマンドとその出力} \label{tab:tikzcircle}
+    \vspace{0.5em}
     \begin{tabular}{p{\cwA} p{\cwB} p{\cwC}}
         \toprule
         \textbf{Command} & \textbf{Rendered Output} & \textbf{説明} \\
@@ -209,18 +364,22 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
             \begin{lstlisting}[
 language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
 ]
-\draw (0,0) -- (2,1.5);
+\draw (0,0)--(2,0);
+\draw (1,1)--(3,1);
+\draw (-1,-1)--(2,-1.5) (2,-1)--(-1,-1.5);
 \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
             \begin{tikzpicture}
-                \draw (0,0) -- (2,1.5);
+                \draw (0,0)--(2,0);
+                \draw (1,1)--(3,1);
+                \draw (-0.5,-1)--(2,-1.5) (2,-1)--(-0.5,-1.5);
             \end{tikzpicture}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwC}
-            (0,0) から (2,1.5) まで線分を引く
+            1本ごとに \verb|\draw| を書くか，1つの \verb|\draw| の後ろに複数本を書く
         \end{adjustbox}
         \\
         \tablerowseparatorline{}
@@ -228,18 +387,18 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
             \begin{lstlisting}[
 language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
 ]
-\draw (0+7,0+8) -- (2+7,1.5+8);
+\draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
 \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
             \begin{tikzpicture}
-                \draw (0+7,0+8) -- (2+7,1.5+8);
+                \draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
             \end{tikzpicture}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwC}
-            aaa dddei htiehgi hte jfiehtie hbbbiel ighei ib bhei ucmei hcmeith beh gigie uie h g.
+            線を閉じるときは，\verb|--cycle| を使う．太い線を描く時に，\verb|--cycle| だとキレイに閉じる
         \end{adjustbox}
         \\
         \tablerowseparatorline{}
@@ -247,36 +406,44 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
             \begin{lstlisting}[
 language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
 ]
-\draw (0+7,0+8) -- (2+7,1.5+8);
+\draw (0,0) rectangle (3,2);
 \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
             \begin{tikzpicture}
-                \draw (0+7,0+8) -- (2+7,1.5+8);
+                \draw (0,0) rectangle (3,2);
             \end{tikzpicture}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwC}
-            aaa dddei htiehgi hte jfiehtie hbbbiel ighei ib bhei ucmei hcmeith beh gigie uie h g.
+            (0,0) から (3,2) への対角線を持った四角形を描く
+        \end{adjustbox}
+        \\
+        \tablerowseparatorline{}
+        \begin{adjustbox}{valign=t,minipage=\cwA}
+            \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) -- (3,0);
+\draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
+\end{lstlisting}
+        \end{adjustbox}
+                         &
+        \begin{adjustbox}{valign=t,minipage=\cwB}
+            \begin{tikzpicture}
+                \draw (0,0) -- (3,0);
+                \draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
+            \end{tikzpicture}
+        \end{adjustbox}
+                         &
+        \begin{adjustbox}{valign=t,minipage=\cwC}
+            \verb|($(0,0)!(1,1)!(3,0)$)| は，線分 \verb|(0,0) -- (3,0)| に点 (1,1) から下ろした「垂線の足」である
         \end{adjustbox}
         \\
         \addlinespace[0.3em]
         \bottomrule
     \end{tabular}
-    \caption{基礎TikZコマンドとその出力}
-    \label{tab:basictikzcommandoutput}
 \end{table}
-
-\begin{tikzpicture}
-    \draw (0,0) arc (30:70:3);
-\end{tikzpicture}
-
-\begin{tikzpicture}
-    \draw (0,0) -- (2,0);
-    \draw (1,1) -- (3,1);
-    \draw (0,0) to [out=45,in=135,relative] ({2*sqrt(2)},{2*sqrt(2)});
-    \draw (0,0) to [out=45,in=135] (3,3);
-\end{tikzpicture}
 
 \end{document}
