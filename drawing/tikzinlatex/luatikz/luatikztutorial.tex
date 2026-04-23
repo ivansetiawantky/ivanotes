@@ -344,17 +344,10 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \addlinespace[0.3em]
 \end{longtable}
 
+表~\ref{tab:circle}は円や楕円のTikZコマンドをまとめる．
 \begin{table}[h]
-    \renewcommand{\cwA}{5.5cm} % column 1's width (macro cannot have number as identifier)
-    \renewcommand{\cwB}{4cm} % column 2's width
-    \renewcommand{\cwC}{5.5cm} % column 3's width
-    \renewcommand{\tablerowseparatorline}{
-        \addlinespace[0.3em]
-        \cmidrule{1-3}
-        \addlinespace[0.2em]
-    }
     \centering
-    \caption{円や円弧のTikZコマンドとその出力} \label{tab:tikzcircle}
+    \caption{円や楕円のTikZコマンドとその出力} \label{tab:circle}
     \vspace{0.5em}
     \begin{tabular}{p{\cwA} p{\cwB} p{\cwC}}
         \toprule
@@ -364,22 +357,20 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
             \begin{lstlisting}[
 language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
 ]
-\draw (0,0)--(2,0);
-\draw (1,1)--(3,1);
-\draw (-1,-1)--(2,-1.5) (2,-1)--(-1,-1.5);
+\draw (0,0) circle[radius=1];
+\draw (1,1) circle[radius=2];
 \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
             \begin{tikzpicture}
-                \draw (0,0)--(2,0);
-                \draw (1,1)--(3,1);
-                \draw (-0.5,-1)--(2,-1.5) (2,-1)--(-0.5,-1.5);
+                \draw (0,0) circle[radius=1];
+                \draw (1,1) circle[radius=2];
             \end{tikzpicture}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwC}
-            1本ごとに \verb|\draw| を書くか，1つの \verb|\draw| の後ろに複数本を書く
+            (0,0)を中心に半径 \qty{1}{\cm}と， (1,1)を中心に半径 \qty{2}{\cm}の2つの円
         \end{adjustbox}
         \\
         \tablerowseparatorline{}
@@ -387,58 +378,18 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
             \begin{lstlisting}[
 language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
 ]
-\draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
+\draw(0,0) circle [x radius=1.5, y radius=0.5, rotate=30];
 \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
             \begin{tikzpicture}
-                \draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
+                \draw(0,0) circle [x radius=1.5, y radius=0.5, rotate=30];
             \end{tikzpicture}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwC}
-            線を閉じるときは，\verb|--cycle| を使う．太い線を描く時に，\verb|--cycle| だとキレイに閉じる
-        \end{adjustbox}
-        \\
-        \tablerowseparatorline{}
-        \begin{adjustbox}{valign=t,minipage=\cwA}
-            \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) rectangle (3,2);
-\end{lstlisting}
-        \end{adjustbox}
-                         &
-        \begin{adjustbox}{valign=t,minipage=\cwB}
-            \begin{tikzpicture}
-                \draw (0,0) rectangle (3,2);
-            \end{tikzpicture}
-        \end{adjustbox}
-                         &
-        \begin{adjustbox}{valign=t,minipage=\cwC}
-            (0,0) から (3,2) への対角線を持った四角形を描く
-        \end{adjustbox}
-        \\
-        \tablerowseparatorline{}
-        \begin{adjustbox}{valign=t,minipage=\cwA}
-            \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) -- (3,0);
-\draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
-\end{lstlisting}
-        \end{adjustbox}
-                         &
-        \begin{adjustbox}{valign=t,minipage=\cwB}
-            \begin{tikzpicture}
-                \draw (0,0) -- (3,0);
-                \draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
-            \end{tikzpicture}
-        \end{adjustbox}
-                         &
-        \begin{adjustbox}{valign=t,minipage=\cwC}
-            \verb|($(0,0)!(1,1)!(3,0)$)| は，線分 \verb|(0,0) -- (3,0)| に点 (1,1) から下ろした「垂線の足」である
+            点~(0,0)中心，第1成分の径の長さが \qty{1.5}{\cm}，第2成分の径の長さが \qty{0.5}{\cm}の楕円を30°傾けた
         \end{adjustbox}
         \\
         \addlinespace[0.3em]

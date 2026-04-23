@@ -74,4 +74,7 @@
         "-e16",
         "-q"
     ],
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.view.outline.sync.viewer": true,
+    "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
 }
