@@ -7,7 +7,7 @@
 \title{\bfseries {\huge Test of 「\LaTeX{}で図を直接描けるTikZの使い方」}}
 \author{\LARGE Ivan Setiawan}
 \author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
-\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/23}
+\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/24}
 
 \renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
 \renewcommand{\lstlistingname}{リスト}
@@ -396,5 +396,219 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
         \bottomrule
     \end{tabular}
 \end{table}
+
+表~\ref{tab:arcrotate}は円弧 (arc) と \texttt{rotate} と文字 \texttt{node} にいてまとめる．
+\begin{longtable}{p{\cwA} p{\cwB} p{\cwC}}
+    \caption{円弧 (arc) と \texttt{rotate} と文字 \texttt{node}} \label{tab:arcrotate} \\[-1em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output} & \textbf{説明}                    \\
+    \midrule
+    \endfirsthead % chktex 1
+
+    % \midrule
+    \multicolumn{3}{c}{表~\ref{tab:arcrotate}:~\nameref{tab:arcrotate}（の続き）}      \\[0.3em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output} & \textbf{説明}                    \\
+    \midrule
+    \endhead % chktex 1
+
+    % \midrule
+    \multicolumn{3}{r}{表~\ref{tab:arcrotate}（次のページへ続く）}                          \\
+    \midrule
+    \endfoot % chktex 1
+
+    \midrule
+    \multicolumn{3}{r}{表~\ref{tab:arcrotate}終了}                                  \\
+    \bottomrule
+    \endlastfoot % chktex 1
+
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) arc (30:70:3);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) arc (30:70:3);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        (0,0) から始まる半径 \qty{3}{\cm} の円の偏角 \qty{30}{\degree} から \qty{70}{\degree} までの弧
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) arc [start angle=0, end angle=90, x radius = 2, y radius=1];
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) arc [start angle=0, end angle=90, x radius = 2, y radius=1];
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        (0,0) から始まる第1成分の径が \qty{2}{\cm} と第2成分の径が \qty{1}{\cm} の楕円の偏角 \qty{0}{\degree} から \qty{90}{\degree} までの弧
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) to [out=45, in=135] (4,0);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) to [out=45, in=135] (4,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        (0,0) から偏角 \qty{45}{\degree} の方向へ出て， (4,0) へ偏角 \qty{135}{\degree} の方向から入る曲線
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) to [out=45, in=135, relative] ({sqrt(2)},{sqrt(2)});
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) to [out=45, in=135, relative] ({sqrt(2)},{sqrt(2)});
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        ``relative'' を記述することで，2点を結ぶ線分は偏角の基準軸となる
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw[rotate=45] (0,0) to [out=45, in=135] (3,0);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[rotate=45] (0,0) to [out=45, in=135] (3,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        回転するだけなら，\verb|\draw| の直後に \verb|[rotate=角度]| というオプションを使えば良い
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) to [out=45, in=135] (3,3);
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) to [out=45,in=135] (3,3);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        偏角の基準軸は \(x \) 軸正方向からの偏角であることに注意
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
+\draw (0,0) node{A};
+\draw (2,1) node{B};
+\draw (3,-1) node{C};
+\draw (1,-1) node{D};
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
+            \draw (0,0) node{A};
+            \draw (2,1) node{B};
+            \draw (3,-1) node{C};
+            \draw (1,-1) node{D};
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \texttt{node} で文字を書き込む
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
+\draw (0,0) node[left]{A};
+\draw (2,1) node[above]{B};
+\draw (3,-1) node[right]{C};
+\draw (1,-1) node[below left]{D};
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
+            \draw (0,0) node[left]{A};
+            \draw (2,1) node[above]{B};
+            \draw (3,-1) node[right]{C};
+            \draw (1,-1) node[below left]{D};
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \texttt{node} でオプションを使えば文字を動かせる
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[
+language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
+]
+\draw (0,0) node[left]{A} -- (2,1) node[above]{B} -- (3,-1) node[right]{C} -- (1,-1) node[below left]{D} -- cycle;
+\end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) node[left]{A} -- (2,1) node[above]{B} -- (3,-1) node[right]{C} -- (1,-1) node[below left]{D} -- cycle;
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \texttt{node} can also be written inside the broken line \verb|\draw|
+    \end{adjustbox}
+    \\
+    \addlinespace[0.3em]
+\end{longtable}
 
 \end{document}
