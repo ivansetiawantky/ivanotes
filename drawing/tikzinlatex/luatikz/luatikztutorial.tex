@@ -821,24 +821,39 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
     \addlinespace[0.3em]
 \end{longtable}
 
-\newcommand{\cwD}{6cm}
-\newcommand{\cwE}{9cm}
+表~\ref{tab:lineartransform}は図形の線形移動・拡大縮小・回転についてまとめる．リスト~\ref{lst:lineartranstemplate} は，表~\ref{tab:lineartransform} の線形移動などのためのテンプレートプログラムで，\verb|[shift={(1,2)},blue]| の様子を示す．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={図形線形移動・拡大縮小・回転のテンプレート},label={lst:lineartranstemplate},
+    firstnumber=1,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (-0.5,0) --(3.5,0) node[below]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-0.5) --(0,3.5) node[right]{$y$}; %y軸
+        \draw (0,0) node[below left]{O}; %原点
+        \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+        \draw (0,0) --(1,1) --(2,0); %移動前
+        \draw[shift={(1,2)},blue] (0,0) --(1,1) --(2,0); %移動後
+    \end{tikzpicture}
+\end{lstlisting}
+
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (-0.5,0) --(3.5,0) node[below]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,-0.5) --(0,3.5) node[right]{$y$}; %y軸
+    \draw (0,0) node[below left]{O}; %原点
+    \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+    \draw (0,0) --(1,1) --(2,0); %移動前
+    \draw[shift={(1,2)},blue] (0,0) --(1,1) --(2,0); %移動後
+    \end{tikzpicture}
+\]
+
+\newcommand{\cwD}{9cm}
+\newcommand{\cwE}{6cm}
 \newcommand{\twocolrowseparatorline}{
     \addlinespace[0.3em]
     \cmidrule{1-2}
     \addlinespace[0.2em]
 }
-表~\ref{tab:lineartransform}は図形の線形移動・拡大縮小・回転についてまとめる．リスト~\ref{lst:lineartranstemplate} は，表~\ref{tab:lineartransform} の線形移動などのためのテンプレートプログラムで，\verb|[shift={(1,2)},blue]| の様子を示す．
-\begin{lstlisting}[language={[LaTeX] TeX},caption={図形線形移動・拡大縮小・回転のテンプレート},label={lst:lineartranstemplate},firstnumber=1,]
-\begin{tikzpicture}
-    \draw (0,0) -- (2,0);
-\end{tikzpicture}
-\end{lstlisting}
-
-\begin{tikzpicture}
-    \draw (0,0) -- (2,0);
-\end{tikzpicture}
-
 \begin{longtable}{p{\cwD} p{\cwE}}
     \caption{図形の線形移動・拡大縮小・回転のオプションと出力} \label{tab:lineartransform}                      \\[-1em]
     \toprule
@@ -865,34 +880,94 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
 
     \begin{adjustbox}{valign=t,minipage=\cwD}
         \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
-            \draw[line width=1pt] (0,0) -- (2,0);
+            \draw[scale=2,blue] (0,0) --(1,1) --(2,0);
         \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwE}
         \begin{tikzpicture}
-            \draw[line width=1pt] (0,0) -- (2,0);
+            \draw[->,>=stealth,semithick] (-0.5,0) --(5,0) node[below]{$x$}; %x軸
+            \draw[->,>=stealth,semithick] (0,-0.5) --(0,2.5) node[right]{$y$}; %y軸
+            \draw (0,0) node[below left]{O}; %原点
+            \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+            \draw (0,0) --(1,1) --(2,0); %移動前
+            \draw[scale=2,blue] (0,0) --(1,1) --(2,0);
         \end{tikzpicture}
     \end{adjustbox}
     \\
     \twocolrowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwD}
         \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
-            \draw[ultra thin] (0,0) -- (2,0);
-            \draw[thin] (0,-0.5) -- (2,-0.5);
-            \draw[semithick] (0,-1.0) -- (2,-1.0);
-            \draw[thick] (0,-1.5) -- (2,-1.5);
-            \draw[ultra thick] (0,-2.0) -- (2,-2.0);
+            \draw[scale around={2:(2.0,1.5)},blue] (0,0) --(1,1) --(2,0);
+            \node[circle, fill, inner sep=1pt] at (2.0,1.5) {};
         \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwE}
         \begin{tikzpicture}
-            \draw[ultra thin] (0,0) -- (2,0);
-            \draw[thin] (0,-0.5) -- (2,-0.5);
-            \draw[semithick] (0,-1.0) -- (2,-1.0);
-            \draw[thick] (0,-1.5) -- (2,-1.5);
-            \draw[ultra thick] (0,-2.0) -- (2,-2.0);
+            \draw[->,>=stealth,semithick] (-2.5,0) --(3.0,0) node[below]{$x$}; %x軸
+            \draw[->,>=stealth,semithick] (0,-2.0) --(0,2.0) node[right]{$y$}; %y軸
+            \draw (0,0) node[below left]{O}; %原点
+            \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+            \draw (0,0) --(1,1) --(2,0); %移動前
+            \draw[scale around={2:(2.0,1.5)},blue] (0,0) --(1,1) --(2,0);
+            \node[circle, fill, inner sep=1pt] at (2.0,1.5) {};
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[rotate=20,blue] (0,0) --(1,1) --(2,0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            \draw[->,>=stealth,semithick] (-0.5,0) --(3,0) node[below]{$x$}; %x軸
+            \draw[->,>=stealth,semithick] (0,-0.5) --(0,2.0) node[right]{$y$}; %y軸
+            \draw (0,0) node[below left]{O}; %原点
+            \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+            \draw (0,0) --(1,1) --(2,0); %移動前
+            \draw[rotate=20,blue] (0,0) --(1,1) --(2,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[rotate around={20:(1,1)},blue] (0,0) --(1,1) --(2,0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            \draw[->,>=stealth,semithick] (-0.5,0) --(3,0) node[below]{$x$}; %x軸
+            \draw[->,>=stealth,semithick] (0,-0.5) --(0,1.5) node[right]{$y$}; %y軸
+            \draw (0,0) node[below left]{O}; %原点
+            \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+            \draw (0,0) --(1,1) --(2,0); %移動前
+            \draw[rotate around={20:(1,1)},blue] (0,0) --(1,1) --(2,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[rotate around={-30:(2.0,1.5)},blue] (0,0) --(1,1) --(2,0);
+            \node[circle, fill, inner sep=1pt] at (2.0,1.5) {};
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            \draw[->,>=stealth,semithick] (-0.5,0) --(3,0) node[below]{$x$}; %x軸
+            \draw[->,>=stealth,semithick] (0,-0.5) --(0,2.0) node[right]{$y$}; %y軸
+            \draw (0,0) node[below left]{O}; %原点
+            \draw[dashed] (1,0) node[below]{1} --(1,1) --(0,1) node[left]{1}; %点(1,1)
+            \draw (0,0) --(1,1) --(2,0); %移動前
+            \draw[rotate around={-30:(2.0,1.5)},blue] (0,0) --(1,1) --(2,0);
+            \node[circle, fill, inner sep=1pt] at (2.0,1.5) {};
         \end{tikzpicture}
     \end{adjustbox}
     \\
