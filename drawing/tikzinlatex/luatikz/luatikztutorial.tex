@@ -53,12 +53,12 @@ Both syntaxes below are valid for using TikZ in inline mode:
         \begin{minipage}{0.8 \textwidth}
             \begin{verbatim}
 \begin{tikzpicture}
-\draw 〜〜〜〜;
+    \draw 〜〜〜〜;
 \end{tikzpicture}
 
 \(
 \begin{tikzpicture}
-\draw 〜〜〜〜;
+    \draw 〜〜〜〜;
 \end{tikzpicture}
 \) \end{verbatim}
         \end{minipage}
@@ -74,7 +74,7 @@ So, when we write like this:
             \begin{verbatim}
 ``An example of inline TikZ:\
 \begin{tikzpicture}
-\draw (0,0) -- (2,1);
+    \draw (0,0) -- (2,1);
 \end{tikzpicture}
 inside a sentence''\end{verbatim}
         \end{minipage}
@@ -98,7 +98,7 @@ Also, when we write like this:
 \(
 \alpha + \beta = \gamma \,
 \begin{tikzpicture}
-\draw (0,0) -- (2,1);
+    \draw (0,0) -- (2,1);
 \end{tikzpicture}
 \)
 inside a sentence''\end{verbatim}
@@ -126,7 +126,7 @@ Use below syntax for using TikZ in display mode:
             \begin{verbatim}
 \[
 \begin{tikzpicture}
-\draw 〜〜〜〜;
+    \draw 〜〜〜〜;
 \end{tikzpicture}
 \] \end{verbatim}
         \end{minipage}
@@ -135,18 +135,13 @@ Use below syntax for using TikZ in display mode:
 \end{center}
 
 So, when we write like this:
-\begin{lstlisting}[
- language={[LaTeX] TeX},
- frame=single,
- xleftmargin=0.2 \textwidth,
- xrightmargin=0.2 \textwidth,
-]
+\begin{lstlisting}[language={[LaTeX] TeX},frame=single,xleftmargin=0.2 \textwidth,xrightmargin=0.2 \textwidth,]
 ``Finally, an example of display math and TikZ:\
 \[
-\alpha^2 + \beta^2 = \gamma^2 \,
-\begin{tikzpicture}
-\draw (0,0) -- (2,-1);
-\end{tikzpicture}
+    \alpha^2 + \beta^2 = \gamma^2 \,
+    \begin{tikzpicture}
+        \draw (0,0) -- (2,-1);
+    \end{tikzpicture}
 \]
 ''
 \end{lstlisting}
@@ -172,15 +167,10 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
 第~\ref{linebasic}章では，\url{https://math-note.xyz/latex/tikz/tikz-line/}にあるコードを，いくつか試してみる．
 
 リスト~\ref{lst:straightline}で，線を描く．略記方では，\verb*|\tikz| の後ろに，命令を書いて，最後に ``;'' (semicolon)で命令を閉じなければならない．しかし，略記方の場合は，\texttt{chktex}の false positive (warning)が多いので，\texttt{tikzpicture}環境で使うことが推奨される．
-\begin{lstlisting}[
- language={[LaTeX] TeX},
- caption={直線を描く},
- label={lst:straightline},
- firstnumber=1,
-]
-\begin{tikzpicture}
-\draw (0,0) -- (2,0);
-\end{tikzpicture}
+\begin{lstlisting}[language={[LaTeX] TeX},caption={直線を描く},label={lst:straightline},firstnumber=1,gobble=4,]
+    \begin{tikzpicture}
+        \draw (0,0) -- (2,0);
+    \end{tikzpicture}
 \end{lstlisting}
 上記のコマンドは，次のような「本文中の」直線：
 \begin{tikzpicture}
@@ -223,11 +213,9 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
     \endlastfoot % chktex 1
 
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0)--(2,1.5);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0)--(2,1.5);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -242,11 +230,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0+7,0+8)--(2+7,1.5+8);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0+7,0+8)--(2+7,1.5+8);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -261,13 +247,11 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0)--(2,0);
-\draw (1,1)--(3,1);
-\draw (-1,-1)--(2,-1.5) (2,-1)--(-1,-1.5);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0)--(2,0);
+            \draw (1,1)--(3,1);
+            \draw (-1,-1)--(2,-1.5) (2,-1)--(-1,-1.5);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -284,11 +268,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[ultra thick] (0,0)--(2,1)--(3,-1)--cycle;
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -303,11 +285,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) rectangle (3,2);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) rectangle (3,2);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -322,12 +302,10 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) -- (3,0);
-\draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) -- (3,0);
+            \draw (1,1) -- ($(0,0)!(1,1)!(3,0)$);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -354,12 +332,10 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
         \textbf{Command} & \textbf{Rendered Output} & \textbf{説明} \\
         \midrule
         \begin{adjustbox}{valign=t,minipage=\cwA}
-            \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) circle[radius=1];
-\draw (1,1) circle[radius=2];
-\end{lstlisting}
+            \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=16,]
+                \draw (0,0) circle[radius=1];
+                \draw (1,1) circle[radius=2];
+            \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -375,11 +351,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
         \\
         \tablerowseparatorline{}
         \begin{adjustbox}{valign=t,minipage=\cwA}
-            \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw(0,0) circle [x radius=1.5, y radius=0.5, rotate=30];
-\end{lstlisting}
+            \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=16,]
+                \draw(0,0) circle [x radius=1.5, y radius=0.5, rotate=30];
+            \end{lstlisting}
         \end{adjustbox}
                          &
         \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -397,7 +371,7 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \end{tabular}
 \end{table}
 
-表~\ref{tab:arcrotate}は円弧 (arc) と \texttt{rotate} と文字 \texttt{node} にいてまとめる．
+表~\ref{tab:arcrotate}は円弧 (arc) と \texttt{rotate} と文字 \texttt{node} についてまとめる．
 \begin{longtable}{p{\cwA} p{\cwB} p{\cwC}}
     \caption{円弧 (arc) と \texttt{rotate} と文字 \texttt{node}} \label{tab:arcrotate} \\[-1em]
     \toprule
@@ -423,11 +397,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \endlastfoot % chktex 1
 
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) arc (30:70:3);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) arc (30:70:3);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -442,11 +414,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) arc [start angle=0, end angle=90, x radius = 2, y radius=1];
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) arc [start angle=0, end angle=90, x radius = 2, y radius=1];
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -461,11 +431,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) to [out=45, in=135] (4,0);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) to [out=45, in=135] (4,0);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -480,11 +448,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) to [out=45, in=135, relative] ({sqrt(2)},{sqrt(2)});
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) to [out=45, in=135, relative] ({sqrt(2)},{sqrt(2)});
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -499,11 +465,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw[rotate=45] (0,0) to [out=45, in=135] (3,0);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[rotate=45] (0,0) to [out=45, in=135] (3,0);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -518,11 +482,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) to [out=45, in=135] (3,3);
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) to [out=45, in=135] (3,3);
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -537,15 +499,13 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
-\draw (0,0) node{A};
-\draw (2,1) node{B};
-\draw (3,-1) node{C};
-\draw (1,-1) node{D};
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
+            \draw (0,0) node{A};
+            \draw (2,1) node{B};
+            \draw (3,-1) node{C};
+            \draw (1,-1) node{D};
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -564,15 +524,13 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
-\draw (0,0) node[left]{A};
-\draw (2,1) node[above]{B};
-\draw (3,-1) node[right]{C};
-\draw (1,-1) node[below left]{D};
-\end{lstlisting}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) -- (2,1) -- (3,-1) -- (1,-1) -- cycle;
+            \draw (0,0) node[left]{A};
+            \draw (2,1) node[above]{B};
+            \draw (3,-1) node[right]{C};
+            \draw (1,-1) node[below left]{D};
+        \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwB}
@@ -591,10 +549,9 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
     \\
     \tablerowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwA}
-        \begin{lstlisting}[
-language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,
-]
-\draw (0,0) node[left]{A} -- (2,1) node[above]{B} -- (3,-1) node[right]{C} -- (1,-1) node[below left]{D} -- cycle;
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) node[left]{A} -- (2,1) node[above]{B} -- (3,-1) node[right]{C} -- (1,-1) node[below left]{D}
+            - cycle;
 \end{lstlisting}
     \end{adjustbox}
                      &
@@ -606,6 +563,337 @@ language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,bel
                      &
     \begin{adjustbox}{valign=t,minipage=\cwC}
         \texttt{node} can also be written inside the broken line \verb|\draw|
+    \end{adjustbox}
+    \\
+    \addlinespace[0.3em]
+\end{longtable}
+
+\section{「\LaTeX{}で図を直接描けるTikZの使い方２｜線のスタイル」}
+\label{linestyle}
+
+第~\ref{linestyle}章では，\url{https://math-note.xyz/latex/tikz/tikz-style/}にあるコードを，いくつか試してみる．
+
+表~\ref{tab:linestylecolor}は線分や arc のスタイルや色についてまとめる．
+\begin{longtable}{p{\cwA} p{\cwB} p{\cwC}}
+    \caption{線分や arc のスタイルや色を制御するTikZコマンド} \label{tab:linestylecolor}                 \\[-1em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output} & \textbf{説明}                         \\
+    \midrule
+    \endfirsthead % chktex 1
+
+    % \midrule
+    \multicolumn{3}{c}{表~\ref{tab:linestylecolor}:~\nameref{tab:linestylecolor}（の続き）} \\[0.3em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output} & \textbf{説明}                         \\
+    \midrule
+    \endhead % chktex 1
+
+    % \midrule
+    \multicolumn{3}{r}{表~\ref{tab:linestylecolor}（次のページへ続く）}                          \\
+    \midrule
+    \endfoot % chktex 1
+
+    \midrule
+    \multicolumn{3}{r}{表~\ref{tab:linestylecolor}終了}                                  \\
+    \bottomrule
+    \endlastfoot % chktex 1
+
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[line width=1pt] (0,0) -- (2,0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[line width=1pt] (0,0) -- (2,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        太さ \qty{1}{pt} の線分
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[ultra thin] (0,0) -- (2,0);
+            \draw[thin] (0,-0.5) -- (2,-0.5);
+            \draw[semithick] (0,-1.0) -- (2,-1.0);
+            \draw[thick] (0,-1.5) -- (2,-1.5);
+            \draw[ultra thick] (0,-2.0) -- (2,-2.0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[ultra thin] (0,0) -- (2,0);
+            \draw[thin] (0,-0.5) -- (2,-0.5);
+            \draw[semithick] (0,-1.0) -- (2,-1.0);
+            \draw[thick] (0,-1.5) -- (2,-1.5);
+            \draw[ultra thick] (0,-2.0) -- (2,-2.0);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \texttt{ultra thin, very thin, thin, semithick, thick, very thick, ultra thick}
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[dash pattern=on 3pt off 2pt on 5pt off 2pt] (0,0) -- (4,0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[dash pattern=on 3pt off 2pt on 5pt off 2pt] (0,0) -- (4,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        オプション \verb|dash pattern| に \verb|on off| を指定して，点破線のデザインができる
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[dotted] (0,0) -- (2,0);
+            \draw[dashed] (0,-0.5) -- (2,-0.5);
+            \draw[dash dot] (0,-1.0) -- (2,-1.0);
+            \draw[dash dot dot] (0,-1.5) -- (2,-1.5);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[dotted] (0,0) -- (2,0);
+            \draw[dashed] (0,-0.5) -- (2,-0.5);
+            \draw[dash dot] (0,-1.0) -- (2,-1.0);
+            \draw[dash dot dot] (0,-1.5) -- (2,-1.5);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \verb|dotted| 点線， \verb|dashed| 破線， \verb|dashdot| 破点線， \verb|dashdotdot| 破点々線
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[densely dotted] (0,0) -- (3,0);
+            \draw[loosely dotted] (0,-0.5) -- (3,-0.5);
+            \draw[densely dashed] (0,-1.0) -- (3.5,-1.0);
+            \draw[loosely dashed] (0,-1.5) -- (3.5,-1.5);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[densely dotted] (0,0) -- (3,0);
+            \draw[loosely dotted] (0,-0.5) -- (3,-0.5);
+            \draw[densely dashed] (0,-1.0) -- (3.5,-1.0);
+            \draw[loosely dashed] (0,-1.5) -- (3.5,-1.5);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \verb|loosely| and \verb|densely|
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) circle[radius=1] |-(2,1);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) circle[radius=1] |-(2,1);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        Move-To (0,0) (OR set current position to (0,0)), draw circle with current position as center and radius \qty{1}{\cm} (\textbf{current position is NOT moved}), then draw |- Line-To (2,1).
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[->] (0,0) --(3.5,0);
+            \draw[<-] (0,-1/2) --(3.5,-1/2);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[->] (0,0) --(3.5,0);
+            \draw[<-] (0,-1/2) --(3.5,-1/2);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \verb|\draw| の直後にオプション \texttt{[->]} や \texttt{[<-]} を書けば，その向きの矢印になる
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[<->] (0,0) --(3.5,0);
+            \draw[->>] (0,-1/2) --(3.5,-1/2);
+            \draw[->,>=stealth] (0,-1) --(3.5,-1);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[<->] (0,0) --(3.5,0);
+            \draw[->>] (0,-1/2) --(3.5,-1/2);
+            \draw[->,>=stealth] (0,-1) --(3.5,-1);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \texttt{[<->]} は両端点矢印で，\texttt{[->>]} は2重矢印で，\texttt{[->,>=stealth]} は stealth 機型矢印
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[double distance=3pt,green,double=red] (0,0) --(3.5,0);
+            \draw[ultra thick,blue] (0,-0.5) --(3.5,-0.5);
+            \draw[double,->] (0,-1.0) --(3.5,-1.0);
+            \draw[opacity=0.3] (0,-1.5) --(3.5,-1.5);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[double distance=3pt,green,double=red] (0,0) --(3.5,0);
+            \draw[ultra thick,blue] (0,-0.5) --(3.5,-0.5);
+            \draw[double,->] (0,-1.0) --(3.5,-1.0);
+            \draw[opacity=0.3] (0,-1.5) --(3.5,-1.5);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \verb|double distance=3pt,green| は緑色の，\qty{3}{pt} 離れる2重線で， \verb|double=red| はその間が赤色．
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw (0,0) --(0,2) (1,2) |-(2,0) --cycle;
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw (0,0) --(0,2) (1,2) |-(2,0) --cycle;
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \verb|cycle| は直前の Move-To で指定した座標値．左のコマンドでは，最初の Move-To は (0,0) で，\verb|cycle| の直前の Move-To は (1,2) なので，\verb|cycle| は (1,2) の座標となる．
+    \end{adjustbox}
+    \\
+    \tablerowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwA}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[ultra thick,orange] (0,0) --(3.5,0);
+            \draw[ultra thick,red!60!blue] (0,-1.0) --(3.0,-1.0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwB}
+        \begin{tikzpicture}
+            \draw[ultra thick,orange] (0,0) --(3.5,0);
+            \draw[ultra thick,red!60!blue] (0,-1.0) --(3.0,-1.0);
+        \end{tikzpicture}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwC}
+        \texttt{[red!60!blue]} は赤色 \qty{60}{\percent}，残りは青色の混ぜ色
+    \end{adjustbox}
+    \\
+    \addlinespace[0.3em]
+\end{longtable}
+
+\newcommand{\cwD}{6cm}
+\newcommand{\cwE}{9cm}
+\newcommand{\twocolrowseparatorline}{
+    \addlinespace[0.3em]
+    \cmidrule{1-2}
+    \addlinespace[0.2em]
+}
+表~\ref{tab:lineartransform}は図形の線形移動・拡大縮小・回転についてまとめる．リスト~\ref{lst:lineartranstemplate} は，表~\ref{tab:lineartransform} の線形移動などのためのテンプレートプログラムで，\verb|[shift={(1,2)},blue]| の様子を示す．
+\begin{lstlisting}[language={[LaTeX] TeX},caption={図形線形移動・拡大縮小・回転のテンプレート},label={lst:lineartranstemplate},firstnumber=1,]
+\begin{tikzpicture}
+    \draw (0,0) -- (2,0);
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{tikzpicture}
+    \draw (0,0) -- (2,0);
+\end{tikzpicture}
+
+\begin{longtable}{p{\cwD} p{\cwE}}
+    \caption{図形の線形移動・拡大縮小・回転のオプションと出力} \label{tab:lineartransform}                      \\[-1em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output}                                         \\
+    \midrule
+    \endfirsthead % chktex 1
+
+    % \midrule
+    \multicolumn{2}{c}{表~\ref{tab:lineartransform}:~\nameref{tab:lineartransform}（の続き）} \\[0.3em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output}                                         \\
+    \midrule
+    \endhead % chktex 1
+
+    % \midrule
+    \multicolumn{2}{r}{表~\ref{tab:lineartransform}（次のページへ続く）}                           \\
+    \midrule
+    \endfoot % chktex 1
+
+    \midrule
+    \multicolumn{2}{r}{表~\ref{tab:lineartransform}終了}                                   \\
+    \bottomrule
+    \endlastfoot % chktex 1
+
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[line width=1pt] (0,0) -- (2,0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            \draw[line width=1pt] (0,0) -- (2,0);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            \draw[ultra thin] (0,0) -- (2,0);
+            \draw[thin] (0,-0.5) -- (2,-0.5);
+            \draw[semithick] (0,-1.0) -- (2,-1.0);
+            \draw[thick] (0,-1.5) -- (2,-1.5);
+            \draw[ultra thick] (0,-2.0) -- (2,-2.0);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            \draw[ultra thin] (0,0) -- (2,0);
+            \draw[thin] (0,-0.5) -- (2,-0.5);
+            \draw[semithick] (0,-1.0) -- (2,-1.0);
+            \draw[thick] (0,-1.5) -- (2,-1.5);
+            \draw[ultra thick] (0,-2.0) -- (2,-2.0);
+        \end{tikzpicture}
     \end{adjustbox}
     \\
     \addlinespace[0.3em]

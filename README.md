@@ -21,6 +21,7 @@ Mainly how-to notes.
 * LaTeX Workshop:
   * Forward sync from cursor in TeX to PDF: in TeX, Cmd + Option + J (OR Cmd/Command + Shift + P: SyncTeX from cursor)
   * Backward sync from PDF to cursor in TeX: in PDF preview, double-click (OR Cmd + click)
+  * Cmd + Shift + P: Toggle Fold keybinding is Cmd + K + Cmd + L
 
 ### 2. Set vscode built-in `IntelliSense` (***NOT IntelliCode***)
 

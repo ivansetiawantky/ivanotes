@@ -309,7 +309,9 @@ replacements:
           s/(?<=\\begin\{document\})(.*?)(?=\\end\{document\})/
             my $body = $1;
         # Condense consecutive white spaces into one
-            $body =~ s@\h{2,}@ @g;
+        #    $body =~ s@\h{2,}@ @g;
+        # Condense consecutive white spaces into one, only if preceeded by non-whitespace
+            $body =~ s@(\S)\h{2,}@$1 @g;
         # Remove leading and trailing white spaces in braces "{}"
             $body =~ s@\{\h*(.*?)\h*\}@\{$1\}@g;
         # Insert half-width space at every end of brace if it is followed by a command or a character
