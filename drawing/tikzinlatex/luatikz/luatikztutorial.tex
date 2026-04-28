@@ -7,7 +7,7 @@
 \title{\bfseries {\huge Test of 「\LaTeX{}で図を直接描けるTikZの使い方」}}
 \author{\LARGE Ivan Setiawan}
 \author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
-\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/24}
+\date{Created: 2026年4月17日\\[0.3em]Last Updated: 2026/04/28}
 
 \renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
 \renewcommand{\lstlistingname}{リスト}
@@ -135,7 +135,7 @@ Use below syntax for using TikZ in display mode:
 \end{center}
 
 So, when we write like this:
-\begin{lstlisting}[language={[LaTeX] TeX},frame=single,xleftmargin=0.2 \textwidth,xrightmargin=0.2 \textwidth,]
+\begin{lstlisting}[language={[LaTeX] TeX},frame=single,xleftmargin=0.2 \textwidth,xrightmargin=0.2 \textwidth,breaklines=true,]
 ``Finally, an example of display math and TikZ:\
 \[
     \alpha^2 + \beta^2 = \gamma^2 \,
@@ -155,7 +155,7 @@ So, when we write like this:
 \]
 ''.
 
-\section{Good TikZ manual}
+\section*{Good TikZ manual}
 
 「TikZ の使い方」, which is available in \url{https://alg-d.com/math/tikz.pdf}.
 
@@ -167,7 +167,7 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
 第~\ref{linebasic}章では，\url{https://math-note.xyz/latex/tikz/tikz-line/}にあるコードを，いくつか試してみる．
 
 リスト~\ref{lst:straightline}で，線を描く．略記方では，\verb*|\tikz| の後ろに，命令を書いて，最後に ``;'' (semicolon)で命令を閉じなければならない．しかし，略記方の場合は，\texttt{chktex}の false positive (warning)が多いので，\texttt{tikzpicture}環境で使うことが推奨される．
-\begin{lstlisting}[language={[LaTeX] TeX},caption={直線を描く},label={lst:straightline},firstnumber=1,gobble=4,]
+\begin{lstlisting}[language={[LaTeX] TeX},caption={直線を描く},label={lst:straightline},firstnumber=1,breaklines=true,gobble=4,]
     \begin{tikzpicture}
         \draw (0,0) -- (2,0);
     \end{tikzpicture}
@@ -825,7 +825,7 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
 \begin{lstlisting}[
     language={[LaTeX] TeX},
     caption={図形線形移動・拡大縮小・回転のテンプレート},label={lst:lineartranstemplate},
-    firstnumber=1,gobble=4]
+    firstnumber=1,breaklines=true,gobble=4]
     \begin{tikzpicture}
         \draw[->,>=stealth,semithick] (-0.5,0) --(3.5,0) node[below]{$x$}; %x軸
         \draw[->,>=stealth,semithick] (0,-0.5) --(0,3.5) node[right]{$y$}; %y軸
@@ -973,5 +973,201 @@ The massive document for TikZ can be opened with the command line \texttt{texdoc
     \\
     \addlinespace[0.3em]
 \end{longtable}
+
+\section{「\LaTeX{}で図を直接描けるTikZの使い方３｜グラフの描き方」}
+\label{plotgraph}
+
+第~\ref{plotgraph}章では，\url{https://math-note.xyz/latex/tikz/tikz-graph/}にあるコードを，いくつか試してみる．
+
+リスト~\ref{lst:plotgraph} は，関数 \(y=x+1 \) の関数のグラフを示す．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    caption={関数・グラフを plot するテンプレート},label={lst:plotgraph},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (-2,0)--(2,0) node[above]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-1)--(0,3) node[right]{$y$}; %y軸
+        \draw (0,0) node[below right]{O}; %原点
+        \draw (-1,0) node[below]{$-1$}; %点(-1,0)
+        \draw (0,1) node[right]{$1$}; %点(0,1)
+        \draw[very thick,domain=-2:2] plot(\x,\x+1) node[right]{$y=x+1$}; %y=x+1のグラフ
+    \end{tikzpicture}
+\end{lstlisting}
+
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (-2,0)--(2,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,-1)--(0,3) node[right]{$y$}; %y軸
+    \draw (0,0) node[below right]{O}; %原点
+    \draw (-1,0) node[below]{$-1$}; %点(-1,0)
+    \draw (0,1) node[right]{$1$}; %点(0,1)
+    \draw[very thick,domain=-2:2] plot(\x,\x+1) node[right]{$y=x+1$}; %y=x+1のグラフ
+    \end{tikzpicture}
+\]
+
+ネイピア数 \(e \) は \verb|e| で，円周率 \(\pi \) は \verb|pi| で書く．
+
+TikZ で関数のグラフを描くときは，以下に注意：
+\begin{description}
+    \item[Default変数は \texttt{\textbackslash x}] 媒介変数 (parametric plot) を行いたいとき，オプション \verb|[variable=\t]| を追加 % chktex 1
+    \item[関数は \{と \}との間に囲む] \verb|\draw[domain=0:2.5] plot(\x,sqrt(\x));| はエラーで，\\
+          \verb|\draw[domain=0:2.5] plot(\x,{sqrt(\x)});| で入力すべき
+    \item[radian は明示的に指定] \verb|\draw(pi,{sin(pi)}) node{A};| とすると，点 (\(\pi, \sin \qty[parse-numbers=false]{\pi}{\degree}\)) に \(A \) が表示されてしまう．\verb|\draw(pi,{sin(pi r)}) node{A};| で入力すべき
+\end{description}
+
+以下の通り記述すれば，
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (-3.5,0)--(3.5,0) node[above]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-3.5)--(0,2.5) node[right]{$y$}; %y軸
+        \draw (0,0) node[above left]{O}; %原点
+        \draw[magenta,very thick,domain=0:3.5] plot(\x,{sqrt(\x)}) node[right]{$y=\sqrt{x}$};
+        \draw[blue,very thick,domain=-3.5:3.5] plot(\x,{-abs(\x)}) node[right]{$y=-|x|$};
+        \draw[orange,very thick,domain=-3.5:3.5] plot(\x,{cos(\x r)}) node[right]{$y=\cos{x}$};
+    \end{tikzpicture}
+\end{lstlisting}
+以下のグラフが得られる．
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (-3.5,0)--(3.5,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,-3.5)--(0,2.5) node[right]{$y$}; %y軸
+    \draw (0,0) node[above left]{O}; %原点
+    \draw[magenta,very thick,domain=0:3.5] plot(\x,{sqrt(\x)}) node[right]{$y=\sqrt{x}$};
+    \draw[blue,very thick,domain=-3.5:3.5] plot(\x,{-abs(\x)}) node[right]{$y=-|x|$};
+    \draw[orange,very thick,domain=-3.5:3.5] plot(\x,{cos(\x r)}) node[right]{$y=\cos{x}$};
+    \end{tikzpicture}
+\]
+
+\subsection{プロットする点を増やす方法}
+
+オプション \verb|[samples=100,domain=0:2.5]| で，\verb|\x| のサンプル数を 100 にする．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (-3.5,0)--(3.5,0) node[above]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-3.5)--(0,2.5) node[right]{$y$}; %y軸
+        \draw (0,0) node[above left]{O}; %原点
+        \draw[magenta,very thick,samples=100,domain=0:3.5] plot(\x,{sqrt(\x)}) node[right]{$y=\sqrt{x}$};
+        \draw[blue,very thick,domain=-3.5:3.5] plot(\x,{-abs(\x)}) node[right]{$y=-|x|$};
+        \draw[orange,very thick,samples=100,domain=-3.5:3.5] plot(\x,{cos(\x r)}) node[right]{$y=\cos{x}$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (-3.5,0)--(3.5,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,-3.5)--(0,2.5) node[right]{$y$}; %y軸
+    \draw (0,0) node[above left]{O}; %原点
+    \draw[magenta,very thick,samples=100,domain=0:3.5] plot(\x,{sqrt(\x)}) node[right]{$y=\sqrt{x}$};
+    \draw[blue,very thick,domain=-3.5:3.5] plot(\x,{-abs(\x)}) node[right]{$y=-|x|$};
+    \draw[orange,very thick,samples=100,domain=-3.5:3.5] plot(\x,{cos(\x r)}) node[right]{$y=\cos{x}$};
+    \end{tikzpicture}
+\]
+
+\subsection{変数を変える方法・parametric plot}
+
+オプション \verb|[variable=\t]| で，default の \verb|\x| の代わりに \verb|\t| を媒介変数 (parameter) として使う．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (-0.5,0)--(2*pi+0.5,0) node[above]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-0.5)--(0,2.5) node[right]{$y$}; %y軸
+        \draw (0,0) node[above left]{O}; %原点
+        \draw[very thick,samples=100,domain=0:2*pi,variable=\t] plot({\t-sin(\t r)},{1-cos(\t r)}); %サイクロイド
+        \draw (2*pi,0) node[below]{$2 \pi$}; %点(2 \pi,0)
+        \draw[dashed] (0,2) node[left]{2}--(pi,2)--(pi,0) node[below]{$\pi$}; %点(\pi,2)
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (-0.5,0)--(2*pi+0.5,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,-0.5)--(0,2.5) node[right]{$y$}; %y軸
+    \draw (0,0) node[above left]{O}; %原点
+    \draw[very thick,samples=100,domain=0:2*pi,variable=\t] plot({\t-sin(\t r)},{1-cos(\t r)}); %サイクロイド
+    \draw (2*pi,0) node[below]{$2 \pi$}; %点(2 \pi,0)
+    \draw[dashed] (0,2) node[left]{2}--(pi,2)--(pi,0) node[below]{$\pi$}; %点(\pi,2)
+    \end{tikzpicture}
+\]
+
+\subsection{極座標の基本の描き方}
+
+極座標上の偏角 \(\qty[parse-numbers=false]{a}{\degree} \)，半径 \(r \) の点 \((\qty[parse-numbers=false]{a}{\degree}, r)\) は，TikZ では \verb|(a:r)| で表す．例えば，\verb|\draw[->] (0,0) --(30:2cm);| は，
+\(
+\begin{tikzpicture}
+    \draw[->] (0,0) --(30:2cm);
+\end{tikzpicture}
+\)
+と表示される．
+
+弧度法 (radian) として解釈させたい場合は，\verb|r| を付ける．例えば，\verb|\draw[->] (0,0) --(pi/4 r:2cm);| は，
+\(
+\begin{tikzpicture}
+    \draw[->] (0,0) --(pi/4 r:2cm);
+\end{tikzpicture}
+\)
+と表示される．
+
+\subsection{\texttt{++} による相対的 Move-To}
+
+\verb|(a,b)| は，現在地を絶対的に \verb|(a,b)| に Move-To する．\verb|++(c,d)| は現在地に対して相対的に \verb|(c,d)| 分だけ移動して，新しい現在地を \verb|(a+c,b+d)| にする．
+
+極座標表現でももちろん使える．つまり \verb|++(e:r)| とした場合，新しい現在地は \((a+r \cos e, b+r \sin e) \)となる．
+
+\subsection{極座標での円弧 (arc) の描き方}
+
+半径 \(r \) の円に対して，偏角 \(\qty[parse-numbers=false]{a}{\degree}\) の位置にある点 \verb|(A)| と 偏角 \(\qty[parse-numbers=false]{b}{\degree}\) の位置にある点 \verb|B| を考える．
+
+この弧 (arc) AB は， \verb|\draw (A) arc(a:b:r);| と記述すれば表示できる．
+
+例えば，
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (-1.5,0) --(2.5,0) node[above]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-0.5) --(0,2) node[right]{$y$}; %y軸
+        \draw (0,0) node[above left]{O}; %原点
+        \draw (2,1) node[right]{A}; %点A(2,1)
+        \draw[very thick] (2,1) arc (60:110:3cm); %点Aが偏角60度の点であるような半径3の円の，偏角60度から110度の部分の円弧
+        \draw (2,1) ++(60:-3) ++(110:3) node[left]{B}; %円弧のAでない方の端点B(2,1)
+    \end{tikzpicture}
+\end{lstlisting}
+と記述すれば，
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (-1.5,0) --(2.5,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,-0.5) --(0,2) node[right]{$y$}; %y軸
+    \draw (0,0) node[above left]{O}; %原点
+    \draw (2,1) node[right]{A}; %点A(2,1)
+    \draw[very thick] (2,1) arc (60:110:3cm); %点Aが偏角60度の点であるような半径3の円の，偏角60度から110度の部分の円弧
+    \draw (2,1) ++(60:-3) ++(110:3) node[left]{B}; %円弧のAでない方の端点B(2,1)
+    \end{tikzpicture}
+\]
+と表示される．
+
+\subsection{極方程式のグラフの描き方}
+
+例えば，\(a > 0 \) に対して極方程式 \(r=2a \cos \theta \) は，\verb|plot(\theta r:{2*a*cos(\theta r)})| を使って，以下のように
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[->,>=stealth,semithick] (0,0)--(4,0) node[right]{$x$}; %始線
+        \draw (0,0) node[left]{O}; %極
+        \draw[very thick,samples=100,domain=0:pi,variable=\theta] plot(\theta r:{2*1.5*cos(\theta r)}); %点(1.5,0)を中心とする半径1.5の円
+    \end{tikzpicture}
+\end{lstlisting}
+記述すれば，
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,semithick] (0,0)--(4,0) node[right]{$x$}; %始線
+    \draw (0,0) node[left]{O}; %極
+    \draw[very thick,samples=100,domain=0:pi,variable=\theta] plot(\theta r:{2*1.5*cos(\theta r)}); %点(1.5,0)を中心とする半径1.5の円
+    \end{tikzpicture}
+\]
+と極座標上で点 (1.5,0) を中心とする半径 1.5 の円が表示される．
 
 \end{document}
