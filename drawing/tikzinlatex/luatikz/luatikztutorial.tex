@@ -1170,4 +1170,467 @@ TikZ で関数のグラフを描くときは，以下に注意：
 \]
 と極座標上で点 (1.5,0) を中心とする半径 1.5 の円が表示される．
 
+\section{「\LaTeX{}で図を直接描けるTikZの使い方４｜座標の定義と計算」}
+\label{coordinatedefcalc}
+
+第~\ref{coordinatedefcalc}章では，\url{https://math-note.xyz/latex/tikz/tikz-coordinate/}にあるコードを，いくつか試してみる．
+
+\subsection{How to define a coordinate point as variable, assign label to it, and draw mark on it}
+
+変数である点 \verb|(A)| を，座標 \verb|(0,0)| として定義して，``Point A'' として \qty{200}{\degree} にラベルを付けるには，以下のようにする．ただし，点は表示できないから，ラベルである ``Point A'' だけが表示されることになる．
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+    \end{tikzpicture}
+\]
+
+その点 \verb|(A)| を表示するには，mark として小さな circle または rectangle を書いても良い．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \fill[red] (A) circle[radius=0.06cm];
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \fill[red] (A) circle[radius=0.06cm];
+    \end{tikzpicture}
+\]
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \fill[cyan] (A) +(-0.06,-0.06) rectangle +(0.06,0.06);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \fill[cyan] (A) +(-0.06,-0.06) rectangle +(0.06,0.06);
+    \end{tikzpicture}
+\]
+
+以下の例では，まず３点 \verb|(A), (B), (C)| の座標値を定義して，それぞれ ``Point A''，``Point B''，``Point C'' という label （とその label の位置）をつける．それから \verb|(A), (B), (C)| を頂点とする三角形を描く．この例では，頂点 \verb|(A), (B), (C)| に mark が描かれていないことに注意．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \coordinate[label=-20:Point B] (B) at (3,0);
+        \coordinate[label=above:Point C] (C) at (2,2);
+        \draw (A) --(B) --(C) --cycle;
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \coordinate[label=-20:Point B] (B) at (3,0);
+        \coordinate[label=above:Point C] (C) at (2,2);
+        \draw (A) --(B) --(C) --cycle;
+    \end{tikzpicture}
+\]
+
+以下の例では，上記の３つの頂点に mark を付ける方法を示す．各頂点に一つずつ \verb|fill[]| をしないで，\verb|\foreach| で頂点の分だけ繰り返し mark を付ける．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \coordinate[label=-20:Point B] (B) at (3,0);
+        \coordinate[label=above:Point C] (C) at (2,2);
+        \foreach \P in {A,B,C} \fill[cyan] (\P) circle[radius=0.06cm];
+        \draw (A) --(B) --(C) --cycle;
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \coordinate[label=200:Point A] (A) at (0,0);
+        \coordinate[label=-20:Point B] (B) at (3,0);
+        \coordinate[label=above:Point C] (C) at (2,2);
+        \foreach \P in {A,B,C} \fill[cyan] (\P) circle[radius=0.06cm];
+        \draw (A) --(B) --(C) --cycle;
+    \end{tikzpicture}
+\]
+
+\subsection{Define and give a name to intersection of paths}
+
+By default, the name of intersection is \verb|intersection-1|, \verb|intersection-2|, etc.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[name path=C1] (0,0) circle[radius=1]; %円C1
+        \draw[name path=C2] (2,1) circle[radius=2]; %円C2
+        \path[name intersections={of=C1 and C2}]; %円C1と円C2の交点の定義
+        \fill[blue] (intersection-1) circle[radius=0.06] node[above left]{A}; %1つ目の交点の左にA
+        \fill[magenta] (intersection-2) circle[radius=0.06] node[below]{B}; %2つ目の交点の下にB
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[name path=C1] (0,0) circle[radius=1]; %円C1
+        \draw[name path=C2] (2,1) circle[radius=2]; %円C2
+        \path[name intersections={of=C1 and C2}]; %円C1と円C2の交点の定義
+        \fill[blue] (intersection-1) circle[radius=0.06] node[above left]{A}; %1つ目の交点の左にA
+        \fill[magenta] (intersection-2) circle[radius=0.06] node[below]{B}; %2つ目の交点の下にB
+    \end{tikzpicture}
+\]
+
+Using keyword \verb|name by|, we can name the intersection as we like. Notice that we can also assign variable name to a path using \verb|name| (\verb|C1| and \verb|C2|).
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[name path=C1] (0,0) circle[radius=1]; %円C1
+        \draw[name path=C2] (2,1) circle[radius=2]; %円C2
+        \path[name intersections={of=C1 and C2, by={A}}]; %Just name 1 intersection only: A
+        \fill[blue] (A) circle[radius=0.06] node[above left]{Point A};
+        \fill[magenta] (intersection-2) circle[radius=0.06] node[right]{Point B};
+        % \path[name intersections={of=C1 and C2, by={A,B}}]; %OR like this, name both intersections as A,B
+        % \fill[blue] (A) circle[radius=0.06] node[above left]{Point A}; %1つ目の交点の左にA
+        % \fill[magenta] (B) circle[radius=0.06] node[right]{Point B}; %2つ目の交点の下にB
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[name path=C1] (0,0) circle[radius=1]; %円C1
+        \draw[name path=C2] (2,1) circle[radius=2]; %円C2
+        \path[name intersections={of=C1 and C2, by={A}}]; %Just name 1 intersection only: A
+        \fill[blue] (A) circle[radius=0.06] node[above left]{Point A};
+        \fill[magenta] (intersection-2) circle[radius=0.06] node[right]{Point B};
+        % \path[name intersections={of=C1 and C2, by={A,B}}]; %OR like this, name both intersections as A,B
+        % \fill[blue] (A) circle[radius=0.06] node[above left]{Point A}; %1つ目の交点の左にA
+        % \fill[magenta] (B) circle[radius=0.06] node[right]{Point B}; %2つ目の交点の下にB
+    \end{tikzpicture}
+\]
+
+\subsection{座標の計算 (Performing Calculation on Coordinates)}
+
+\subsubsection{利用できる座標の計算}
+
+表~\ref{tab:calccoord}は，点の座標計算（和・スカラー倍・内分・外分・垂線の足など）をまとめる．
+
+\renewcommand{\cwD}{11cm}
+\renewcommand{\cwE}{4.5cm}
+\begin{longtable}{p{\cwD} p{\cwE}}
+    \caption{TikZ の座標計算} \label{tab:calccoord}                              \\[-1em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output}                             \\
+    \midrule
+    \endfirsthead % chktex 1
+
+    % \midrule
+    \multicolumn{2}{c}{表~\ref{tab:calccoord}:~\nameref{tab:calccoord}（の続き）} \\[0.3em]
+    \toprule
+    \textbf{Command} & \textbf{Rendered Output}                             \\
+    \midrule
+    \endhead % chktex 1
+
+    % \midrule
+    \multicolumn{2}{r}{表~\ref{tab:calccoord}（次のページへ続く）}                     \\
+    \midrule
+    \endfoot % chktex 1
+
+    \midrule
+    \multicolumn{2}{r}{表~\ref{tab:calccoord}終了}                             \\
+    \bottomrule
+    \endlastfoot % chktex 1
+
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % Addition ($(A)+(B)$)
+            \coordinate (A) at (1.5,0.5);
+            \coordinate (B) at (1,1.5);
+            \draw[dashed, ->] (0,0) --(A) node[below right=-0.1cm]{A};
+            \draw[dashed, ->] (0,0) --(B) node[above left=0cm]{B};
+            \draw[->] (0,0) --($(A)+(B)$) node[right]{A+B};
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % Addition ($(A)+(B)$)
+            \coordinate (A) at (1.5,0.5);
+            \coordinate (B) at (1,1.5);
+            \draw[dashed, ->] (0,0) --(A) node[below right=-0.1cm]{A};
+            \draw[dashed, ->] (0,0) --(B) node[above left=0cm]{B};
+            \draw[->] (0,0) --($(A)+(B)$) node[right]{A+B};
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % Scale ($k*(A)$)
+            \coordinate (A) at (1.5,0.5);
+            \draw[cyan, ultra thick, ->] (0,0) --(A) node[above left=0.1cm]{A};
+            \draw[thin, ->] (0,0) --($2*(A)$) node[above left]{2*A};
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % Scale ($k*(A)$)
+            \coordinate (A) at (1.5,0.5);
+            \draw[cyan, ultra thick, ->] (0,0) --(A) node[above left=0.1cm]{A};
+            \draw[thin, ->] (0,0) --($2*(A)$) node[above left]{2*A};
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % ($(A)!t!(B)$): 線分ABの内分点 (0<t<1)
+            \coordinate[label=160:A] (A) at (0,0);
+            \coordinate[label=-20:B] (B) at (3,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=above left:(\$(A)!0.7!(B)\$)] (T) at ($(A)!0.7!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % ($(A)!t!(B)$): 線分ABの内分点 (0<t<1)
+            \coordinate[label=160:A] (A) at (0,0);
+            \coordinate[label=-20:B] (B) at (3,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=above left:(\$(A)!0.7!(B)\$)] (T) at ($(A)!0.7!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % ($(A)!t!(B)$): 線分ABの外分点 (t<0)
+            \coordinate[label=right:A] (A) at (0,0);
+            \coordinate[label=right:B] (B) at (0.5,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=left:(\$(A)!-0.4!(B)\$)] (T) at ($(A)!-0.4!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % ($(A)!t!(B)$): 線分ABの外分点 (t<0)
+            \coordinate[label=right:A] (A) at (0,0);
+            \coordinate[label=right:B] (B) at (0.5,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=left:(\$(A)!-0.4!(B)\$)] (T) at ($(A)!-0.4!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % ($(A)!t!(B)$): 線分ABの外分点 (1<t)
+            \coordinate[label=right:A] (A) at (0,0);
+            \coordinate[label=right:B] (B) at (0.5,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=left:(\$(A)!1.4!(B)\$)] (T) at ($(A)!1.4!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % ($(A)!t!(B)$): 線分ABの外分点 (1<t)
+            \coordinate[label=right:A] (A) at (0,0);
+            \coordinate[label=right:B] (B) at (0.5,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=left:(\$(A)!1.4!(B)\$)] (T) at ($(A)!1.4!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % ($(A)!(P)!(B)$): Pから線分ABに下ろした垂線の足
+            \coordinate[label=left:A] (A) at (0,0);
+            \coordinate[label=right:B] (B) at (2,1);
+            \coordinate[label=above:P] (P) at (0.5,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=below right:(\$(A)!(P)!(B)\$)] (T) at ($(A)!(P)!(B)$);
+            \draw[very thin, dashed] (P) --(T);
+            \foreach \P in {A,B,P} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % ($(A)!(P)!(B)$): Pから線分ABに下ろした垂線の足
+            \coordinate[label=left:A] (A) at (0,0);
+            \coordinate[label=right:B] (B) at (2,1);
+            \coordinate[label=above:P] (P) at (0.5,2);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=below right:(\$(A)!(P)!(B)\$)] (T) at ($(A)!(P)!(B)$);
+            \draw[very thin, dashed] (P) --(T);
+            \foreach \P in {A,B,P} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % ($(A)!t cm!(B)$): Aとの距離 t [cm] の B へ向かう点
+            \coordinate[label=160:A] (A) at (0,0);
+            \coordinate[label=-20:B] (B) at (3,1);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=above left:(\$(A)!2 cm!(B)\$)] (T) at ($(A)!2 cm!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % ($(A)!t cm!(B)$): Aとの距離 t [cm] の B へ向かう点
+            \coordinate[label=160:A] (A) at (0,0);
+            \coordinate[label=-20:B] (B) at (3,1);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=above left:(\$(A)!2 cm!(B)\$)] (T) at ($(A)!2 cm!(B)$);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=12,]
+            % ($(A)!t!a:(B)$): 線分ABの t 内分点を，Aを中心で a° 回転させた点
+            \coordinate[label=160:A] (A) at (0,0);
+            \coordinate[label=-20:B] (B) at (3,1);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=below:(\$(A)!0.7!-60:(B)\$)] (T) at ($(A)!0.7!-60:(B)$);
+            \draw[very thin,dashed] (A) --(T);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \begin{tikzpicture}
+            % ($(A)!t!a:(B)$): 線分ABの t 内分点を，Aを中心で a° 回転させた点
+            \coordinate[label=160:A] (A) at (0,0);
+            \coordinate[label=-20:B] (B) at (3,1);
+            \draw[very thin] (A) --(B);
+            \coordinate[label=below:(\$(A)!0.7!-60:(B)\$)] (T) at ($(A)!0.7!-60:(B)$);
+            \draw[very thin,dashed] (A) --(T);
+            \foreach \P in {A,B} \fill[cyan] (\P) circle[radius=0.06cm];
+            \fill[red] (T) +(-0.06,-0.06) rectangle +(0.06,0.06);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \\
+    \addlinespace[0.3em]
+\end{longtable}
+
+\subsubsection{座標計算 --- 具体例1}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \coordinate[label=below left:O] (O) at (0,0); % Origin O
+    \coordinate (XS) at (-0.5,0); \coordinate (XL) at (6,0); \draw[semithick,->,>=stealth] (XS) --(XL) node[right]{$x$}; % x-axis
+    \coordinate (YS) at (0,-0.5); \coordinate (YL) at (0,4); \draw[semithick,->,>=stealth] (YS) --(YL) node[above]{$y$}; % y-axis
+
+    \coordinate[label=below left:P] (P) at (3,2); % Ellipse center
+    \draw[thick] (P) circle [x radius=2, y radius=1];
+    \coordinate (Pr) at (5,2);
+    \coordinate (Pl) at (1,2);
+    \coordinate (Pa) at (3,3);
+    \coordinate (Pb) at (3,1);
+
+    \draw[dashed] ($(XS)!(Pr)!(XL)$) node[below]{5} --(Pr) --($(YL)!(Pr)!(YS)$) node[left]{2};
+    \draw[dashed] ($(XS)!(Pl)!(XL)$) node[below]{1} --(Pl);
+    \draw[dashed] ($(XS)!(Pa)!(XL)$) node[below]{3} --(Pa) --($(YL)!(Pa)!(YS)$) node[left]{3};
+    \draw[dashed] ($(YS)!(Pb)!(YL)$) node[left]{1} --(Pb);
+    \fill (P) circle[radius=0.06cm];
+
+    \draw (Pa) node[above right] {$\displaystyle \frac{(x-3)^2}{4} + (y-2)^2 = 1$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \coordinate[label=below left:O] (O) at (0,0); % Origin O
+    \coordinate (XS) at (-0.5,0); \coordinate (XL) at (6,0); \draw[semithick,->,>=stealth] (XS) --(XL) node[right]{$x$}; % x-axis
+    \coordinate (YS) at (0,-0.5); \coordinate (YL) at (0,4); \draw[semithick,->,>=stealth] (YS) --(YL) node[above]{$y$}; % y-axis
+
+    \coordinate[label=below left:P] (P) at (3,2); % Ellipse center
+    \draw[thick] (P) circle [x radius=2, y radius=1];
+    \coordinate (Pr) at (5,2);
+    \coordinate (Pl) at (1,2);
+    \coordinate (Pa) at (3,3);
+    \coordinate (Pb) at (3,1);
+
+    \draw[dashed] ($(XS)!(Pr)!(XL)$) node[below]{5} --(Pr) --($(YL)!(Pr)!(YS)$) node[left]{2};
+    \draw[dashed] ($(XS)!(Pl)!(XL)$) node[below]{1} --(Pl);
+    \draw[dashed] ($(XS)!(Pa)!(XL)$) node[below]{3} --(Pa) --($(YL)!(Pa)!(YS)$) node[left]{3};
+    \draw[dashed] ($(YS)!(Pb)!(YL)$) node[left]{1} --(Pb);
+    \fill (P) circle[radius=0.06cm];
+
+    \draw (Pa) node[above right] {$\displaystyle \frac{(x-3)^2}{4} + (y-2)^2 = 1$};
+    \end{tikzpicture}
+\]
+\subsubsection{座標計算 --- 具体例2}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}[xscale=2.5]
+    \coordinate[label=below left:O] (O) at (-2,0); %原点O
+    \coordinate(XS) at(-2.2,0); \coordinate(XL) at(2,0); \draw[semithick,->,>=stealth](XS)--(XL) node[right]{$x$}; %x軸
+    \coordinate(YS) at(-2,-0.5); \coordinate(YL) at(-2,5); \draw[semithick,->,>=stealth](YS)--(YL) node[above]{$y$}; %y軸
+
+    \draw[samples=100,domain=-2.2:1.5,very thick] plot(\x,\x*\x*\x+\x*\x-2*\x+2) node[above] {$y=f(x)$}; %y=f(x)のグラフ
+    \foreach \t in {-2,-1.9,...,1.5}
+    \draw (\t,0)--(\t,\t*\t*\t+\t*\t-2*\t+2)--(\t+0.1,\t*\t*\t+\t*\t-2*\t+2)--(\t+0.1,0); %x=t,x=t+1の間の短冊
+    \draw (1.5,0) node[below]{1}; %点(1,0)
+
+    \draw ($(XS)!0.5!(XL)+(0,-0.5)$)
+    node[below]{$\displaystyle \int_{0}^{1} f(x)\,dx \approx \frac{1}{n} \sum_{k=0}^{n-1} f \left(\frac{k}{n} \right)$};
+    %図のx軸の中点+(0,-1)の位置に区分求積の式
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[xscale=2.5]
+    \coordinate[label=below left:O] (O) at (-2,0); %原点O
+    \coordinate(XS) at(-2.2,0); \coordinate(XL) at(2,0); \draw[semithick,->,>=stealth](XS)--(XL) node[right]{$x$}; %x軸
+    \coordinate(YS) at(-2,-0.5); \coordinate(YL) at(-2,5); \draw[semithick,->,>=stealth](YS)--(YL) node[above]{$y$}; %y軸
+
+    \draw[samples=100,domain=-2.2:1.5,very thick] plot(\x,\x*\x*\x+\x*\x-2*\x+2) node[above] {$y=f(x)$}; %y=f(x)のグラフ
+    \foreach \t in {-2,-1.9,...,1.5}
+    \draw (\t,0)--(\t,\t*\t*\t+\t*\t-2*\t+2)--(\t+0.1,\t*\t*\t+\t*\t-2*\t+2)--(\t+0.1,0); %x=t,x=t+1の間の短冊
+    \draw (1.5,0) node[below]{1}; %点(1,0)
+
+    \draw ($(XS)!0.5!(XL)+(0,-0.5)$)
+    node[below]{$\displaystyle \int_{0}^{1} f(x)\,dx \approx \frac{1}{n} \sum_{k=0}^{n-1} f \left(\frac{k}{n} \right)$};
+    %図のx軸の中点+(0,-1)の位置に区分求積の式
+    \end{tikzpicture}
+\]
+
 \end{document}
