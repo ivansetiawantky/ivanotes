@@ -1,0 +1,167 @@
+% luatikztutorial.tex
+\documentclass[lualatex]{jlreq}
+\input{00preamble}
+
+\counterwithout{equation}{section}
+\geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
+\title{\bfseries {\huge Memo for Drawing Figure of Geometry Problem with TikZ}}
+\author{\LARGE Ivan Setiawan}
+\author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
+\date{Created: 2026年5月6日\\[0.3em]Last Updated: 2026/05/06}
+
+\renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
+\renewcommand{\lstlistingname}{リスト}
+\renewcommand{\tablename}{表}
+\renewcommand{\listtablename}{表の一覧}
+
+\begin{document}
+\maketitle
+\hrule
+
+\section{How to Define Coordinate and Line}
+
+Use \verb|\coordinate| to define coordinate, along with its label and position. Use the option \verb|save path| in \verb|\path| command to define a path/line to be drawn later.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}[every label/.style={color=blue}]
+        \coordinate[label=left:Point A] (A) at (1,2);
+        \coordinate[label=right:Point B] (B) at (7,4);
+        \coordinate[label={[label distance=1cm,green] 60:Point C}] (C) at (2,6); % angle 60°, distance 1cm
+        \path[save path=\lc,name path=lc] (A) --(B);
+        \path[save path=\lb,name path=lb] (C) --(A);
+        \draw[red,use path=\lc];
+        \draw[cyan,use path=\lb];
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[every label/.style={color=blue}]
+        \coordinate[label=left:Point A] (A) at (1,2);
+        \coordinate[label=right:Point B] (B) at (7,4);
+        \coordinate[label={[label distance=1cm,green] 60:Point C}] (C) at (2,6); % angle 60°, distance 1cm
+        \path[save path=\lc,name path=lc] (A) --(B);
+        \path[save path=\lb,name path=lb] (C) --(A);
+        \draw[red,use path=\lc];
+        \draw[cyan,use path=\lb];
+    \end{tikzpicture}
+\]
+
+\cprotect \section{Difference between \verb|\draw|, \verb|\fill|, \verb|\shadedraw|, and \verb|\shade|} % chktex 1
+
+\verb|\draw|, \verb|\shadedraw| will draw the shape, while \verb|fill|, \verb|shade| will draw the inner region only.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[blue] (0,0) rectangle+(1,1);
+        \draw[blue,fill=red] (0,-1.5) rectangle+(1,1);
+        \fill[red] (0,-3.0) rectangle+(1,1);
+        \shadedraw[blue,top color=green,bottom color=orange] (0,-4.5) rectangle+(1,1);
+        \shade[top color=cyan,bottom color=yellow] (0,-6.0) rectangle+(1,1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[blue] (0,0) rectangle+(1,1);
+        \draw[blue,fill=red] (0,-1.5) rectangle+(1,1);
+        \fill[red] (0,-3.0) rectangle+(1,1);
+        \shadedraw[blue,top color=green,bottom color=orange] (0,-4.5) rectangle+(1,1);
+        \shade[top color=cyan,bottom color=yellow] (0,-6.0) rectangle+(1,1);
+    \end{tikzpicture}
+\]
+
+\section{How to Draw Angle Bisector Line in Triangle}
+
+Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows figure are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the figure. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used at the top, right after \verb|\begin{tikzpicture}|.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    % \clip (-1,-0.5) rectangle (7,4.5);
+    \useasboundingbox (-1,-0.5) rectangle (7,4.5);
+    \coordinate[label=left:A] (A) at (0,0);
+    \coordinate[label=right:B] (B) at (6,2);
+    \coordinate[label={[label distance=0.1cm] above:C}] (C) at (1,4);
+    \path[save path=\lc,name path=lc] (A) --(B);
+    \path[save path=\lb,name path=lb] (C) --(A);
+    \path[save path=\la,name path=lb] (B) --(C);
+    \draw[dashed,use path=\lc];
+    \draw[dashed,use path=\lb];
+    \draw[use path=\la];
+    \bissectrice{C}{A}{B}{R}
+    \bissectrice{A}{B}{C}{S}
+    \draw[red] (A) --(R);
+    \path[name intersections={of=BisCAB and BisABC, by=O}];
+    \node[draw=blue] at (O) [circle through={($(C)!(O)!(B)$)}] {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    % \clip (-1,-0.5) rectangle (7,4.5);
+    \useasboundingbox (-1,-0.5) rectangle (7,4.5);
+    \coordinate[label=left:A] (A) at (0,0);
+    \coordinate[label=right:B] (B) at (6,2);
+    \coordinate[label={[label distance=0.1cm] above:C}] (C) at (1,4);
+    \path[save path=\lc,name path=lc] (A) --(B);
+    \path[save path=\lb,name path=lb] (C) --(A);
+    \path[save path=\la,name path=lb] (B) --(C);
+    \draw[dashed,use path=\lc];
+    \draw[dashed,use path=\lb];
+    \draw[use path=\la];
+    \bissectrice{C}{A}{B}{R}
+    \bissectrice{A}{B}{C}{S}
+    \draw[red] (A) --(R);
+    \path[name intersections={of=BisCAB and BisABC, by=O}];
+    \node[draw=blue] at (O) [circle through={($(C)!(O)!(B)$)}] {};
+    \end{tikzpicture}
+\]
+
+Below is the example shown in the \texttt{stackexchange.com}, modified a little bit.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    % \clip (-3,-1) rectangle (9,7.5);
+    \useasboundingbox (-3,-1) rectangle (9,7.5);
+    \coordinate[label=below left:$C$](C) at (-2,0);
+    \coordinate[label=below right:$A$](A) at (8,0);
+    \coordinate[label=above left:$B$] (B) at (0,7);
+    \coordinate[label=above right:$D$](D) at ($(A)!(C)!(B)$);
+    \draw (A) -- (B) -- (C) -- cycle;
+    \draw (C) -- (D);
+
+    \bissectrice[draw,blue]{B}{C}{D}{R}[1.1][1.2]
+    \bissectrice[draw,dashed]{D}{B}{C}{S}
+    \bissectrice[draw,dashed]{C}{D}{B}{T}
+
+    \path[name intersections={of=BisBCD and BisDBC, by=O}] ;
+
+    \node[draw=red] at (O) [circle through={($(C)!(O)!(B)$)}] {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    % \clip (-3,-1) rectangle (9,7.5);
+    \useasboundingbox (-3,-1) rectangle (9,7.5);
+    \coordinate[label=below left:$C$](C) at (-2,0);
+    \coordinate[label=below right:$A$](A) at (8,0);
+    \coordinate[label=above left:$B$] (B) at (0,7);
+    \coordinate[label=above right:$D$](D) at ($(A)!(C)!(B)$);
+    \draw (A) -- (B) -- (C) -- cycle;
+    \draw (C) -- (D);
+
+    \bissectrice[draw,blue]{B}{C}{D}{R}[1.1][1.2]
+    \bissectrice[draw,dashed]{D}{B}{C}{S}
+    \bissectrice[draw,dashed]{C}{D}{B}{T}
+
+    \path[name intersections={of=BisBCD and BisDBC, by=O}] ;
+
+    \node[draw=red] at (O) [circle through={($(C)!(O)!(B)$)}] {};
+    \end{tikzpicture}
+\]
+
+\section{How to Annotate Line with Its Length}
+
+TODO on how to annotate line with for example its length.
+
+\end{document}
