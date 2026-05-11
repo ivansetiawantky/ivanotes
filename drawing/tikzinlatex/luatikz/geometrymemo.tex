@@ -4,10 +4,10 @@
 
 \counterwithout{equation}{section}
 \geometry{top=20truemm,bottom=25.4truemm,inner=19.05truemm,outer=19.05truemm}
-\title{\bfseries {\huge Memo for Drawing Figure of Geometry Problem with TikZ}}
+\title{\bfseries {\huge Memo for Drawing Diagram of Geometry Problem with TikZ}}
 \author{\LARGE Ivan Setiawan}
 \author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
-\date{Created: 2026年5月6日\\[0.3em]Last Updated: 2026/05/06}
+\date{Created: 2026年5月6日\\[0.3em]Last Updated: 2026/05/11}
 
 \renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
 \renewcommand{\lstlistingname}{リスト}
@@ -18,7 +18,255 @@
 \maketitle
 \hrule
 
+\section{Move-To operation, Current Position, Line-To operation, cycle}
+
+Good explanation is here: \url{https://alg-d.com/math/tikz.pdf}.
+
+Move-To operation moves the pen to a specified coordinate. This coordinate now becomes the current position. The Move-To operation syntax is \verb|(x,y)|. It will move/set the current position to \verb|(x,y)| but nothing will be drawn.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,0);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,0);
+    \end{tikzpicture}
+\]
+
+Line-To operation will draw straight line or set path UNTIL a specified coordinate. The current position will also be moved to the specified coordinate. The Line-To operation syntax is \verb|--(a,b)|. In the next command, first pen Move-To (0,0) then draw Line-To (2,1). The current position is now (2,1), then from this current position draw Line-To (3,0).
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,0) --(2,1) --(3,0);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,0) --(2,1) --(3,0);
+    \end{tikzpicture}
+\]
+
+The syntax \verb|cycle| means the previous explicit Move-To position. In below command, the previous explicit Move-To position is (0,0), so \verb|cycle| means (0,0).
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,0) --(2,1) --(3,0) --cycle;
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,0) --(2,1) --(3,0) --cycle;
+    \end{tikzpicture}
+\]
+
+However, \verb|cycle| also means ``closing'', which has a better behavior than close with (0,0). Especially with thick line.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[line width=0.2cm] (0,0) --(2,1) --(3,0) --cycle;
+        \draw[line width=0.2cm,xshift=4cm] (0,0) --(2,1) --(3,0) --(0,0);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[line width=0.2cm] (0,0) --(2,1) --(3,0) --cycle;
+        \draw[line width=0.2cm,xshift=4cm] (0,0) --(2,1) --(3,0) --(0,0);
+    \end{tikzpicture}
+\]
+
+\section{Write text at a specified position using \texttt{node}}
+
+\verb|node| operation put text on a specified position. Note that the center of the text is put to the specified position, so it is NOT annotating path. The syntax is \verb|(a,b) node{the_text};| which put the center of \verb|the_text| at (a,b). As in below list, I draw \verb|-|| to emphasize that \verb|the_text|'s center is put on the specified position.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,0) node{数学} --(2,1) node{物理};
+        \draw (0,0) -|(2,1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,0) node{数学} --(2,1) node{物理};
+        \draw (0,0) -|(2,1);
+    \end{tikzpicture}
+\]
+
+\verb|node| can have shapes. The \verb|[shape=coordinate]| is actually the operation \verb|coordinate| mentioned in Section~\ref{sec:coordinate}.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \path (0,0) node[draw]{黒線} (2,0) node[fill=red!20,rotate=30]{赤背景} (4,0) node[draw,shape=circle]{丸い};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \path (0,0) node[draw]{黒線} (2,0) node[fill=red!20,rotate=30]{赤背景} (4,0) node[draw,shape=circle]{丸い};
+    \end{tikzpicture}
+\]
+
+Use the option \verb|at| to use \verb|node| for annotating a straight line, for example. If \verb|at| is provided, then the current position has lower priority than \verb|at|.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,0) node at (1,1) {数学} --(2,1);
+        \draw[xshift=4cm] (0,0) node[at={(1,1)},rotate=30]{物理} --({sqrt(3)},1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,0) node at (1,1) {数学} --(2,1);
+        \draw[xshift=4cm] (0,0) node[at={(1,1)},rotate=30]{物理} --({sqrt(3)},1);
+    \end{tikzpicture}
+\]
+
+\verb|pos| option place the text according to the ratio set by \verb|pos|. Below 2 commands are identical, but the latter is more natural.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,0) --(3,1)
+        node[pos=0]{A} node[pos=0.3]{B}
+        node[pos=0.6]{C} node[pos=0.9]{D};
+        \draw[xshift=5cm] (0,0) --node[pos=0]{A} node[pos=0.3]{B} node[pos=0.6]{C} node[pos=0.9]{D} (3,1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,0) --(3,1)
+        node[pos=0]{A} node[pos=0.3]{B}
+        node[pos=0.6]{C} node[pos=0.9]{D};
+        \draw[xshift=5cm] (0,0) --node[pos=0]{A} node[pos=0.3]{B} node[pos=0.6]{C} node[pos=0.9]{D} (3,1);
+    \end{tikzpicture}
+\]
+
+We can assign name to \verb|node| with syntax
+\begin{verbatim}
+    \node[name=math] at (1,2) {数学};
+    \node (math) at (1,2) {数学};
+\end{verbatim}
+To refer to the assigned name, use \verb|(node cs:name=名前)| (when need to specify other options) or just \verb|(名前)|.
+
+As seen below, by noticing the ``\verb|-||'', the straight line is `somewhat aligned' to the \verb|node|, instead of the specified coordinate. The \verb|node|'s coordinate is prioritized over the straight line start and end point.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \node[fill=red!20] (hoge) at (0,0) {A};
+    \node[fill=red!20] (fuga) at (2,1) {B};
+    \draw (hoge) --(fuga);
+    \draw (0,0) -|(2,1);
+    \node[fill=red!20] (hoge2) at (0+4,0) {$A_2$};
+    \node[fill=red!20] (fuga2) at (2+4,1) {$B_2$};
+    \draw (hoge2.west) --(node cs:name=fuga2,anchor=south east);
+    \draw (0+4,0) -|(2+4,1);
+    \node[fill=red!20] (hoge3) at (0+8,0) {$A_3$};
+    \node[fill=red!20] (fuga3) at (2+8,1) {$B_3$};
+    \draw (hoge3.-90) --(node cs:name=fuga3,angle=30);
+    \draw (0+8,0) -|(2+8,1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \node[fill=red!20] (hoge) at (0,0) {A};
+    \node[fill=red!20] (fuga) at (2,1) {B};
+    \draw (hoge) --(fuga);
+    \draw (0,0) -|(2,1);
+    \node[fill=red!20] (hoge2) at (0+4,0) {$A_2$};
+    \node[fill=red!20] (fuga2) at (2+4,1) {$B_2$};
+    \draw (hoge2.west) --(node cs:name=fuga2,anchor=south east);
+    \draw (0+4,0) -|(2+4,1);
+    \node[fill=red!20] (hoge3) at (0+8,0) {$A_3$};
+    \node[fill=red!20] (fuga3) at (2+8,1) {$B_3$};
+    \draw (hoge3.-90) --(node cs:name=fuga3,angle=30);
+    \draw (0+8,0) -|(2+8,1);
+    \end{tikzpicture}
+\]
+
+Also, we can assign \verb|node|'s name in the middle of the command as below. The node \verb|x| by default is in relative position 0.5 between \verb|a| and \verb|b|.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \node (a) at (0,0) {A};
+        \node (b) at (2,1) {B};
+        \node (c) at (0,2) {C};
+        \draw (a) -- node (x) {X} (b);
+        \draw (x) --(c);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \node (a) at (0,0) {A};
+        \node (b) at (2,1) {B};
+        \node (c) at (0,2) {C};
+        \draw (a) -- node (x) {X} (b);
+        \draw (x) --(c);
+    \end{tikzpicture}
+\]
+
+\verb|node| without drawing the text is defined using \verb|coordinate| (only defining the coordinate's name). As in \verb|node|, \verb|coordinate| can also be defined at the middle of the command (see below coordinate \verb|(X)| and \verb|(Y)|). Please notice that \verb|node|s \verb|{A}, {B}, {C}| are drawn but they have NO names, while \verb|coordinate|s \verb|(X), (Y)| are NOT drawn but they have names.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (0,1) node{A} --(0.5,0) coordinate (X)
+            --(2,0) node{B} --(1.5,1) coordinate (Y)
+            --(0.5,1.5) node{C};
+        \draw[red] (X) --(Y);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (0,1) node{A} --(0.5,0) coordinate (X)
+            --(2,0) node{B} --(1.5,1) coordinate (Y)
+            --(0.5,1.5) node{C};
+        \draw[red] (X) --(Y);
+    \end{tikzpicture}
+\]
+
+Use \verb|auto, sloped| option to name a straight line. The path direction is considered when specifying \verb|auto|.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \coordinate[label=left:B] (B) at (0,0);
+    \coordinate[label={[label distance=-3pt] 20:C}] (C) at (2,1);
+    \draw (B) -- node[auto,sloped]{$l_a$} (C);
+    \draw (0,0) -|(2,1);
+    \draw[xshift=3cm] (0,0) -- node[auto=right,sloped]{$l_b$} (2,1);
+    \draw[xshift=3cm] (0,0) -|(2,1);
+    \draw[xshift=6cm] (0,1) -- node[auto,sloped]{$l_c$} (2,0);
+    \draw[xshift=6cm] (0,1) |-(2,0);
+    \draw[xshift=9cm] (2,0) -- node[auto=right,sloped,allow upside down]{$l_d$} (0,1);
+    \draw[xshift=9cm] (2,0) -|(0,1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \coordinate[label=left:B] (B) at (0,0);
+    \coordinate[label={[label distance=-3pt] 20:C}] (C) at (2,1);
+    \draw (B) -- node[auto,sloped]{$l_a$} (C);
+    \draw (0,0) -|(2,1);
+    \draw[xshift=3cm] (0,0) -- node[auto=right,sloped]{$l_b$} (2,1);
+    \draw[xshift=3cm] (0,0) -|(2,1);
+    \draw[xshift=6cm] (0,1) -- node[auto,sloped]{$l_c$} (2,0);
+    \draw[xshift=6cm] (0,1) |-(2,0);
+    \draw[xshift=9cm] (2,0) -- node[auto=right,sloped,allow upside down]{$l_d$} (0,1);
+    \draw[xshift=9cm] (2,0) -|(0,1);
+    \end{tikzpicture}
+\]
+
 \section{How to Define Coordinate and Line}
+\label{sec:coordinate}
 
 Use \verb|\coordinate| to define coordinate, along with its label and position. Use the option \verb|save path| in \verb|\path| command to define a path/line to be drawn later.
 \begin{lstlisting}[
@@ -32,6 +280,7 @@ Use \verb|\coordinate| to define coordinate, along with its label and position. 
         \path[save path=\lb,name path=lb] (C) --(A);
         \draw[red,use path=\lc];
         \draw[cyan,use path=\lb];
+        \draw (1,2) -|(7,4);
     \end{tikzpicture}
 \end{lstlisting}
 \[
@@ -43,6 +292,53 @@ Use \verb|\coordinate| to define coordinate, along with its label and position. 
         \path[save path=\lb,name path=lb] (C) --(A);
         \draw[red,use path=\lc];
         \draw[cyan,use path=\lb];
+        \draw (1,2) -|(7,4);
+    \end{tikzpicture}
+\]
+
+\section{How to Plot POINT}
+
+To plot point explicitly, define the point style (right after \verb|\begin{tikzpicture}|), then pass it as option to \verb|node|. However, leave the \verb|node|'s text to empty (\verb|{}|). Below, the circle is on top of the node:
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \node[point] (c) at (0,0) {};
+        \node[point] (x) at (0.7,0.3) {};
+        \draw[red,thick] (c) --(x);
+        \node[draw=green,very thick,circle through=(x)] at (c) {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \node[point] (c) at (0,0) {};
+        \node[point] (x) at (0.7,0.3) {};
+        \draw[red,thick] (c) --(x);
+        \node[draw=green,very thick,circle through=(x)] at (c) {};
+    \end{tikzpicture}
+\]
+
+To make the point on top of the circle, first just define \verb|coordinate|, then at the end use \verb|\node[point]| to draw the point defined by the \verb|coordinate|.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \coordinate (c) at (0,0);
+        \coordinate (x) at (0.7,0.3);
+        \draw[red,thick] (c) --(x);
+        \node[draw=green,very thick, circle through=(x)] at (c) {};
+        \node[point] at (c) {};
+        \node[point] at (x) {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \coordinate (c) at (0,0);
+        \coordinate (x) at (0.7,0.3);
+        \draw[red,thick] (c) --(x);
+        \node[draw=green,very thick, circle through=(x)] at (c) {};
+        \node[point] at (c) {};
+        \node[point] at (x) {};
     \end{tikzpicture}
 \]
 
@@ -72,7 +368,7 @@ Use \verb|\coordinate| to define coordinate, along with its label and position. 
 
 \section{How to Draw Angle Bisector Line in Triangle}
 
-Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows figure are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the figure. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used at the top, right after \verb|\begin{tikzpicture}|.
+Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows diagram are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the diagram. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used at the top, right after \verb|\begin{tikzpicture}|.
 \begin{lstlisting}[
     language={[LaTeX] TeX},
     firstnumber=1,breaklines=true,gobble=4]
@@ -157,6 +453,35 @@ Below is the example shown in the \texttt{stackexchange.com}, modified a little 
     \path[name intersections={of=BisBCD and BisDBC, by=O}] ;
 
     \node[draw=red] at (O) [circle through={($(C)!(O)!(B)$)}] {};
+    \end{tikzpicture}
+\]
+
+\section{Draw Axis, Grid, Tick}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \draw[->,>=stealth,thick] (0,0) --(4.5,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,thick] (0,0) --(0,4.5) node[right]{$y$};
+    \draw (-0.1,-0.1) node[below left]{O}; %原点
+    \draw[step=1cm,help lines] (-0.1,-0.1) grid(5.5,5.5);
+    \foreach \x in {0,1,2,3,4}
+    \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {$\x$};
+    \foreach \y in {0,1,2,3,4}
+    \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\y$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth,thick] (0,0) --(4.5,0) node[above]{$x$}; %x軸
+    \draw[->,>=stealth,thick] (0,0) --(0,4.5) node[right]{$y$};
+    \draw (-0.1,-0.1) node[below left]{O}; %原点
+    \draw[step=1cm,help lines] (-0.1,-0.1) grid(5.5,5.5);
+    \foreach \x in {0,1,2,3,4}
+    \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {$\x$};
+    \foreach \y in {0,1,2,3,4}
+    \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\y$};
     \end{tikzpicture}
 \]
 
