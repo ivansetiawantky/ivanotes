@@ -7,7 +7,7 @@
 \title{\bfseries {\huge Memo for Drawing Diagram of Geometry Problem with TikZ}}
 \author{\LARGE Ivan Setiawan}
 \author{{\LARGE Ivan Setiawan\thanks{MyCompany, Inc.}} \and {\LARGE My Self\,\thanks{株式会社マイカンパニー}}}
-\date{Created: 2026年5月6日\\[0.3em]Last Updated: 2026/05/11}
+\date{Created: 2026年5月6日\\[0.3em]Last Updated: 2026/05/19}
 
 \renewcommand{\lstlistlistingname}{\LaTeX{} TikZ codelistの一覧}
 \renewcommand{\lstlistingname}{リスト}
@@ -264,6 +264,216 @@ Use \verb|auto, sloped| option to name a straight line. The path direction is co
     \draw[xshift=9cm] (2,0) -|(0,1);
     \end{tikzpicture}
 \]
+
+\section{How to Use Option}
+
+Option written right after environment, will be valid inside that environment. The \verb|[auto,x=24mm,y=12mm,->]| means, put the node's text automatically (so that the node is NOT positioned in-the-path), 1 means \qty{24}{\mm} in x-axis, 1 means in y-axis \qty{12}{\mm}, and draw arrow.
+\\[1em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}[auto,x=24mm,y=12mm,->]
+        \node (a) at (0,1) {$a$}; \node (x) at (1,1) {$x$};
+        \node (b) at (0,0) {$b$}; \node (y) at (1,0) {$y$};
+        \draw (a) -- node {$\scriptstyle f$} (x);
+        \draw (x) -- node {$\scriptstyle p$} (y);
+        \draw (a) -- node[swap] {$\scriptstyle i$} (b);
+        \draw (b) -- node[swap] {$\scriptstyle g$} (y);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.38 \textwidth}
+    \[
+        \begin{tikzpicture}[auto,x=24mm,y=12mm,->]
+        \node (a) at (0,1) {$a$}; \node (x) at (1,1) {$x$};
+        \node (b) at (0,0) {$b$}; \node (y) at (1,0) {$y$};
+        \draw (a) -- node {$\scriptstyle f$} (x);
+        \draw (x) -- node {$\scriptstyle p$} (y);
+        \draw (a) -- node[swap] {$\scriptstyle i$} (b);
+        \draw (b) -- node[swap] {$\scriptstyle g$} (y);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\subsection{Set \texttt{.style} in Option to Use the Same Style Inside Environment}
+
+The syntax is \verb|[スタイル名/.style=設定内容]|. This style is valid in the environment only. So, both of following commands means the same:
+\\[1em]
+\begin{minipage}{0.48 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8,numbers=none]
+        \begin{tikzpicture}
+            \draw[->,color=red,thick] (0,0) --(15:1);
+            \draw[->,color=red,thick] (0,0) --(75:1);
+            \draw[->,color=red,thick] (0,0) --(135:1);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8,numbers=none]
+        \begin{tikzpicture}[red arrow/.style={->,color=red,thick}]
+            \draw[red arrow] (0,0) --(15:1);
+            \draw[red arrow] (0,0) --(75:1);
+            \draw[red arrow] (0,0) --(135:1);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+
+If you want to used the style at different \verb|tikzpicture| environment, then in the preamble add this:
+\begin{verbatim}
+    \tikzset{red arrow/.style={->,color=red,thick}}
+\end{verbatim}
+
+The \verb|.style| can receive argument.
+\\[1em]
+\begin{minipage}{0.78 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}[outline/.style={draw=#1,fill=#1!20},outline/.default=red]
+            \node[outline] at (0,1) {red box};
+            \node[outline=blue] at (0,0) {blue box};
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.18 \textwidth}
+    \[
+        \begin{tikzpicture}[outline/.style={draw=#1,fill=#1!20},outline/.default=red]
+            \node[outline] at (0,1) {red box};
+            \node[outline=blue] at (0,0) {blue box};
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\subsection{Use \texttt{scope} to Limit the Scope of Style}
+
+Using \verb|scope|, we can limit the scope of the style.
+\\[1em]
+\begin{minipage}{0.78 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}[->,thick]
+            \begin{scope}[draw=red]
+                \draw (0,0) --( 15:1) node[right]{A};
+                \draw (0,0) --( 75:1) node[above]{B};
+            \end{scope}
+            \draw (0,0) --(135:1) node[above left]{C};
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.18 \textwidth}
+    \[
+        \begin{tikzpicture}[->,thick]
+            \begin{scope}[draw=red]
+                \draw (0,0) --( 15:1) node[right]{A};
+                \draw (0,0) --( 75:1) node[above]{B};
+            \end{scope}
+            \draw (0,0) --(135:1) node[above left]{C};
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\verb|[name prefix=名前]| option can be used to make a new variable.
+\\[1em]
+\begin{minipage}{0.78 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}
+            \begin{scope}[name prefix=top-]
+                \node (A) at (0,1) {A};
+                \node (B) at (1,1) {B};
+                \draw (A) --(B);
+            \end{scope}
+            \begin{scope}[name prefix=bottom-]
+                \node (A) at (0,0) {A};
+                \node (B) at (1,0) {B};
+                \draw (A) --(B);
+            \end{scope}
+            \draw[red] (top-A) --(bottom-B);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.18 \textwidth}
+    \[
+        \begin{tikzpicture}
+            \begin{scope}[name prefix=top-]
+                \node (A) at (0,1) {A};
+                \node (B) at (1,1) {B};
+                \draw (A) --(B);
+            \end{scope}
+            \begin{scope}[name prefix=bottom-]
+                \node (A) at (0,0) {A};
+                \node (B) at (1,0) {B};
+                \draw (A) --(B);
+            \end{scope}
+            \draw[red] (top-A) --(bottom-B);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\subsection{\texttt{every}}
+
+\verb|every| option will apply the option to every path, node etc. Please note the \verb|scope| will overwrite the \verb|.style|. Use \verb|.append style| to append the style (instead of just overwriting).
+\\[1em]
+\begin{minipage}{0.78 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}[every path/.style=->]
+            \node (A) at (0,0) {A};
+            \node (B) at (1,0) {B};
+            \node (C) at (0,1) {C};
+            \node (D) at (1,1) {D};
+            \draw (A) --(B);
+            \begin{scope}[every path/.style=dashed]
+                \draw (A) --(C);
+                \draw (A) --(D);
+            \end{scope}
+            \begin{scope}[every path/.append style=red]
+                \draw (B) --(D);
+                \draw (C) --(D);
+            \end{scope}
+            \draw (B) --(C);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.18 \textwidth}
+    \[
+        \begin{tikzpicture}[every path/.style=->]
+            \node (A) at (0,0) {A};
+            \node (B) at (1,0) {B};
+            \node (C) at (0,1) {C};
+            \node (D) at (1,1) {D};
+            \draw (A) --(B);
+            \begin{scope}[every path/.style=dashed]
+                \draw (A) --(C);
+                \draw (A) --(D);
+            \end{scope}
+            \begin{scope}[every path/.append style=red]
+                \draw (B) --(D);
+                \draw (C) --(D);
+            \end{scope}
+            \draw (B) --(C);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
 
 \section{How to Define Coordinate and Line}
 \label{sec:coordinate}
