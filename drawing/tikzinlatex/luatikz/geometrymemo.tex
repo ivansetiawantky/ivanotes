@@ -1,4 +1,4 @@
-% luatikztutorial.tex
+% geometrymemo.tex
 \documentclass[lualatex]{jlreq}
 \input{00preamble}
 
@@ -578,19 +578,19 @@ To make the point on top of the circle, first just define \verb|coordinate|, the
 
 \section{How to Draw Angle Bisector Line in Triangle}
 
-Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows diagram are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the diagram. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used at the top, right after \verb|\begin{tikzpicture}|.
+Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows diagram are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the diagram. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used before drawing any path (or right after \verb|\begin{tikzpicture}|).
 \begin{lstlisting}[
     language={[LaTeX] TeX},
     firstnumber=1,breaklines=true,gobble=4]
     \begin{tikzpicture}
     % \clip (-1,-0.5) rectangle (7,4.5);
-    \useasboundingbox (-1,-0.5) rectangle (7,4.5);
     \coordinate[label=left:A] (A) at (0,0);
     \coordinate[label=right:B] (B) at (6,2);
     \coordinate[label={[label distance=0.1cm] above:C}] (C) at (1,4);
     \path[save path=\lc,name path=lc] (A) --(B);
     \path[save path=\lb,name path=lb] (C) --(A);
     \path[save path=\la,name path=lb] (B) --(C);
+    \useasboundingbox (-1,-0.5) rectangle (7,4.5);
     \draw[dashed,use path=\lc];
     \draw[dashed,use path=\lb];
     \draw[use path=\la];
@@ -604,13 +604,13 @@ Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisect
 \[
     \begin{tikzpicture}
     % \clip (-1,-0.5) rectangle (7,4.5);
-    \useasboundingbox (-1,-0.5) rectangle (7,4.5);
     \coordinate[label=left:A] (A) at (0,0);
     \coordinate[label=right:B] (B) at (6,2);
     \coordinate[label={[label distance=0.1cm] above:C}] (C) at (1,4);
     \path[save path=\lc,name path=lc] (A) --(B);
     \path[save path=\lb,name path=lb] (C) --(A);
     \path[save path=\la,name path=lb] (B) --(C);
+    \useasboundingbox (-1,-0.5) rectangle (7,4.5);
     \draw[dashed,use path=\lc];
     \draw[dashed,use path=\lb];
     \draw[use path=\la];
@@ -628,10 +628,13 @@ Below is the example shown in the \texttt{stackexchange.com}, modified a little 
     firstnumber=1,breaklines=true,gobble=4]
     \begin{tikzpicture}
     % \clip (-3,-1) rectangle (9,7.5);
-    \useasboundingbox (-3,-1) rectangle (9,7.5);
     \coordinate[label=below left:$C$](C) at (-2,0);
+    \begin{scope}[local bounding box=abbox]
     \coordinate[label=below right:$A$](A) at (8,0);
     \coordinate[label=above left:$B$] (B) at (0,7);
+    \end{scope}
+    \useasboundingbox (C)+(-1,-1) rectangle (abbox.north east);
+    % \useasboundingbox (-3,-1) rectangle (9,7.5);
     \coordinate[label=above right:$D$](D) at ($(A)!(C)!(B)$);
     \draw (A) -- (B) -- (C) -- cycle;
     \draw (C) -- (D);
@@ -648,10 +651,13 @@ Below is the example shown in the \texttt{stackexchange.com}, modified a little 
 \[
     \begin{tikzpicture}
     % \clip (-3,-1) rectangle (9,7.5);
-    \useasboundingbox (-3,-1) rectangle (9,7.5);
     \coordinate[label=below left:$C$](C) at (-2,0);
+    \begin{scope}[local bounding box=abbox]
     \coordinate[label=below right:$A$](A) at (8,0);
     \coordinate[label=above left:$B$] (B) at (0,7);
+    \end{scope}
+    \useasboundingbox (C)+(-1,-1) rectangle (abbox.north east);
+    % \useasboundingbox (-3,-1) rectangle (9,7.5);
     \coordinate[label=above right:$D$](D) at ($(A)!(C)!(B)$);
     \draw (A) -- (B) -- (C) -- cycle;
     \draw (C) -- (D);
@@ -665,6 +671,127 @@ Below is the example shown in the \texttt{stackexchange.com}, modified a little 
     \node[draw=red] at (O) [circle through={($(C)!(O)!(B)$)}] {};
     \end{tikzpicture}
 \]
+
+\subsection{More about \texttt{bounding box}}
+
+As shown in the above example, by using the environment \verb|scope| with the option \verb|[local bounding box=名前]|, the bounding box created by the scope can be given a name to be referred later. Below is another example:
+\\[1em]
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}
+            \begin{scope}[local bounding box=test]
+                \node (a) at (0,1) {A};
+                \node (b) at (2,2) {B};
+            \end{scope}
+            \node (z) at (1,0) {Z};
+            \draw (a) --(b);
+            \draw[->] (test.south east) --(z);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        \begin{tikzpicture}
+            \begin{scope}[local bounding box=test]
+                \node (a) at (0,1) {A};
+                \node (b) at (2,2) {B};
+            \end{scope}
+            \node (z) at (1,0) {Z};
+            \draw (a) --(b);
+            \draw[->] (test.south east) --(z);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+Furthermore, \verb|(current bounding box)| refers to the node that represents the current bounding box. This node is in \verb|[shape=rectangle]|, so we can use its \verb|anchor|.
+\\[1em]
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}
+            \node (a) at (0,0) {A};
+            \node (b) at (2,1) {B};
+            \draw (a) --(b);
+            \draw (0,1) --(2,2);
+            \draw (current bounding box.south west)
+            rectangle(current bounding box.north east);
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        \begin{tikzpicture}
+            \node (a) at (0,0) {A};
+            \node (b) at (2,1) {B};
+            \draw (a) --(b);
+            \draw (0,1) --(2,2);
+            \draw (current bounding box.south west)
+            rectangle(current bounding box.north east);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\section{About \texttt{newcommand}}
+
+Below \verb|\pathTriangle| is a \verb|newcommand| to create triangle:
+\\[1em]
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=8]
+        \newcommand{\pathTriangle}[4][]{
+            \path[#1] (#2) --(#3) --(#4) --cycle;}
+        \begin{tikzpicture}
+            \pathTriangle[fill=blue!20]{0,0}{2,0}{2,2}
+            \pathTriangle[draw=red]{1,0}{2,0}{2,1}
+        \end{tikzpicture}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        \newcommand{\pathTriangle}[4][]{
+            \path[#1] (#2) --(#3) --(#4) --cycle;}
+        \begin{tikzpicture}
+            \pathTriangle[fill=blue!20]{0,0}{2,0}{2,2}
+            \pathTriangle[draw=red]{1,0}{2,0}{2,1}
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+And below \verb|\batsu| is a \verb|newcommand| to superscript with red false mark:
+\\[1em]
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=4]
+    \newcommand{\batsu}[1]{\begin{tikzpicture}[baseline=(a.base)]
+            \node[inner sep=0pt] (a) at (0,0) {#1};
+            \draw[red] (a.south east) --(a.north west);
+            \draw[red] (a.south west) --(a.north east);
+        \end{tikzpicture}} % chktex 31
+
+    あいうえお \batsu{かきくけこ}さしすせそ
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \newcommand{\batsu}[1]{\begin{tikzpicture}[baseline=(a.base)]
+            \node[inner sep=0pt] (a) at (0,0) {#1};
+            \draw[red] (a.south east) --(a.north west);
+            \draw[red] (a.south west) --(a.north east);
+        \end{tikzpicture}} % chktex 31
+
+    あいうえお \batsu{かきくけこ}さしすせそ
+\end{minipage}
+\\[1em]
 
 \section{Draw Axis, Grid, Tick}
 
