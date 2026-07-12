@@ -824,6 +824,32 @@ And below \verb|\batsu| is a \verb|newcommand| to superscript with red false mar
 
 \section{How to Annotate Line with Its Length}
 
-TODO on how to annotate line with for example its length.
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}
+        \coordinate (a) at (0,0);
+        \coordinate (b) at (2,0);
+        \coordinate (c) at (2,2);
+        \coordinate (d) at (1.5,2);
+        \draw (a) --(b) --(c) --(d) --cycle;
+        \draw [ultra thin] (a) to [bend left=41] node [fill=white, midway, inner sep=2pt] {$1$cm} (d);
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        \begin{tikzpicture}
+        \coordinate (a) at (0,0);
+        \coordinate (b) at (2,0);
+        \coordinate (c) at (2,2);
+        \coordinate (d) at (1.5,2);
+        \draw (a) --(b) --(c) --(d) --cycle;
+        \draw [ultra thin] (a) to [bend left=41] node [fill=white, midway, inner sep=2pt] {$1$cm} (d);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
 
 \end{document}
