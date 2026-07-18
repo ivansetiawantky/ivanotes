@@ -116,7 +116,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
     "latex-workshop.linting.chktex.enabled": true,
     "latex-workshop.linting.run": "onType",
     "latex-workshop.formatting.latex": "latexindent",
-    "latex-workshop.format.fixQuotes.enabled": true,
+    "latex-workshop.format.fixQuotes.enabled": false,
     "latex-workshop.format.fixMath.enabled": false,
     "latex-workshop.formatting.latexindent.path": "latexindent",
     "latex-workshop.formatting.latexindent.args": [
