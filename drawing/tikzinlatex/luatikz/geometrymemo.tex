@@ -824,6 +824,9 @@ And below \verb|\batsu| is a \verb|newcommand| to superscript with red false mar
 
 \section{How to Annotate Line with Its Length}
 
+The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
+\\[0.1em]
+
 \begin{minipage}{0.68 \textwidth}
     \begin{lstlisting}[language={[LaTeX] TeX},
         firstnumber=1,breaklines=true,gobble=8]
@@ -833,7 +836,7 @@ And below \verb|\batsu| is a \verb|newcommand| to superscript with red false mar
         \coordinate (c) at (2,2);
         \coordinate (d) at (1.5,2);
         \draw (a) --(b) --(c) --(d) --cycle;
-        \draw [ultra thin] (a) to [bend left=41] node [fill=white, midway, inner sep=2pt] {$1$cm} (d);
+        \draw [ultra thin] (a) to [bend left=42] node [fill=white, midway, inner sep=2.5pt] {$1$ cm} (d);
         \end{tikzpicture}
 \end{lstlisting}
 \end{minipage}
@@ -846,7 +849,278 @@ And below \verb|\batsu| is a \verb|newcommand| to superscript with red false mar
         \coordinate (c) at (2,2);
         \coordinate (d) at (1.5,2);
         \draw (a) --(b) --(c) --(d) --cycle;
-        \draw [ultra thin] (a) to [bend left=41] node [fill=white, midway, inner sep=2pt] {$1$cm} (d);
+        \draw [ultra thin] (a) to [bend left=42] node [fill=white, midway, inner sep=2.5pt] {$1$ cm} (d);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\section{Draw angle: \texttt{pic angle}}
+
+To draw angle, call \verb|\usetikzlibrary{angles}|, then use \verb|pic| operation. In the next example, \verb|angle eccentricity| set the relative position of the \verb|pic text| relative to the angle curve. And, the \verb|angle radius| set the size or radius of the angle curve. If the \verb|draw| inside \verb|pic|'s option is omitted, then the angle curve will NOT be drawn.
+\\[0.1em]
+
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        % \usetikzlibrary{angles}
+        \begin{tikzpicture}
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (1.5,1);
+        \draw (A) --(B) --(C) pic[draw,->,angle eccentricity=1.5,pic text={$\theta$}]{angle=A--B--C};
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        % \usetikzlibrary{angles}
+        \begin{tikzpicture}
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (1.5,1);
+        \draw (A) --(B) --(C) pic[draw,->,angle eccentricity=1.5,pic text={$\theta$}]{angle=A--B--C};
+        \end{tikzpicture}
+    \]
+\end{minipage}
+
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        % \usetikzlibrary{angles}
+        \begin{tikzpicture}
+        \coordinate (A) at (1.5,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (0,1);
+        \draw (A) --(B) --(C) pic[draw,angle radius=2mm]{right angle=A--B--C};
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        % \usetikzlibrary{angles}
+        \begin{tikzpicture}
+            \coordinate (A) at (1.5,0);
+            \coordinate (B) at (0,0);
+            \coordinate (C) at (0,1);
+            \draw (A) --(B) --(C) pic[draw,angle radius=2mm]{right angle=A--B--C};
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[0.1em]
+
+Also, it is maybe better to use the quotes syntax \verb|"| as a shortened form of \verb|[label]| and \verb|[pin]|.
+\\[0.1em]
+
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        % \usetikzlibrary{angles,quotes}
+        \begin{tikzpicture}[scale=3]
+        \coordinate (A) at (1,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (30:1cm);
+        \draw (A) --(B) --(C) pic [draw=red, fill=green!20, angle radius=10mm, "$\alpha$"] {angle = A--B--C};
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        % \usetikzlibrary{angles,quotes}
+        \begin{tikzpicture}[scale=3]
+        \coordinate (A) at (1,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (30:1cm);
+        \draw (A) --(B) --(C) pic [draw=red, fill=green!20, angle radius=10mm, "$\alpha$"] {angle = A--B--C};
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\section{Symbols for equal shapes: 図形の等しい記号}
+
+\subsection{Symbol for equal angle (using \texttt{pic}): 角度の等しい記号}
+
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        % \usetikzlibrary{angles}
+        \begin{tikzpicture}[double arc/.style={double,double distance=2pt},triple arc/.style={double distance=4pt,pic actions/.append code=\tikzset{postaction={draw}}}]
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (30:2cm);
+        \coordinate (D) at (50:2cm);
+        \coordinate (E) at (85:2cm);
+        \coordinate (F) at (120:2cm);
+        \coordinate (G) at (-25:2cm);
+        \draw (A) --(B) --(C);
+        \pic[draw,angle radius=9mm,angle eccentricity=1.0,pic text={$\circ$}]{angle=A--B--C};
+        \draw (B) --(D);
+        \pic[angle radius=9mm,angle eccentricity=1.0,pic text={$\times$}]{angle=C--B--D};
+        \draw (B) --(E);
+        \pic[draw,double arc,angle radius=9mm]{angle=D--B--E};
+        \draw (B) --(F);
+        \pic[draw,triple arc,angle radius=9mm]{angle=E--B--F};
+        \draw (B) --(G);
+        \pic[angle radius=9mm,angle eccentricity=1.0,pic text={$\bullet$}]{angle=G--B--A};
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        % \usetikzlibrary{angles}
+        \begin{tikzpicture}[double arc/.style={double,double distance=2pt},triple arc/.style={double distance=4pt,pic actions/.append code=\tikzset{postaction={draw}}}]
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (30:2cm);
+        \coordinate (D) at (50:2cm);
+        \coordinate (E) at (85:2cm);
+        \coordinate (F) at (120:2cm);
+        \coordinate (G) at (-25:2cm);
+        \draw (A) --(B) --(C);
+        \pic[draw,angle radius=9mm,angle eccentricity=1.0,pic text={$\circ$}]{angle=A--B--C};
+        \draw (B) --(D);
+        \pic[angle radius=9mm,angle eccentricity=1.0,pic text={$\times$}]{angle=C--B--D};
+        \draw (B) --(E);
+        \pic[draw,double arc,angle radius=9mm]{angle=D--B--E};
+        \draw (B) --(F);
+        \pic[draw,triple arc,angle radius=9mm]{angle=E--B--F};
+        \draw (B) --(G);
+        \pic[angle radius=9mm,angle eccentricity=1.0,pic text={$\bullet$}]{angle=G--B--A};
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\subsection{Symbol for equal size/length: 長さの等しい記号}
+
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}
+        \coordinate (O) at (0,0);
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (15:2.5cm);
+        \coordinate (C) at (30:3cm);
+        \coordinate (D) at (45:3.5cm);
+        \coordinate (E) at (60:4cm);
+        \draw (O) --(A);
+        \path (O) -- node[sloped,rotate=90]{$-$} (A);
+        \draw (O) --(B);
+        \path (O) -- node[sloped,rotate=90]{$=$} (B);
+        \draw (O) --(C);
+        \path (O) -- node[sloped,rotate=90]{$\equiv$} (C);
+        \draw (O) --(D);
+        \path (O) -- node[sloped,font=\footnotesize]{$\mathrm{IV}$} (D);
+        \draw (O) --(E);
+        \path (O) -- node[sloped,font=\footnotesize]{$\mathrm{V}$} (E);
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        \begin{tikzpicture}
+        \coordinate (O) at (0,0);
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (15:2.5cm);
+        \coordinate (C) at (30:3cm);
+        \coordinate (D) at (45:3.5cm);
+        \coordinate (E) at (60:4cm);
+        \draw (O) --(A);
+        \path (O) -- node[sloped,rotate=90]{$-$} (A);
+        \draw (O) --(B);
+        \path (O) -- node[sloped,rotate=90]{$=$} (B);
+        \draw (O) --(C);
+        \path (O) -- node[sloped,rotate=90]{$\equiv$} (C);
+        \draw (O) --(D);
+        \path (O) -- node[sloped,font=\footnotesize]{$\mathrm{IV}$} (D);
+        \draw (O) --(E);
+        \path (O) -- node[sloped,font=\footnotesize]{$\mathrm{V}$} (E);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\subsection{Symbol for parallel: 平行の記号}
+
+\begin{minipage}{0.68 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}
+        \coordinate (O) at (0,0);
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (15:2.5cm);
+        \coordinate (C) at (30:3cm);
+        \coordinate (D) at (45:3.5cm);
+        \coordinate (E) at (60:4cm);
+        \draw (O) --(A);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>}$} (A);
+        \draw (O) --(B);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>}$} (B);
+        \draw (O) --(C);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>>}$} (C);
+        \draw (O) --(D);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>>>}$} (D);
+        \draw (O) --(E);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>>>>}$} (E);
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.28 \textwidth}
+    \[
+        \begin{tikzpicture}
+        \coordinate (O) at (0,0);
+        \coordinate (A) at (2,0);
+        \coordinate (B) at (15:2.5cm);
+        \coordinate (C) at (30:3cm);
+        \coordinate (D) at (45:3.5cm);
+        \coordinate (E) at (60:4cm);
+        \draw (O) --(A);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>}$} (A);
+        \draw (O) --(B);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>}$} (B);
+        \draw (O) --(C);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>>}$} (C);
+        \draw (O) --(D);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>>>}$} (D);
+        \draw (O) --(E);
+        \path (O) -- node[midway,sloped,font=\small]{$\mathrm{>>>>>}$} (E);
+        \end{tikzpicture}
+    \]
+\end{minipage}
+\\[1em]
+
+\section{Plotting function}
+
+\begin{minipage}{0.48 \textwidth}
+    \begin{lstlisting}[language={[LaTeX] TeX},
+        firstnumber=1,breaklines=true,gobble=8]
+        \begin{tikzpicture}[domain=-0.5:3.9]
+        \draw[help lines] (-0.5,-0.5) grid (3.9,3.9);
+        \draw[->] (-0.5,0) -- (4.2,0) node[right] {$x$};
+        \draw[->] (0,-0.5) -- (0,4.2) node[above] {$y$};
+        \draw[color=red] plot(\x,\x) node[right] {$y=x$};
+        \draw[color=blue] plot(\x,\x*\x/5) node[right] {$y=\dfrac{1}{5} x^2$};
+        \draw[color=green!70!black] plot(\x,-\x*3/5+3) node[right] {$y=-\dfrac{3}{5} x+3$};
+        \end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48 \textwidth}
+    \[
+        \begin{tikzpicture}[domain=-0.5:3.9]
+        \draw[help lines] (-0.5,-0.5) grid (3.9,3.9);
+        \draw[->] (-0.5,0) -- (4.2,0) node[right] {$x$};
+        \draw[->] (0,-0.5) -- (0,4.2) node[above] {$y$};
+        \draw[color=red] plot(\x,\x) node[right] {$y=x$};
+        \draw[color=blue] plot(\x,\x*\x/5) node[right] {$y=\dfrac{1}{5} x^2$};
+        \draw[color=green!70!black] plot(\x,-\x*3/5+3) node[right] {$y=-\dfrac{3}{5} x+3$};
         \end{tikzpicture}
     \]
 \end{minipage}
