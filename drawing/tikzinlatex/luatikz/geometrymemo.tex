@@ -836,7 +836,9 @@ The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
         \coordinate (c) at (2,2);
         \coordinate (d) at (1.5,2);
         \draw (a) --(b) --(c) --(d) --cycle;
-        \draw [ultra thin] (a) to [bend left=42] node [fill=white, midway, inner sep=2.5pt] {$1$ cm} (d);
+        \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {$1$ cm} (d);
+        \draw [ultra thin] (b) to [bend right=30] node [fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
+        \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {$1.7$ cm} (b);
         \end{tikzpicture}
 \end{lstlisting}
 \end{minipage}
@@ -849,7 +851,9 @@ The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
         \coordinate (c) at (2,2);
         \coordinate (d) at (1.5,2);
         \draw (a) --(b) --(c) --(d) --cycle;
-        \draw [ultra thin] (a) to [bend left=42] node [fill=white, midway, inner sep=2.5pt] {$1$ cm} (d);
+        \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {$1$ cm} (d);
+        \draw [ultra thin] (b) to [bend right=30] node [fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
+        \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {$1.7$ cm} (b);
         \end{tikzpicture}
     \]
 \end{minipage}
@@ -1124,6 +1128,221 @@ Also, it is maybe better to use the quotes syntax \verb|"| as a shortened form o
         \end{tikzpicture}
     \]
 \end{minipage}
+\\[1em]
+
+\section{About coordinate}
+
+\subsection{About polar coordinate}
+
+Good explanation taken from https://alg-d.com/math/tikz.pdf.
+
+極座標を表す座標系名 \verb|canvas polar| では，座標として円だけではなく楕円も使用することができる．
+この場合 \verb|radius| ではなく \verb|x radius| と \verb|y radius| を設定する．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) circle[x radius=2cm,y radius=1cm];
+        \draw (0,0) --(canvas polar cs:angle=30,x radius=2cm,y radius=1cm);
+        \draw (0,0) --(canvas polar cs:angle=60,x radius=2cm,y radius=1cm);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) circle[x radius=2cm,y radius=1cm];
+        \draw (0,0) --(canvas polar cs:angle=30,x radius=2cm,y radius=1cm);
+        \draw (0,0) --(canvas polar cs:angle=60,x radius=2cm,y radius=1cm);
+    \end{tikzpicture}
+\]
+
+略記する場合は \verb|(角度:長さx and 長さy))| と書く．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) circle[x radius=2cm,y radius=1cm];
+        \draw (0,0) --(30:2cm and 1cm);
+        \draw (0,0) --(60:2cm and 1cm);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) circle[x radius=2cm,y radius=1cm];
+        \draw (0,0) --(30:2cm and 1cm);
+        \draw (0,0) --(60:2cm and 1cm);
+    \end{tikzpicture}
+\]
+
+また似たような座標系名として \verb|xyz polar| がある．これも極座標名だ他， \verb|x radius| と \verb|y radius| の大きさの単位として \verb|[x]| と \verb|[y]| を使用する．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}[x=2cm,y=1cm]
+        \draw[help lines] (0,0) circle[x radius=2cm,y radius=1cm];
+        \draw (0,0) --(xyz polar cs:angle=30,radius=1.2);
+        \draw (0,0) --(xyz polar cs:angle=60,radius=0.8);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[x=2cm,y=1cm]
+        \draw[help lines] (0,0) circle[x radius=2cm,y radius=1cm];
+        \draw (0,0) --(xyz polar cs:angle=30,radius=1.2);
+        \draw (0,0) --(xyz polar cs:angle=60,radius=0.8);
+    \end{tikzpicture}
+\]
+
+これも \verb|canvas polar| と同様の略記をすることができる．これは長さの単位があれば \verb|canvas polar| ，長さの単位がなければ \verb|xyz polar| として扱われる．
+\\[0.5em]
+\begin{minipage}{0.64 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}[x={(0cm,1cm)},y={(-1cm,0cm)}]
+                \draw[->,red] (0,0) --(1,0);
+                \draw (0,0) --(30:1cm) --(60:1cm) --(90:1cm);
+            \end{tikzpicture}
+
+            \begin{tikzpicture}[x={(0cm,1cm)},y={(-1cm,0cm)}]
+                \draw[->,red] (0,0) --(1,0);
+                \draw (0,0) --(30:1) --(60:1) --(90:1);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\begin{minipage}{0.28 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}[x={(0cm,1cm)},y={(-1cm,0cm)}]
+                \draw[->,red] (0,0) --(1,0);
+                \draw (0,0) --(30:1cm) --(60:1cm) --(90:1cm);
+            \end{tikzpicture}
+            \\
+            \\
+            \begin{tikzpicture}[x={(0cm,1cm)},y={(-1cm,0cm)}]
+                \draw[->,red] (0,0) --(1,0);
+                \draw (0,0) --(30:1) --(60:1) --(90:1);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\hfill
+\\[1em]
+
+\subsection{相対的な座標指定 (Using relative coordinate)}
+
+\verb|(座標)| の前に \verb|++| を付けて \verb|++(座標)| とすると，これは「直前の座標」からの相対的な座標指定になる．
+\\[0.5em]
+\begin{minipage}{0.64 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) --(1,0) --++(0,1) --++(-45:1) --(2,1);
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\begin{minipage}{0.28 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) --(1,0) --++(0,1) --++(-45:1) --(2,1); % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\hfill
+\\[1em]
+また \verb|++| ではなく \verb|+| を使うと，この座標は相対指定の際に使わなくなる．
+\\[0.5em]
+\begin{minipage}{0.64 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) --(1,0) --+(0,1) --+(-45:1) --(2,1);
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\begin{minipage}{0.28 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) --(1,0) --+(0,1) --+(-45:1) --(2,1); % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\hfill
+\\[1em]
+
+\subsection{座標へのオプション (\texttt{[xshift], [rotate], [turn]})}
+
+座標を使う時は \verb|([オプション]座標)| とすることで，その \verb|(座標)| に直接オプションを設定することができる．例えば次の例を参照．
+\\[0.5em]
+\begin{minipage}{0.64 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \coordinate (a) at (0,0);
+                \coordinate (b) at (0,1);
+                \draw[->] (a) --(b) node[above]{1};
+                \draw[->] (a) --([xshift=1cm] b) node[above]{2};
+                \draw[->] (a) --([rotate=45] b) node[above]{3};
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\begin{minipage}{0.28 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \coordinate (a) at (0,0);
+                \coordinate (b) at (0,1);
+                \draw[->] (a) --(b) node[above]{1};
+                \draw[->] (a) --([xshift=1cm] b) node[above]{2};
+                \draw[->] (a) --([rotate=45] b) node[above]{3};
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\hfill
+\\[1em]
+さらに \verb|(座標)| に設定できるオプションとして \verb|[turn]| がある．これを設定すると，直前のパス (path) の接線方向を \(x \) 軸方向とみなした「座標」となる（原点は現在位置）．次の例を参照．
+\\[0.5em]
+\begin{minipage}{0.72 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) --(2,1) --([turn] 0,1); % chktex 1, chktex 36
+
+
+
+            \tikz \draw (0,0) to[bend left=30](1,1) --([turn] 1,0);
+
+
+
+            \tikz \draw (0,0) --(1.5,0) --([turn] 100:1.3cm)
+                --([turn] 105:1.2cm) --cycle;
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\begin{minipage}{0.24 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) --(2,1) --([turn] 0,1); % chktex 1, chktex 36
+            \\
+            \tikz \draw (0,0) to[bend left=30](1,1) --([turn] 1,0); % chktex 1, chktex 36
+            \\
+            \tikz \draw (0,0) --(1.5,0) --([turn] 100:1.3cm) --([turn] 105:1.2cm) --cycle; % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\hfill
 \\[1em]
 
 \end{document}
