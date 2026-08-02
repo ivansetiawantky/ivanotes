@@ -1345,4 +1345,101 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 \hfill
 \\[1em]
 
+\section{perpendicular 座標系 \texttt{(座標1|-座標2)} または \texttt{(座標2-|座標1)}}
+
+略記法 \texttt{(座標1|-座標2)} または \texttt{(座標2-|座標1)} は，「\(x \)座標が (座標1) と同じ」で「\(y \)座標が (座標2) と同じ」となる「座標」を表す．つまり，「\texttt{|}」の隣接座標から \(x \) 座標を，「\texttt{-}」の隣接する座標から \(y \) を取る．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (2,1) {B};
+                \draw[->] (a|-b) --(a-|b);
+                \draw[->,red] (a|-100,2) --(b|-0,2);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (2,1) {B};
+                \draw[->] (a|-b) --(a-|b);
+                \draw[->,red] (a|-100,2) --(b|-0,2);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\hfill
+\\[1em]
+なので例えば，\(xy \) 平面上に閉区間 \([a,b]\) と \([c,d]\) の直積は次のように描くことができる．
+\\[0.5em]
+\begin{minipage}{0.64 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}[point/.style={fill,
+                shape=circle,inner sep=1pt,outer sep=0pt}]
+                % x 軸とy 軸
+                \draw[->] (-0.5,0) --(2.6,0) node[right]{$x$};
+                \draw[->] (0,-0.5) --(0,4) node[above]{$y$};
+
+                % 軸上の点（値は label で表示）
+                \node[point,label=below:$a$] (x0) at (0.7,0) {};
+                \node[point,label=below:$b$] (x1) at (2,0) {};
+                \node[point,label=left:$c$] (y0) at (0,1) {};
+                \node[point,label=left:$d$] (y1) at (0,3) {};
+
+                % 直積
+                \draw[fill=blue!10] (x0|-y0) rectangle(x1|-y1);
+
+                % 点線
+                \draw[dashed] (x0) --(x0|-y0);
+                \draw[dashed] (x1) --(x1|-y0);
+                \draw[dashed] (y0) --(x0|-y0);
+                \draw[dashed] (y1) --(x0|-y1);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}[point/.style={fill,
+                            shape=circle,inner sep=1pt,outer sep=0pt}]
+                % x 軸とy 軸
+                \draw[->] (-0.5,0) --(2.6,0) node[right]{$x$};
+                \draw[->] (0,-0.5) --(0,4) node[above]{$y$};
+
+                % 軸上の点（値は label で表示）
+                \node[point,label=below:$a$] (x0) at (0.7,0) {};
+                \node[point,label=below:$b$] (x1) at (2,0) {};
+                \node[point,label=left:$c$] (y0) at (0,1) {};
+                \node[point,label=left:$d$] (y1) at (0,3) {};
+
+                % 直積
+                \draw[fill=blue!10] (x0|-y0) rectangle(x1|-y1);
+
+                % 点線
+                \draw[dashed] (x0) --(x0|-y0);
+                \draw[dashed] (x1) --(x1|-y0);
+                \draw[dashed] (y0) --(x0|-y0);
+                \draw[dashed] (y1) --(x0|-y1);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\section{座標計算 coordinate calculation}
+
 \end{document}
