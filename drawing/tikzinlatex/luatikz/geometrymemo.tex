@@ -577,6 +577,7 @@ To make the point on top of the circle, first just define \verb|coordinate|, the
 \]
 
 \section{How to Draw Angle Bisector Line in Triangle}
+\label{sec:anglebisector}
 
 Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows diagram are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the diagram. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used before drawing any path (or right after \verb|\begin{tikzpicture}|).
 \begin{lstlisting}[
@@ -1441,5 +1442,353 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 \\[1em]
 
 \section{座標計算 coordinate calculation}
+
+\verb|\usetikzlibrary{calc}| とすることで座標計算をすることができるようになる．座標計算は \verb|( )| の中で \verb|$| を使って \verb|($座標の計算式$)| という形で書く．行える計算については次のようなものがある．
+
+\subsection{座標に対して \texttt{+, -, *} の計算}
+
+座標に対して \texttt{+, -, *} の計算ができる．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (1,1) {B};
+                \fill[red] ($(b)+(1,0)$) circle[radius=2pt];
+                \fill[blue] ($2*(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (1,1) {B};
+                \fill[red] ($(b)+(1,0)$) circle[radius=2pt];
+                \fill[blue] ($2*(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+入れ子にすることでより複雑な計算もできる．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node (c) at (0,1) {C};
+                \node (d) at (1,0) {D};
+                \draw[->] (0,0) --($2*($(d)-(c)$)+(0,1)$);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node (c) at (0,1) {C};
+                \node (d) at (1,0) {D};
+                \draw[->] (0,0) --($2*($(d)-(c)$)+(0,1)$);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\subsection{\texttt{(\$(座標1)!割合!(座標2)\$)}} % chktex 36
+
+\verb|($(座標1)!割合!(座標2)$)| と書くと，線分 \verb|(座標1) --(座標2)| の内分点や外分点の座標を計算することができる．\verb|割合| には内分点や外分点の位置を設定する．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node[inner sep=0] (a) at (0,0) {A};
+                \node[inner sep=0] (b) at (1,1) {B};
+                \draw (a) --(b);
+                \draw (0,0) |-(1,1);
+                \draw (a) -|(b); % see the diff with above
+                \fill[red] ($(a)!0.5!(b)$) circle[radius=2pt];
+                \fill[blue] ($(a)!2!(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node[inner sep=0] (a) at (0,0) {A};
+                \node[inner sep=0] (b) at (1,1) {B};
+                \draw (a) --(b);
+                \draw (0,0) |-(1,1);
+                \draw (a) -|(b); % see the diff with above
+                \fill[red] ($(a)!0.5!(b)$) circle[radius=2pt];
+                \fill[blue] ($(a)!2!(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+また \verb|(座標2)| の直前に \textbf{\texttt{角度:}} をつけることもできる．これをつけると \verb|(座標2)| を， \verb|(座標1)| を中心に \textbf{\texttt{角度}} だけ回転させて計算する．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (1,1) {B};
+                \draw (a) --(b);
+                \fill[red] ($(a)!0.5!45:(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (1,1) {B};
+                \draw (a) --(b);
+                \fill[red] ($(a)!0.5!45:(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+これを使うと指定した角度で線を引くことができる．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \coordinate[label=below left:$(a)$] (a) at (0,0);
+                \coordinate[label=right:$(b)$] (b) at (2,1);
+                \coordinate[label=above:$(\$(a)!1!30:(b)\$)$]
+                    (c) at ($(a)!1!30:(b)$);
+                \draw (b) --(a) --($(a)!1!30:(b)$);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \coordinate[label=below left:$(a)$] (a) at (0,0);
+                \coordinate[label=right:$(b)$] (b) at (2,1);
+                \coordinate[label=above:$(\$(a)!1!30:(b)\$)$] (c) at ($(a)!1!30:(b)$);
+                \draw (b) --(a) --($(a)!1!30:(b)$);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\subsection{\texttt{(\$(座標1)!長さ!(座標2)\$)}} % chktex 36
+
+\verb|($(座標1)!長さ!(座標2)$)| と書くと，線分 \verb|(座標1) --(座標2)| 上の点で，\verb|(座標1)| から \textbf{\texttt{長さ}} の位置にある座標を計算することができる．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (2,2) {B};
+                \draw (a) --(b);
+                \fill[red] ($(a)!1cm!(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (2,2) {B};
+                \draw (a) --(b);
+                \fill[red] ($(a)!1cm!(b)$) circle[radius=2pt];
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+この場合も \verb|(座標2)| の直前に \textbf{\texttt{角度:}} をつけることができる．これを使うと，直線上の点から向かって左に \qty{1}{cm} の位置を計算したりできる．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (1,2) {B};
+                \draw (a) --(b);
+                \coordinate (c) at ($(a)!0.3!(b)$);
+                \node[fill,shape=circle,inner sep=1pt]
+                    (x) at ($(c)!1cm!90:(b)$) {};
+                \draw[dashed] (c) --(x);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \node (a) at (0,0) {A};
+                \node (b) at (1,2) {B};
+                \draw (a) --(b);
+                \coordinate (c) at ($(a)!0.3!(b)$);
+                \node[fill,shape=circle,inner sep=1pt] (x) at ($(c)!1cm!90:(b)$) {};
+                \draw[dashed] (c) --(x);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\subsection{\texttt{(\$(座標1)!(座標3)!(座標2)\$)}} % chktex 36
+
+\verb|($(座標1)!(座標3)!(座標2)$)| と書くと，\verb|(座標2)| から線分 \verb|(座標1) --(座標3)| に対して垂線を下したときの足の座標を計算することができる．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \coordinate (a) at (0,2);
+                \coordinate (b) at (1,0);
+                \coordinate (c) at (2,2);
+                \draw (b) --(c);
+                \draw[red] (a) --($(b)!(a)!(c)$);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \coordinate (a) at (0,2);
+                \coordinate (b) at (1,0);
+                \coordinate (c) at (2,2);
+                \draw (b) --(c);
+                \draw[red] (a) --($(b)!(a)!(c)$);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\subsection{How to draw angle bisector line (二等分線), again \(\dots \) (See also Section~\ref{sec:anglebisector})}
+
+例えば角の二等分線であれば次のように描くことができる．
+\begin{wrapfigure}{R}{0.5 \textwidth}
+    \centering
+    \vspace{3 \baselineskip}
+    \[
+        \begin{tikzpicture}
+        % 3点
+        \coordinate (A) at (2,2);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (3,0);
+        \draw (B) --(A) --(C);
+
+        % 二等分線する座標を求める
+        \coordinate (P0) at ($(A)!1cm!(B)$);
+        \coordinate (P1) at ($(A)!1cm!(C)$);
+        \coordinate (P) at ($(P0)!0.5!(P1)$);
+
+        % 二等分線（適当に伸ばす）
+        \draw (A) --($(A)!2.8cm!(P)$);
+
+        % 等しい記号（pic オペレーション）
+        \pic[draw,pic text={$\circ$},angle eccentricity=1.02]{angle=B--A--P};
+        \pic[draw,pic text={$\circ$},angle eccentricity=1.02]{angle=P--A--C};
+        \end{tikzpicture}
+    \]
+\end{wrapfigure}
+\begin{lstlisting}[language={[LaTeX] TeX},numbers=none,breaklines=false,gobble=8]
+        \begin{tikzpicture}
+        % 3点
+        \coordinate (A) at (2,2);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (3,0);
+        \draw (B) --(A) --(C);
+
+        % 二等分線する座標を求める
+        \coordinate (P0) at ($(A)!1cm!(B)$);
+        \coordinate (P1) at ($(A)!1cm!(C)$);
+        \coordinate (P) at ($(P0)!0.5!(P1)$);
+
+        % 二等分線（適当に伸ばす）
+        \draw (A) --($(A)!2.8cm!(P)$);
+
+        % 等しい記号（pic オペレーション）
+        \pic[draw,pic text={$\circ$},angle eccentricity=1.02]{angle=B--A--P};
+        \pic[draw,pic text={$\circ$},angle eccentricity=1.02]{angle=P--A--C};
+        \end{tikzpicture}
+\end{lstlisting}
+
+\subsection{How to combine perpendicular coordinate and coordinate calculation}
+
+座標計算と \verb|perpendicular| 座標系を組み合わせる場合は \verb|{}| を使用する．
+\begin{wrapfigure}{R}{0.38 \textwidth}
+    \[
+        \begin{tikzpicture}
+        \node (a) at (0,0) {A};
+        \node (b) at (3,2) {B};
+
+        \fill[red] ($(a)!0.7!(b)$) circle[radius=2pt];
+        \draw[->] ({$(a)!0.7!(b)$} |- a) --({$(a)!0.7!(b)$} -| a);
+        \end{tikzpicture}
+    \]
+\end{wrapfigure}
+\begin{lstlisting}[language={[LaTeX] TeX},numbers=none,breaklines=false,gobble=8]
+        \begin{tikzpicture}
+        \node (a) at (0,0) {A};
+        \node (b) at (3,2) {B};
+
+        \fill[red] ($(a)!0.7!(b)$) circle[radius=2pt];
+        \draw[->] ({$(a)!0.7!(b)$} |- a) --({$(a)!0.7!(b)$} -| a);
+        \end{tikzpicture}
+\end{lstlisting}
 
 \end{document}
