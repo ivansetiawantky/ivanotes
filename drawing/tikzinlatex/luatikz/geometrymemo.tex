@@ -1770,7 +1770,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 \subsection{How to combine perpendicular coordinate and coordinate calculation}
 
 座標計算と \verb|perpendicular| 座標系を組み合わせる場合は \verb|{}| を使用する．
-\begin{wrapfigure}{R}{0.38 \textwidth}
+\begin{wrapfigure}[6]{R}{0.38 \textwidth}
     \[
         \begin{tikzpicture}
         \node (a) at (0,0) {A};
@@ -1790,5 +1790,82 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
         \draw[->] ({$(a)!0.7!(b)$} |- a) --({$(a)!0.7!(b)$} -| a);
         \end{tikzpicture}
 \end{lstlisting}
+
+\section{\texttt{tangent} coordinate system (cs, 座標系)}
+
+座標系名 \verb|tangent| を使うと，1点から円に接線を引いたときの接点の座標を計算することができる（使うには \verb|\usetikzlibrary{calc}| が必要）．この座標系名は
+\begin{center}
+    \vspace{0.5em}
+    \textbf{\texttt{
+            (tangent cs:node=ノード名,point=\{(座標)\},solution=番号)
+        }}
+    \vspace{0.5em}
+\end{center}
+の形で使用する．\textbf{\texttt{ノード名}} には円となるノードの名前を設定する（このとき対象のノードは \verb|[shape=circle]| にしておく）．\textbf{\texttt{(座標)}} には接線を引く点の「座標」を設定する．
+
+このような接線は2本あるから \textbf{\texttt{番号}} でどちらを参照するか指定する．次の例を参照．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    % この例は \usetikzlibrary{angles} も必要
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % 点 P
+    \node[point,label=right:$P$] (P) at (3,0.6) {};
+
+    % 円 O
+    \node[point,label=left:$O$] (O) at (0,0) {};
+    \node[draw,shape=circle,inner sep=1cm] (circle) at (O) {};
+
+    % 接線 ([turn] で線を伸ばす)
+    \draw (P) --(tangent cs:node=circle,point={(P)},solution=1) coordinate (A) --([turn] 2,0);
+    \draw (P) --(tangent cs:node=circle,point={(P)},solution=2) coordinate (B) --([turn] 2,0);
+
+    % 垂線
+    \draw (O) --(A);
+    \draw (O) --(B);
+    \node at ($(O)!17mm!(A)$) {A};
+    \node at ($(O)!17mm!(B)$) {B};
+
+    % 直角の記号 (pic operation)
+    \pic[draw,angle radius=1.7mm]{right angle=O--A--P};
+    \pic[draw,angle radius=1.7mm]{right angle=O--B--P};
+
+    % 等しい記号
+    \path (O) -- node[sloped,rotate=90]{$-$} (A);
+    \path (O) -- node[sloped,rotate=90]{$-$} (B);
+    \path (P) -- node[sloped,rotate=90]{$=$} (A);
+    \path (P) -- node[sloped,rotate=90]{$=$} (B);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    % この例は \usetikzlibrary{angles} も必要
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % 点 P
+    \node[point,label=right:$P$] (P) at (3,0.6) {};
+
+    % 円 O
+    \node[point,label=left:$O$] (O) at (0,0) {};
+    \node[draw,shape=circle,inner sep=1cm] (circle) at (O) {};
+
+    % 接線 ([turn] で線を伸ばす)
+    \draw (P) --(tangent cs:node=circle,point={(P)},solution=1) coordinate (A) --([turn] 2,0);
+    \draw (P) --(tangent cs:node=circle,point={(P)},solution=2) coordinate (B) --([turn] 2,0);
+
+    % 垂線
+    \draw (O) --(A);
+    \draw (O) --(B);
+    \node at ($(O)!17mm!(A)$) {A};
+    \node at ($(O)!17mm!(B)$) {B};
+
+    % 直角の記号 (pic operation)
+    \pic[draw,angle radius=1.7mm]{right angle=O--A--P};
+    \pic[draw,angle radius=1.7mm]{right angle=O--B--P};
+
+    % 等しい記号
+    \path (O) -- node[sloped,rotate=90]{$-$} (A);
+    \path (O) -- node[sloped,rotate=90]{$-$} (B);
+    \path (P) -- node[sloped,rotate=90]{$=$} (A);
+    \path (P) -- node[sloped,rotate=90]{$=$} (B);
+    \end{tikzpicture}
+\]
 
 \end{document}
