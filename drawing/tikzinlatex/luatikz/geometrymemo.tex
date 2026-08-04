@@ -576,7 +576,7 @@ To make the point on top of the circle, first just define \verb|coordinate|, the
     \end{tikzpicture}
 \]
 
-\section{How to Draw Angle Bisector Line in Triangle}
+\section{How to Draw Angle Bisector Line in Triangle (二等分線, garis bagi)}
 \label{sec:anglebisector}
 
 Refer to \url{https://tex.stackexchange.com/questions/233246/create-angle-bisectors-in-tikz} on how to write angle bisector without using \verb|tikz-euclid|. However, if you pressed \verb|Command+Option+J| then the region of belows diagram are very big. This is due to using helper-coordinate inside \verb|\bissectrice|. Use \verb|\clip| to crop in only elements which are shown in the diagram. Or, \verb|\useasboundingbox| is maybe better because it does not forcely clipped the region outside the bounding box, and good to adjust white space area. Both must be used before drawing any path (or right after \verb|\begin{tikzpicture}|).
@@ -1717,7 +1717,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 \end{minipage}
 \\[1em]
 
-\subsection{How to draw angle bisector line (二等分線), again \(\dots \) (See also Section~\ref{sec:anglebisector})}
+\subsection{How to draw angle bisector line (二等分線, garis bagi), again \(\dots \) (See also Section~\ref{sec:anglebisector})}
 
 例えば角の二等分線であれば次のように描くことができる．
 \begin{wrapfigure}{R}{0.5 \textwidth}
@@ -1867,5 +1867,116 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
     \path (P) -- node[sloped,rotate=90]{$=$} (B);
     \end{tikzpicture}
 \]
+
+\section{パスの交点を参照する intersections}
+
+\verb|\usetikzlibrary{intersections}| とすることで，パスの交点の座標を参照することができる．交点を計算したいパスに \textbf{\texttt{[name path=名前]}} で名前を付けて，交点を参照したいパスに \textbf{\texttt{[name intersections=\{of 名前1 and 名前2 \}]}} と書く．こうすると交点の座標を \textbf{\texttt{(intersection-番号)}} で参照できるようになる（一般に交点は複数あるため，それを \textbf{\texttt{番号}} で区別する）．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                % try change \draw to \path
+                \draw[name path=c1] (0,0) circle[radius=1cm];
+                \draw[name path=c2] (1,0) circle[radius=1cm];
+                \draw[->,red,name intersections={of=c1 and c2}]
+                    (intersection-1) --(intersection-2);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \draw[name path=c1] (0,0) circle[radius=1cm];
+                \draw[name path=c2] (1,0) circle[radius=1cm];
+                \draw[->,red,name intersections={of=c1 and c2}]
+                (intersection-1) --(intersection-2);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\subsection{垂線の足 (foot of an altitude from vertex \(A \) to side \(\overline{BC}\), kaki garis tinggi dari titik sudut \(A \) ke sisi \(\overline{BC}\)) \& 垂心}
+
+三角形の垂線の足とは，ある頂点から対辺（またはその延長線）に下ろした垂直な直線と，その対辺が交わる点のこと．
+
+\verb|intersections| を使って，例えば三角形の垂心（orthocenter, titik tinggi）は次のように描くことができる．
+\begin{wrapfigure}{R}{0.5 \textwidth}
+    \centering
+    \vspace{3 \baselineskip}
+    \[
+        % この例では \usetikzlibrary{angles} も必要
+        \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        % 3点
+        \coordinate (A) at (2,2);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (3,0);
+
+        % 三角形
+        \draw (A) --(B) --(C) --cycle;
+        \node[point,label=90 :$A$] at (A) {};
+        \node[point,label=225:$B$] at (B) {};
+        \node[point,label=-45:$C$] at (C) {};
+
+        % 垂線の足
+        \coordinate (x) at ($(B)!(A)!(C)$);
+        \coordinate (y) at ($(C)!(B)!(A)$);
+        \coordinate (z) at ($(A)!(C)!(B)$);
+
+        % 垂線 （Aからの推薦とBからの垂線に名前を付ける）
+        \draw[name path=line1] (A) --(x);
+        \draw[name path=line2] (B) --(y);
+        \draw (C) --(z);
+
+        % 直角の記号 (pic operation)
+        \pic[draw,angle radius=1.7mm]{right angle=A--x--B};
+        \pic[draw,angle radius=1.7mm]{right angle=B--y--C};
+        \pic[draw,angle radius=1.7mm]{right angle=C--z--B};
+
+        % 垂心 （Aからの垂線とBからの垂線の交点に丸を付ける）
+        \node[point,name intersections={of=line1 and line2}] at (intersection-1) {};
+        \end{tikzpicture}
+    \]
+\end{wrapfigure}
+\begin{lstlisting}[language={[LaTeX] TeX},numbers=none,breaklines=false,gobble=8]
+        % この例では \usetikzlibrary{angles} も必要
+        \begin{tikzpicture}[point/.style={fill,
+            shape=circle,inner sep=1pt,outer sep=0pt}]
+        % 3点
+        \coordinate (A) at (2,2);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (3,0);
+        % 三角形
+        \draw (A) --(B) --(C) --cycle;
+        \node[point,label=90 :$A$] at (A) {};
+        \node[point,label=225:$B$] at (B) {};
+        \node[point,label=-45:$C$] at (C) {};
+
+        % 垂線の足
+        \coordinate (x) at ($(B)!(A)!(C)$);
+        \coordinate (y) at ($(C)!(B)!(A)$);
+        \coordinate (z) at ($(A)!(C)!(B)$);
+        % 垂線 （Aからの推薦とBからの垂線に名前を付ける）
+        \draw[name path=line1] (A) --(x);
+        \draw[name path=line2] (B) --(y);
+        \draw (C) --(z);
+        % 直角の記号 (pic operation)
+        \pic[draw,angle radius=1.7mm]{right angle=A--x--B};
+        \pic[draw,angle radius=1.7mm]{right angle=B--y--C};
+        \pic[draw,angle radius=1.7mm]{right angle=C--z--B};
+
+        % 垂心 （Aからの垂線とBからの垂線の交点に丸を付ける）
+        \node[point,name intersections={of=line1 and line2}] at (intersection-1) {};
+        \end{tikzpicture}
+\end{lstlisting}
+
+\section{中点 (midpoint, titik tengah) と垂線二等分線 (perpendicular bisector, garis tengah)}
 
 \end{document}
