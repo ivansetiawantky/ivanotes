@@ -1977,6 +1977,219 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
         \end{tikzpicture}
 \end{lstlisting}
 
-\section{中点 (midpoint, titik tengah) と垂線二等分線 (perpendicular bisector, garis tengah)}
+\section{計算式について \& 中点 (midpoint, titik tengah) と垂直二等分線 (perpendicular bisector, garis sumbu) と外心 (circumcenter, titik sumbu (pusat lingkaran luar))}
+
+\vspace{1 \baselineskip}
+座標を指定する際などいくつかの場所では計算式を書くことができる．このような場所では \verb|+| などの他に色々な関数を書くことができる．例えば次のように三角形の外接円の半径を \verb|veclen| で計算することができる．
+\begin{wrapfigure}{R}{0.5 \textwidth}
+    \centering
+    \vspace{3 \baselineskip}
+    \[
+        % この例では \usetikzlibrary{angles} と
+        % \usetikzlibrary{intersections} が必要
+        \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        % 3点
+        \coordinate (A) at (2,2);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (3,0);
+
+        % 三角形
+        \draw (A) --(B) --(C) --cycle;
+        \node[point,label=90 :$A$] at (A) {};
+        \node[point,label=225:$B$] at (B) {};
+        \node[point,label=-45:$C$] at (C) {};
+
+        % 中点を計算する
+        \coordinate (x) at ($(B)!0.5!(C)$);
+        \coordinate (y) at ($(C)!0.5!(A)$);
+        \coordinate (z) at ($(A)!0.5!(B)$);
+
+        % 垂直二等分線を描いて名前を付ける
+        \draw[name path=line1] ($(x)!5mm!90:(B)$) --(x) --([turn] 2,0);
+        \draw[name path=line2] ($(y)!5mm!90:(C)$) --(y) --([turn] 2,0);
+        \draw ($(z)!5mm!90:(A)$) --(z) --([turn] 2,0);
+
+        % 外心
+        \node[point,name intersections={of=line1 and line2}] (O) at (intersection-1) {};
+
+        % 直角の記号 (pic operation)
+        \pic[draw,angle radius=1.7mm]{right angle=O--x--B};
+        \pic[draw,angle radius=1.7mm]{right angle=O--y--C};
+        \pic[draw,angle radius=1.7mm]{right angle=O--z--B};
+
+        % 外接円の半径を計算する
+        \draw let \p1 = (O), \n1 = {veclen(\x1, \y1)} in (O) circle[radius=\n1];
+        \end{tikzpicture}
+    \]
+\end{wrapfigure}
+\begin{lstlisting}[language={[LaTeX] TeX},numbers=none,breaklines=false,gobble=8]
+        % この例では \usetikzlibrary{angles} と
+        % \usetikzlibrary{intersections} が必要
+        \begin{tikzpicture}[point/.style={fill,
+            shape=circle,inner sep=1pt,outer sep=0pt}]
+        % 3点
+        \coordinate (A) at (2,2);
+        \coordinate (B) at (0,0);
+        \coordinate (C) at (3,0);
+
+        % 三角形
+        \draw (A) --(B) --(C) --cycle;
+        \node[point,label=90 :$A$] at (A) {};
+        \node[point,label=225:$B$] at (B) {};
+        \node[point,label=-45:$C$] at (C) {};
+
+        % 中点を計算する
+        \coordinate (x) at ($(B)!0.5!(C)$);
+        \coordinate (y) at ($(C)!0.5!(A)$);
+        \coordinate (z) at ($(A)!0.5!(B)$);
+
+        % 垂直二等分線を描いて名前を付ける
+        \draw[name path=line1] ($(x)!5mm!90:(B)$) --(x) --([turn] 2,0);
+        \draw[name path=line2] ($(y)!5mm!90:(C)$) --(y) --([turn] 2,0);
+        \draw ($(z)!5mm!90:(A)$) --(z) --([turn] 2,0);
+
+        % 外心
+        \node[point,name intersections={of=line1 and line2}] (O) at (intersection-1) {};
+
+        % 直角の記号 (pic operation)
+        \pic[draw,angle radius=1.7mm]{right angle=O--x--B};
+        \pic[draw,angle radius=1.7mm]{right angle=O--y--C};
+        \pic[draw,angle radius=1.7mm]{right angle=O--z--B};
+
+        % 外接円の半径を計算する
+        \draw let \p1 = (O), \n1 = {veclen(\x1, \y1)} in (O) circle[radius=\n1];
+        \end{tikzpicture}
+\end{lstlisting}
+
+\subsection{関数の plot operation}
+
+関数と \verb|plot| オペレーションでを使うことで，簡単な関数のグラフを描くことができる．
+
+\subsection{関数を使って座標を計算, Using function to calculate coordinate}
+
+\cprotect \subsection{\verb|\pgfmathsetmacro| について} % chktex 1
+
+\section{その他オペレーション}
+
+\subsection{\texttt{to} operation}
+
+今まで \verb|(0,0) --(2,1)| のような書き方をしてきたが，これは \verb|(0,0) to(2,1)| と書くこともできる．この２つの違いは， \verb|to| にはオプションを付けられることである．いくつか以下に示す．
+
+\textbf{\texttt{[out=角度]}} パスが始点から出るときの方向を角度で指定することができる．例えば次のように \verb|[out=90]| とすると，パスが始点から真上に出る．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) to[out=90](2,1);
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) to[out=90](2,1); % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\textbf{\texttt{[in=角度]}} \verb|[out]| と同様で，終点に入るときの角度を指定する．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \draw[help lines] (0,0) --+(90:1cm)
+                    ++(2,1) +(225:1cm) --+(225:-1cm);
+                \draw[thick,red,->] (0,0) to[out=90,in=225](2,1);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \draw[help lines] (0,0) --+(90:1cm)
+                ++(2,1) +(225:1cm) --+(225:-1cm);
+                \draw[thick,red,->] (0,0) to[out=90,in=225](2,1);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\textbf{\texttt{[relative=真偽値]}} \verb|[out]| や \verb|[in]| における角度の指定を「絶対的」にsるか「相対的」にするかを設定する．
+\\[0.5em]
+\begin{minipage}{0.66 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                % non-drawing path as x-axis for [turn]. Save the coordinates!
+                \path (2,1) --(0,0) coordinate (O)
+                    --([turn] -90:1cm) coordinate (In);
+                \draw[help lines] (O) --(In);
+                \path (0,0) --(2,1) --([turn] 225:1cm) coordinate (Out1)
+                    --([turn] 0:-2cm) coordinate (Out2);
+                \draw[help lines] (Out1) --(Out2);
+                \draw[thick,red,->] (0,0) to[out=90,in=225,relative](2,1);
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \path (2,1) --(0,0) coordinate (O) --([turn] -90:1cm) coordinate (In);
+                \draw[help lines] (O) --(In);
+                \path (0,0) --(2,1) --([turn] 225:1cm) coordinate (Out1) --([turn] 0:-2cm) coordinate (Out2);
+                \draw[help lines] (Out1) --(Out2);
+                \draw[thick,red,->] (0,0) to[out=90,in=225,relative](2,1);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\textbf{\texttt{[bend left=角度]}} \verb|[out=角度,in=(180-角度),relative]| の略記である．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) to[bend left=70](0,2);
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) to[bend left=70](0,2); % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\subsection{\texttt{sine} operation}
+
+\subsection{\texttt{foreach} operation}
+
+\subsection{\texttt{let} operation}
 
 \end{document}
