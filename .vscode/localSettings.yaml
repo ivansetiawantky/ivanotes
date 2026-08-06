@@ -315,11 +315,11 @@ replacements:
         # Remove leading and trailing white spaces in braces "{}"
             $body =~ s@\{\h*(.*?)\h*\}@\{$1\}@g;
         # Insert half-width space at every end of brace if it is followed by a command or a character
-            $body =~ s@(?<=\)|\}|])(\\?[0-9a-zA-Z])@ $1@g;
+        #    $body =~ s@(?<=\)|\}|])(\\?[0-9a-zA-Z])@ $1@g;
         # Remove space before comma and punctuation
             $body =~ s@\h*([,\.])@$1@g;
         # add space before "\" (avoiding \left\rvert)
-            $body =~ s@(?<=\w)\\(?![rl][Vv]ert)@ \\@g;
+        #    $body =~ s@(?<=\w)\\(?![rl][Vv]ert)@ \\@g;
         # place %\n at the next line math env ends, in order to create visual space between math env and text env
             $body =~ s@(?<=\\end\{equation\*\}|\\end\{gather\}|\\end\{gather\*\})(.*)\n(?!%)@$1\n%\n@g;
             $body;/sxge;
