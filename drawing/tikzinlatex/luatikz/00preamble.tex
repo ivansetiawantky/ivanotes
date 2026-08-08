@@ -65,6 +65,10 @@
 }
 % \renewcommand{\lstlistlistingname}{List of Source Codes}
 % \renewcommand{\lstlistingname}{リスト}
+\NewDocumentCommand{\lstinlineiv}{v}{%
+    % \lstinline[basicstyle={\ttfamily\normalsize\bfseries\color{red}}]|#1|%
+    \lstinline[basicstyle={\ttfamily\normalsize\bfseries}]|#1|%
+}
 
 \NewDocumentCommand{\bissectrice}{%
     O{}     % drawing options

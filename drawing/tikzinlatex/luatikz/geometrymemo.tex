@@ -838,7 +838,7 @@ The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
         \coordinate (d) at (1.5,2);
         \draw (a) --(b) --(c) --(d) --cycle;
         \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {$1$ cm} (d);
-        \draw [ultra thin] (b) to [bend right=30] node [fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
+        \draw [ultra thin] (b) to [bend right=30] node [draw,fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
         \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {$1.7$ cm} (b);
         \end{tikzpicture}
 \end{lstlisting}
@@ -853,7 +853,7 @@ The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
         \coordinate (d) at (1.5,2);
         \draw (a) --(b) --(c) --(d) --cycle;
         \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {$1$ cm} (d);
-        \draw [ultra thin] (b) to [bend right=30] node [fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
+        \draw [ultra thin] (b) to [bend right=30] node [draw,fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
         \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {$1.7$ cm} (b);
         \end{tikzpicture}
     \]
@@ -2064,12 +2064,97 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 \subsection{関数の plot operation}
 
 関数と \verb|plot| オペレーションでを使うことで，簡単な関数のグラフを描くことができる．
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[domain=-0.5:4]
+    \draw[help lines] (-0.5,-1.1) grid (3.9,3.9);
+    \draw[->] (-0.5,0) --(4.2,0) node[right] {$x$};
+    \draw[->] (0,-1.2) --(0,4.2) node[above] {$y$};
+    \draw[color=red] plot(\x,\x) node[right] {$y=x$};
+    \draw[color=blue] plot(\x,{sin(\x r)}) node[right] {$y=\sin x$};
+    \draw[color=orange] plot(\x,{0.05*exp(\x)}) node[right] {$y=\frac{1}{20}\mathrm e^x$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[domain=-0.5:4]
+    \draw[help lines] (-0.5,-1.1) grid (3.9,3.9);
+    \draw[->] (-0.5,0) --(4.2,0) node[right] {$x$};
+    \draw[->] (0,-1.2) --(0,4.2) node[above] {$y$};
+    \draw[color=red] plot(\x,\x) node[right] {$y=x$};
+    \draw[color=blue] plot(\x,{sin(\x r)}) node[right] {$y=\sin x$};
+    \draw[color=orange] plot(\x,{0.05*exp(\x)}) node[right] {$y=\frac{1}{20}\mathrm e^x$};
+    \end{tikzpicture}
+\]
 
 \subsection{関数を使って座標を計算, Using function to calculate coordinate}
 
-\cprotect \subsection{\verb|\pgfmathsetmacro| について} % chktex 1
+関数は座標計算とも組み合わせることができる．次は指定した２点を頂点とする正三角形を描く例である．
+\begin{wrapfigure}{R}{0.5 \textwidth}
+    \centering
+    \vspace{2 \baselineskip}
+    \[
+        \begin{tikzpicture}
+        % 2点
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (2,0.3);
 
-\section{その他オペレーション}
+        % 3点目を計算
+        \coordinate (X) at ($(A)!0.5!(B)$);
+        \coordinate (C) at ($(X)!sin(60)*2!90:(B)$);
+
+        % 三角形
+        \draw (A) --(B) --(C) --cycle;
+        \end{tikzpicture}
+    \]
+\end{wrapfigure}
+\begin{lstlisting}[language={[LaTeX] TeX},numbers=none,breaklines=false,gobble=8]
+        \begin{tikzpicture}
+        % 2点
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (2,0.3);
+
+        % 3点目を計算
+        \coordinate (X) at ($(A)!0.5!(B)$);
+        \coordinate (C) at ($(X)!sin(60)*2!90:(B)$);
+
+        % 三角形
+        \draw (A) --(B) --(C) --cycle;
+        \end{tikzpicture}
+\end{lstlisting}
+
+\cprotect\subsection{\verb|\pgfmathsetmacro| について}
+
+関数を使って計算するためのコマンドとして \lstinlineiv{\pgfmathsetmacro{コマンド名}{計算式}} がある．これは \lstinlineiv{計算式} に与えた式を計算し，結果を \lstinlineiv{コマンド名} に代入する．次は半径 \(\log(5)\) の円を描く例である．
+\\[0.5em]
+\begin{minipage}{0.58 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \pgfmathsetmacro{\r}{ln(5)} %
+            \begin{tikzpicture}
+                \draw[help lines] (-2,-2) grid (2,2);
+                \draw (0,0) circle[radius=\r];
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.34 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \pgfmathsetmacro{\r}{ln(5)} % chktex 36
+            \begin{tikzpicture}
+                \draw[help lines] (-2,-2) grid (2,2);
+                \draw (0,0) circle[radius=\r];
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\section{その他 (\texttt{to, sine, foreach, let}) オペレーション}
 
 \subsection{\texttt{to} operation}
 
@@ -2106,7 +2191,8 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
             numbers=none,breaklines=true,gobble=12,frame=none]
             \begin{tikzpicture}
                 \draw[help lines] (0,0) --+(90:1cm)
-                    ++(2,1) +(225:1cm) --+(225:-1cm);
+                    (2,1) +(225:1cm) --+(225:-1cm);
+                    % ++(2,1) +(225:1cm) --+(225:-1cm);
                 \draw[thick,red,->] (0,0) to[out=90,in=225](2,1);
             \end{tikzpicture}
             \end{lstlisting}
@@ -2119,7 +2205,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
         \begin{tabular}{l}
             \begin{tikzpicture}
                 \draw[help lines] (0,0) --+(90:1cm)
-                ++(2,1) +(225:1cm) --+(225:-1cm);
+                (2,1) +(225:1cm) --+(225:-1cm);
                 \draw[thick,red,->] (0,0) to[out=90,in=225](2,1);
             \end{tikzpicture}
         \end{tabular}
@@ -2142,7 +2228,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
                 \path (0,0) --(2,1) --([turn] 225:1cm) coordinate (Out1)
                     --([turn] 0:-2cm) coordinate (Out2);
                 \draw[help lines] (Out1) --(Out2);
-                \draw[thick,red,->] (0,0) to[out=90,in=225,relative](2,1);
+                \draw[thick,red,->] (O) to[out=90,in=225,relative](2,1);
             \end{tikzpicture}
             \end{lstlisting}
         \end{tabular}
@@ -2157,7 +2243,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
                 \draw[help lines] (O) --(In);
                 \path (0,0) --(2,1) --([turn] 225:1cm) coordinate (Out1) --([turn] 0:-2cm) coordinate (Out2);
                 \draw[help lines] (Out1) --(Out2);
-                \draw[thick,red,->] (0,0) to[out=90,in=225,relative](2,1);
+                \draw[thick,red,->] (O) to[out=90,in=225,relative](2,1);
             \end{tikzpicture}
         \end{tabular}
     \end{flushleft}
@@ -2188,8 +2274,229 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 
 \subsection{\texttt{sine} operation}
 
+\textbf{\texttt{sin(座標)}} を \textbf{\texttt{sine オペレーション}} といい，「現在位置」から \textbf{\texttt{(座標)}} に向かって正弦曲線を描く．% chktex 36
+このとき正弦曲線は \(0 \sim \pi/2 \) の範囲が使用される．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) sin(2,2);
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) sin(2,2); % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+同様に余弦曲線も \textbf{\texttt{cos(座標)}} で描くことができる．%chktex 36
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) cos(2,2);
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) cos(2,2); % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+長い正弦曲線を描きたいときは \verb|sin| と \verb|cos| を組み合わせる．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \draw[->] (0,-1.3) --(0,1.3);
+                \draw[->] (0,0) --(5,0);
+                \draw (0,0) sin(1,1) cos(2,0) sin(3,-1) cos(4,0) sin(5,1);
+            \end{tikzpicture}
+                \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \draw[->] (0,-1.3) --(0,1.3);
+                \draw[->] (0,0) --(5,0);
+                \draw (0,0) sin(1,1) cos(2,0) sin(3,-1) cos(4,0) sin(5,1);
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
 \subsection{\texttt{foreach} operation}
 
+\textbf{\texttt{foreach オペレーション}} というオペレーションを使うことで繰り返し処理をすることができる．これは \textbf{\texttt{foreach 変数 in \{動く範囲 \} \{オペレーション \}}} という形で書く．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw (0,0) foreach \x in {1,...,3}
+                {--(\x,1) --(\x,0)};
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw (0,0) foreach \x in {1,...,3} {--(\x,1) --(\x,0)}; % chktex 1, chktex 36, chktex 11
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+\verb|foreach| オペレーションは \verb|\path| の中で使用されるオペレーションだが，\verb|tikzpicture| 環境とは関係なく使えるコマンドとして \verb|\foreach| というコマンドも Ti\textit{k}Z には用意されている．これは例えば \lstinlineiv{\(\foreach \x in {a,...,e} {[\x]}\)} と書くと \(\foreach \x in {a,...,e} {[\x]}\) となる．% chktex 11
+
 \subsection{\texttt{let} operation}
+
+\verb|\usetikzlibrary{calc}| とすることで \lstinlineiv{let オペレーション} を使用することができる．これは \lstinlineiv{let 式} の形で書き，例えば次のようなことができる．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw let \p1 = (0,1), \p2 = (1,1) in
+                (0,0) --(\p1) --(\p2) --cycle;
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw let \p1 = (0,1), \p2 = (1,1) in (0,0) --(\p1) --(\p2) --cycle; % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+\lstinlineiv{式} の部分には \lstinlineiv{数値 = 値} のような式をカンマ区切りで１つ以上書く．\lstinlineiv{変数}には次のようなものが使用できる．
+
+\lstinlineiv{\p 点レジスター}: これは「座標」を表す変数である．\lstinlineiv{点レジスター} の部分には，上記の例のように数字1文字を使える他， \lstinlineiv{{}} を使うことで文字も使用することができる．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw let \p{foo} = (0,1), \p{bar} = (1,1) in
+                (0,0) --(\p{foo}) --(\p{bar}) --cycle;
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw let \p{foo} = (0,1), \p{bar} = (1,1) in (0,0) --(\p{foo}) --(\p{bar}) --cycle; % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+\lstinlineiv{\p 点レジスター} の \(x\) 座標，\(y\) 座標はそれぞれ \lstinlineiv{\x 点レジスター}， \lstinlineiv{\y 点レジスター} で取り出すことができる．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw let \p1 = (1,1) in
+                 (0,0) --(\x1,0) --(0,\y1) --cycle;
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw let \p1 = (1,1) in (0,0) --(\x1,0) --(0,\y1) --cycle; % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\lstinlineiv{\n 数レジスター}: これは数値や長さを表す変数である．\lstinlineiv{数レジスター} の部分は \lstinlineiv{点レジスター} と同様である．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \tikz \draw let \p1 = (1,1), \n1 = 1 in
+                (\p1) circle[radius=\n1 cm];
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \tikz \draw let \p1 = (1,1), \n1 = 1 in (\p1) circle[radius=\n1 cm]; % chktex 1, chktex 36
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
+
+\lstinlineiv{変数} は \verb|let| オペレーションの中でしか使用できないので，外から参照したい場合は例えば \verb|coordinate| 等で名前を名前を付けておくとよい．
+\\[0.5em]
+\begin{minipage}{0.62 \textwidth}
+    \begin{flushright}
+        \begin{tabular}{r}
+            \begin{lstlisting}[language={[LaTeX] TeX},
+            numbers=none,breaklines=true,gobble=12,frame=none]
+            \begin{tikzpicture}
+                \path let \p1=(0,1), \p2=(1,1) in
+                coordinate (x) at (\p1)
+                coordinate (y) at (\p2);
+                \draw (0,0) --(x) --(y) --cycle;
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{tabular}
+    \end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32 \textwidth}
+    \begin{flushleft}
+        \begin{tabular}{l}
+            \begin{tikzpicture}
+                \path let \p1=(0,1), \p2=(1,1) in
+                coordinate (x) at (\p1)
+                coordinate (y) at (\p2);
+                \draw (0,0) --(x) --(y) --cycle;
+            \end{tikzpicture}
+        \end{tabular}
+    \end{flushleft}
+\end{minipage}
+\\[1em]
 
 \end{document}
