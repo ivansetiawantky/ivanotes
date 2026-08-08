@@ -70,6 +70,16 @@
     \lstinline[basicstyle={\ttfamily\normalsize\bfseries}]|#1|%
 }
 
+% register \pi as a 'digit' in siunitx, so no need to use the option like below:
+% \qty[parse-numbers=false]{\pi}{\radian}
+% So, can call with option like: \qty{\pi}{\radian}
+\sisetup{
+    input-digits = 0123456789\pi,
+    % range-phrase = {--},
+    % list-separator = {,\space},
+    % list-final-separator = {,\space},
+}
+
 \NewDocumentCommand{\bissectrice}{%
     O{}     % drawing options
     mmm     % bissector of mmm
