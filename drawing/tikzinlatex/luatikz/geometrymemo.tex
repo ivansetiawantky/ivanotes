@@ -2707,6 +2707,88 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
         \qtyproduct{2x3x4}{cm} % chktex 29
     \end{adjustbox}
     \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
+        \(\overline{AB} \perp \overline{CD}\)\\
+        \(\overline{AB} \not\perp \overline{CD}\)\\
+        \(\overline{AB} \parallel \overline{CD}\)\\
+        \(\overline{AB} \nparallel \overline{CD}\)\\
+        Flush to left.\(\qed\)\\
+        Right after this.\qedsymbol{}
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \(\overline{AB} \perp \overline{CD}\)\\
+        \(\overline{AB} \not\perp \overline{CD}\)\\
+        \(\overline{AB} \parallel \overline{CD}\)\\
+        \(\overline{AB} \nparallel \overline{CD}\)\\
+        Flush to left.\(\qed\)\\
+        Right after this.\qedsymbol{}
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
+        Similar triangles, segitiga sebangun, 相似な三角形:\\
+        \(\triangle{ABC} \sim \triangle{DEF}\)\\
+        \\
+        Congruent triangles, segitiga sama dan sebangun (kongruen), 合同な三角形:\\
+        \(\triangle{ABC} \cong \triangle{DEF}\)
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        Similar triangles, segitiga sebangun, 相似な三角形:\\
+        \(\triangle{ABC} \sim \triangle{DEF}\)\\
+        \\
+        Congruent triangles, segitiga sama dan sebangun (kongruen), 合同な三角形:\\
+        \(\triangle{ABC} \cong \triangle{DEF}\)
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
+        \(A \underbrace{=}_{\text{by definition}} B\)\\
+        \(A \underset{\text{from definition}}{\neq} B\)
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \(A \underbrace{=}_{\text{by definition}} B\)\\
+        \(A \underset{\text{from definition}}{\neq} B\)
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
+        \(\frac{|AC'|}{|CC'|} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \frac{|HC'|}{|BC'|}\)\\
+        \(\frac{|AC'|}{|CC'|} \underset{\triangle{AC'C}\sim\triangle{HC'B}}{=} \frac{|HC'|}{|BC'|}\)
+        The three altitutes in a triangle are concurrent (garis-garis konkuren, 共点線).
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \(\frac{|AC'|}{|CC'|} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \frac{|HC'|}{|BC'|}\)\\
+        \(\frac{|AC'|}{|CC'|} \underset{\triangle{AC'C}\sim\triangle{HC'B}}{=} \frac{|HC'|}{|BC'|}\)
+    \end{adjustbox}
+    \\
+    \twocolrowseparatorline{}
+    \begin{adjustbox}{valign=t,minipage=\cwD}
+        \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
+        \(\textcolor{blue}{\frac{|AC'|}{|CC'|}} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \textcolor{red}{\frac{|HC'|}{|BC'|}}\)\\
+        \(\textcolor{blue}{\frac{|AC'|}{|CC'|}} \underset{\triangle{AC'C}\sim\triangle{HC'B}}{=} \textcolor{blue}{\frac{|HC'|}{|BC'|}}\)\\
+        \(\color{orange} \frac{|AC'|}{|CC'|} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \frac{|HC'|}{|BC'|}\)
+        \end{lstlisting}
+    \end{adjustbox}
+                     &
+    \begin{adjustbox}{valign=t,minipage=\cwE}
+        \(\textcolor{blue}{\frac{|AC'|}{|CC'|}} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \textcolor{red}{\frac{|HC'|}{|BC'|}}\)\\
+        \(\textcolor{blue}{\frac{|AC'|}{|CC'|}} \underset{\triangle{AC'C}\sim\triangle{HC'B}}{=} \textcolor{blue}{\frac{|HC'|}{|BC'|}}\)\\
+        \(\color{orange} \frac{|AC'|}{|CC'|} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \frac{|HC'|}{|BC'|}\)
+    \end{adjustbox}
+    \\
     \addlinespace[0.3em]
 \end{longtable}
 
