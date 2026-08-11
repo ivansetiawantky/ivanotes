@@ -2870,6 +2870,8 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
 \begin{lstlisting}[
     language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
     \begin{tikzpicture}[label distance=4pt] % label distance for this scope!
+    \pgfdeclarelayer{grouplayer}
+    \pgfsetlayers{grouplayer,main}
     \tikzstyle{vertex}=[circle,fill,inner sep=2pt]
     % \draw[help lines] (-1,-4) grid (5,4);
     % edges from vertex a
@@ -2882,19 +2884,41 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     % edges from vertex c
     \draw (0,-2) --(4,3);
     \draw (0,-2) --(4,1);
-    \node[vertex] at (0,2) {}; % for vertex-style only
+
+    \node[vertex] (va) at (0,2) {}; % for vertex-style only
     \node[left=20pt] at (0,2) {$a$}; % for label-of-the-vertex only
-    \node[vertex,label={[label distance=12pt]left:$b$}] at (0,0) {};
+
+    % combine vertex style and its label AND special label for (vb) only
+    \node[vertex,label={[label distance=12pt]left:$b$}] (vb) at (0,0) {};
+
     % combine vertex style and its label AND use label distance for this scope
-    \node[vertex,label=left:$c$] at (0,-2) {};
-    \node[vertex,label=right:$d$] at (4,3) {};
-    \node[vertex,label=right:$e$] at (4,1) {};
-    \node[vertex,label=right:$f$] at (4,-1) {};
-    \node[vertex,label=right:$g$] at (4,-3) {};
+    \node[vertex,label=left:$c$] (vc) at (0,-2) {};
+    \node[vertex,label=right:$d$] (vd) at (4,3) {};
+    \node[vertex,label=right:$e$] (ve) at (4,1) {};
+    \node[vertex,label=right:$f$] (vf) at (4,-1) {};
+    \node[vertex,label=right:$g$] (vg) at (4,-3) {};
+
+    % emphasize the vertices group
+    \begin{pgfonlayer}{grouplayer}
+    % destination group
+    % \node[draw,fill=blue!10,inner sep=14pt,fit=(vd)(ve)(vf)(vg)] {};
+    % \node[fill=blue!10,inner sep=14pt,fit=(vd)(ve)(vf)(vg),shift={(4pt,0)},
+    % label={[draw,fill=blue!10,label distance=10pt]above:destination $d$}] {};
+    \node[draw,fill=blue!10,inner sep=14pt,fit=(vd)(ve)(vf)(vg),shift={(4pt,0)},
+    pin={[fill=blue!10,pin distance=10pt,
+        pin edge={blue,ultra thick}]above:destination $d$}] {};
+    % source group
+    % \node[ellipse,fill=red!10,inner xsep=20pt,inner ysep=5pt,
+    \node[ellipse,fill=red!10,minimum width=85pt,minimum height=6cm,
+    fit=(va)(vb)(vc),shift={(-10pt,0)},
+    label={[draw,fill=red!10,label distance=10pt]above:source $s$}] {};
+    \end{pgfonlayer}
     \end{tikzpicture}
 \end{lstlisting}
 \[
     \begin{tikzpicture}[label distance=4pt] % label distance for this scope!
+    \pgfdeclarelayer{grouplayer}
+    \pgfsetlayers{grouplayer,main}
     \tikzstyle{vertex}=[circle,fill,inner sep=2pt]
     % \draw[help lines] (-1,-4) grid (5,4);
     % edges from vertex a
@@ -2908,16 +2932,34 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     \draw (0,-2) --(4,3);
     \draw (0,-2) --(4,1);
 
-    \node[vertex] at (0,2) {}; % for vertex-style only
+    \node[vertex] (va) at (0,2) {}; % for vertex-style only
     \node[left=20pt] at (0,2) {$a$}; % for label-of-the-vertex only
-    \node[vertex,label={[label distance=12pt]left:$b$}] at (0,0) {};
+
+    % combine vertex style and its label AND special label for (vb) only
+    \node[vertex,label={[label distance=12pt]left:$b$}] (vb) at (0,0) {};
 
     % combine vertex style and its label AND use label distance for this scope
-    \node[vertex,label=left:$c$] at (0,-2) {};
-    \node[vertex,label=right:$d$] at (4,3) {};
-    \node[vertex,label=right:$e$] at (4,1) {};
-    \node[vertex,label=right:$f$] at (4,-1) {};
-    \node[vertex,label=right:$g$] at (4,-3) {};
+    \node[vertex,label=left:$c$] (vc) at (0,-2) {};
+    \node[vertex,label=right:$d$] (vd) at (4,3) {};
+    \node[vertex,label=right:$e$] (ve) at (4,1) {};
+    \node[vertex,label=right:$f$] (vf) at (4,-1) {};
+    \node[vertex,label=right:$g$] (vg) at (4,-3) {};
+
+    % emphasize the vertices group
+    \begin{pgfonlayer}{grouplayer}
+    % destination group
+    % \node[draw,fill=blue!10,inner sep=14pt,fit=(vd)(ve)(vf)(vg)] {};
+    % \node[fill=blue!10,inner sep=14pt,fit=(vd)(ve)(vf)(vg),shift={(4pt,0)},
+    % label={[draw,fill=blue!10,label distance=10pt]above:destination $d$}] {};
+    \node[draw,fill=blue!10,inner sep=14pt,fit=(vd)(ve)(vf)(vg),shift={(4pt,0)},
+    pin={[fill=blue!10,pin distance=10pt,
+        pin edge={blue,ultra thick}]above:destination $d$}] {};
+    % source group
+    % \node[ellipse,fill=red!10,inner xsep=20pt,inner ysep=5pt,
+    \node[ellipse,fill=red!10,minimum width=85pt,minimum height=6cm,
+    fit=(va)(vb)(vc),shift={(-10pt,0)},
+    label={[draw,fill=red!10,label distance=10pt]above:source $s$}] {};
+    \end{pgfonlayer}
     \end{tikzpicture}
 \]
 
