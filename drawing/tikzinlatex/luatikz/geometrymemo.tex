@@ -478,14 +478,15 @@ Using \verb|scope|, we can limit the scope of the style.
 \section{How to Define Coordinate and Line}
 \label{sec:coordinate}
 
-Use \verb|\coordinate| to define coordinate, along with its label and position. Use the option \verb|save path| in \verb|\path| command to define a path/line to be drawn later.
+Use \verb|\coordinate| to define coordinate, along with its label and position. Use the option \verb|save path| in \verb|\path| command to define a path/line to be drawn later. Remember, \lstinlineiv{\coordinate} is NOT drawn, BUT \lstinlineiv{\node} is drawn.\ \textcolor{red}{Ti\textit{k}Z の動きとしては，\texttt{node} オペレーションはパスが描かれた後で実行される．}
 \begin{lstlisting}[
     language={[LaTeX] TeX},
     firstnumber=1,breaklines=true,gobble=4]
-    \begin{tikzpicture}[every label/.style={color=blue}]
-        \coordinate[label=left:Point A] (A) at (1,2);
-        \coordinate[label=right:Point B] (B) at (7,4);
-        \coordinate[label={[label distance=1cm,green] 60:Point C}] (C) at (2,6); % angle 60°, distance 1cm
+    \begin{tikzpicture}[every label/.style={color=blue},
+            point/.style={fill,shape=circle,inner sep=3pt,outer sep=0pt},label distance=4pt]
+        \coordinate[label=left:Point A] (A) at (1,2); \node[point] at (A) {}; % BAD: point is in background
+        \node[point,label=right:Point B] (B) at (7,4) {}; % GOOD: point is always on top
+        \coordinate[label={[label distance=1cm,green] 30:Point C}] (C) at (2,6); % angle 60°, distance 1cm
         \path[save path=\lc,name path=lc] (A) --(B);
         \path[save path=\lb,name path=lb] (C) --(A);
         \draw[red,use path=\lc];
@@ -494,10 +495,11 @@ Use \verb|\coordinate| to define coordinate, along with its label and position. 
     \end{tikzpicture}
 \end{lstlisting}
 \[
-    \begin{tikzpicture}[every label/.style={color=blue}]
-        \coordinate[label=left:Point A] (A) at (1,2);
-        \coordinate[label=right:Point B] (B) at (7,4);
-        \coordinate[label={[label distance=1cm,green] 60:Point C}] (C) at (2,6); % angle 60°, distance 1cm
+    \begin{tikzpicture}[every label/.style={color=blue},
+            point/.style={fill,shape=circle,inner sep=3pt,outer sep=0pt},label distance=4pt]
+        \coordinate[label=left:Point A] (A) at (1,2); \node[point] at (A) {}; % BAD: point is in background
+        \node[point,label=right:Point B] (B) at (7,4) {}; % GOOD: point is always on top
+        \coordinate[label={[label distance=1cm,green] 30:Point C}] (C) at (2,6); % angle 60°, distance 1cm
         \path[save path=\lc,name path=lc] (A) --(B);
         \path[save path=\lb,name path=lb] (C) --(A);
         \draw[red,use path=\lc];
@@ -516,7 +518,7 @@ To plot point explicitly, define the point style (right after \verb|\begin{tikzp
         \node[point] (c) at (0,0) {};
         \node[point] (x) at (0.7,0.3) {};
         \draw[red,thick] (c) --(x);
-        \node[draw=green,very thick,circle through=(x)] at (c) {};
+        \node[draw=green,very thick,circle through=(x)] at (c) {}; % circle will be drawn on top (in order) because this is also a node!
     \end{tikzpicture}
 \end{lstlisting}
 \[
@@ -524,7 +526,7 @@ To plot point explicitly, define the point style (right after \verb|\begin{tikzp
         \node[point] (c) at (0,0) {};
         \node[point] (x) at (0.7,0.3) {};
         \draw[red,thick] (c) --(x);
-        \node[draw=green,very thick,circle through=(x)] at (c) {};
+        \node[draw=green,very thick,circle through=(x)] at (c) {}; % circle will be drawn on top (in order) because this is also a node!
     \end{tikzpicture}
 \]
 
@@ -549,6 +551,44 @@ To make the point on top of the circle, first just define \verb|coordinate|, the
         \node[draw=green,very thick, circle through=(x)] at (c) {};
         \node[point] at (c) {};
         \node[point] at (x) {};
+    \end{tikzpicture}
+\]
+
+\subsection{How to use layer レイヤーについて}
+
+\verb|node| has the same priority, so it will be drawn in order. So, the \verb|node|s that is drawn using \verb|through| or \verb|fit|, which must calculated and drawn \textit{later}, will be drawn on top of other \verb|node|s.
+
+To prevent \verb|node|s calculated with \verb|through| or \verb|fit| drawn on the most foreground/top, we use layer, like this:
+\begin{itemize}
+\item \lstinlineiv{\pgfdeclarelayer{レイヤー名}} declares layer's name. Use separate syntax to declare multiple layers, such as \verb|\pgfdeclarelayer{layerA}|, \verb|\pgfdeclarelayer{layerB}|.
+\item \lstinlineiv{\pgfsetlayers{layerB,main,layerA}} sets the layer drawing order to first draw \verb|layerB|, then draw layer \verb|main| (always existing default layer), and finally draw \verb|layerA|.
+\item Use \lstinlineiv{\begin{pgfonlayer}{layerA}...\end{pgfonlayer}} to draw on \verb|layerA|. % chktex 11, chktex 26, chktex 12
+\end{itemize}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},
+    firstnumber=1,breaklines=true,gobble=4]
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \pgfdeclarelayer{layerA}
+        \pgfsetlayers{layerA,main}
+        \node[point] (c) at (0,0) {};
+        \node[point] (x) at (0.7,0.3) {};
+        \draw[red,thick] (c) --(x);
+        \begin{pgfonlayer}{layerA}
+            \node[draw=green,very thick,circle through=(x)] at (c) {};
+        \end{pgfonlayer}
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \pgfdeclarelayer{layerA}
+        \pgfsetlayers{layerA,main}
+        \node[point] (c) at (0,0) {};
+        \node[point] (x) at (0.7,0.3) {};
+        \draw[red,thick] (c) --(x);
+        \begin{pgfonlayer}{layerA}
+            \node[draw=green,very thick,circle through=(x)] at (c) {};
+        \end{pgfonlayer}
     \end{tikzpicture}
 \]
 
@@ -2091,7 +2131,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 関数は座標計算とも組み合わせることができる．次は指定した２点を頂点とする正三角形を描く例である．
 \begin{wrapfigure}{R}{0.5 \textwidth}
     \centering
-    \vspace{2 \baselineskip}
+    % \vspace{2 \baselineskip}
     \[
         \begin{tikzpicture}
         % 2点
@@ -2731,20 +2771,22 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
     \twocolrowseparatorline{}
     \begin{adjustbox}{valign=t,minipage=\cwD}
         \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
-        Similar triangles, segitiga sebangun, 相似な三角形:\\
+        Similar triangles, segitiga \mbox{sebangun}, 相似な三角形:\\
         \(\triangle{ABC} \sim \triangle{DEF}\)\\
-        \\
+
         Congruent triangles, segitiga sama dan sebangun (kongruen), 合同な三角形:\\
-        \(\triangle{ABC} \cong \triangle{DEF}\)
+        \(\triangle{ABC} \cong \triangle{DEF}\)\\
+
+        \textcolor{red}{The three altitutes in a triangle are concurrent (garis-garis konkuren, 共点線)}.
         \end{lstlisting}
     \end{adjustbox}
                      &
     \begin{adjustbox}{valign=t,minipage=\cwE}
-        Similar triangles, segitiga sebangun, 相似な三角形:\\
+        Similar triangles, segitiga \mbox{sebangun}, 相似な三角形:\\
         \(\triangle{ABC} \sim \triangle{DEF}\)\\
-        \\
         Congruent triangles, segitiga sama dan sebangun (kongruen), 合同な三角形:\\
-        \(\triangle{ABC} \cong \triangle{DEF}\)
+        \(\triangle{ABC} \cong \triangle{DEF}\)\\
+        \textcolor{red}{The three altitutes in a triangle are concurrent (garis-garis konkuren, 共点線)}.
     \end{adjustbox}
     \\
     \twocolrowseparatorline{}
@@ -2765,7 +2807,6 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
         \begin{lstlisting}[language={[LaTeX] TeX},numbers=none,frame=none,breaklines=true,aboveskip=0em,belowskip=0em,gobble=8,]
         \(\frac{|AC'|}{|CC'|} \underbrace{=}_{\triangle{AC'C}\sim\triangle{HC'B}} \frac{|HC'|}{|BC'|}\)\\
         \(\frac{|AC'|}{|CC'|} \underset{\triangle{AC'C}\sim\triangle{HC'B}}{=} \frac{|HC'|}{|BC'|}\)
-        The three altitutes in a triangle are concurrent (garis-garis konkuren, 共点線).
         \end{lstlisting}
     \end{adjustbox}
                      &
@@ -2791,5 +2832,93 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
     \\
     \addlinespace[0.3em]
 \end{longtable}
+
+\section{Ti\textit{k}Z tutorials by Jennifer Brown, California State University Channel Islands}
+
+Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_all-brown.pdf}.
+
+\subsection{Parabola}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \draw[->,>=stealth] (-3,0) --(3,0) node[above]{$x$};
+    \draw[->,>=stealth] (0,-2.1) --(0,2.3) node[right]{$y$};
+    \draw[smooth,samples=100,domain=-1.6:1.6] plot(\x,{(\x)^2});
+    \node at (2.0,1.8) {$y=x^2$};
+    \draw[red,smooth,samples=100,domain=-1.6:1.6] plot(\x,{(\x)^2-2});
+    \node[red] at (2.3,-0.3) {$y=x^2-2$};
+    \draw[blue,smooth,samples=100,domain=-1.6:1.6] plot(\x,{-(\x)^2+1});
+    \node[blue] at (2.0,-1.8) {$y=-x^2+1$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \draw[->,>=stealth] (-3,0) --(3,0) node[above]{$x$};
+    \draw[->,>=stealth] (0,-2.1) --(0,2.3) node[right]{$y$};
+    \draw[smooth,samples=100,domain=-1.6:1.6] plot(\x,{(\x)^2});
+    \node at (2.0,1.8) {$y=x^2$};
+    \draw[red,smooth,samples=100,domain=-1.6:1.6] plot(\x,{(\x)^2-2});
+    \node[red] at (2.3,-0.3) {$y=x^2-2$};
+    \draw[blue,smooth,samples=100,domain=-1.6:1.6] plot(\x,{-(\x)^2+1});
+    \node[blue] at (2.0,-1.8) {$y=-x^2+1$};
+    \end{tikzpicture}
+\]
+
+\subsection{Bipartite graph}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[label distance=4pt] % label distance for this scope!
+    \tikzstyle{vertex}=[circle,fill,inner sep=2pt]
+    % \draw[help lines] (-1,-4) grid (5,4);
+    % edges from vertex a
+    \draw (0,2) --(4,3);
+    \draw (0,2) --(4,1);
+    \draw (0,2) --(4,-3);
+    % edges from vertex b
+    \draw (0,0) --(4,1);
+    \draw (0,0) --(4,-1);
+    % edges from vertex c
+    \draw (0,-2) --(4,3);
+    \draw (0,-2) --(4,1);
+    \node[vertex] at (0,2) {}; % for vertex-style only
+    \node[left=20pt] at (0,2) {$a$}; % for label-of-the-vertex only
+    \node[vertex,label={[label distance=12pt]left:$b$}] at (0,0) {};
+    % combine vertex style and its label AND use label distance for this scope
+    \node[vertex,label=left:$c$] at (0,-2) {};
+    \node[vertex,label=right:$d$] at (4,3) {};
+    \node[vertex,label=right:$e$] at (4,1) {};
+    \node[vertex,label=right:$f$] at (4,-1) {};
+    \node[vertex,label=right:$g$] at (4,-3) {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[label distance=4pt] % label distance for this scope!
+    \tikzstyle{vertex}=[circle,fill,inner sep=2pt]
+    % \draw[help lines] (-1,-4) grid (5,4);
+    % edges from vertex a
+    \draw (0,2) --(4,3);
+    \draw (0,2) --(4,1);
+    \draw (0,2) --(4,-3);
+    % edges from vertex b
+    \draw (0,0) --(4,1);
+    \draw (0,0) --(4,-1);
+    % edges from vertex c
+    \draw (0,-2) --(4,3);
+    \draw (0,-2) --(4,1);
+
+    \node[vertex] at (0,2) {}; % for vertex-style only
+    \node[left=20pt] at (0,2) {$a$}; % for label-of-the-vertex only
+    \node[vertex,label={[label distance=12pt]left:$b$}] at (0,0) {};
+
+    % combine vertex style and its label AND use label distance for this scope
+    \node[vertex,label=left:$c$] at (0,-2) {};
+    \node[vertex,label=right:$d$] at (4,3) {};
+    \node[vertex,label=right:$e$] at (4,1) {};
+    \node[vertex,label=right:$f$] at (4,-1) {};
+    \node[vertex,label=right:$g$] at (4,-3) {};
+    \end{tikzpicture}
+\]
 
 \end{document}
