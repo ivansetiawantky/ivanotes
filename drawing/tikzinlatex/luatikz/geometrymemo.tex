@@ -514,7 +514,7 @@ To plot point explicitly, define the point style (right after \verb|\begin{tikzp
 \begin{lstlisting}[
     language={[LaTeX] TeX},
     firstnumber=1,breaklines=true,gobble=4]
-    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    \begin{tikzpicture}[point/.style={draw=blue,very thick,fill=gray,shape=circle,inner sep=2pt,outer sep=0pt}]
         \node[point] (c) at (0,0) {};
         \node[point] (x) at (0.7,0.3) {};
         \draw[red,thick] (c) --(x);
@@ -522,7 +522,7 @@ To plot point explicitly, define the point style (right after \verb|\begin{tikzp
     \end{tikzpicture}
 \end{lstlisting}
 \[
-    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    \begin{tikzpicture}[point/.style={draw=blue,very thick,fill=gray,shape=circle,inner sep=2pt,outer sep=0pt}]
         \node[point] (c) at (0,0) {};
         \node[point] (x) at (0.7,0.3) {};
         \draw[red,thick] (c) --(x);
@@ -568,7 +568,7 @@ To prevent \verb|node|s calculated with \verb|through| or \verb|fit| drawn on th
 \begin{lstlisting}[
     language={[LaTeX] TeX},
     firstnumber=1,breaklines=true,gobble=4]
-    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    \begin{tikzpicture}[point/.style={draw=blue,very thick,fill=gray,shape=circle,inner sep=2pt,outer sep=0pt}]
         \pgfdeclarelayer{layerA}
         \pgfsetlayers{layerA,main}
         \node[point] (c) at (0,0) {};
@@ -580,7 +580,7 @@ To prevent \verb|node|s calculated with \verb|through| or \verb|fit| drawn on th
     \end{tikzpicture}
 \end{lstlisting}
 \[
-    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    \begin{tikzpicture}[point/.style={draw=blue,very thick,fill=gray,shape=circle,inner sep=2pt,outer sep=0pt}]
         \pgfdeclarelayer{layerA}
         \pgfsetlayers{layerA,main}
         \node[point] (c) at (0,0) {};
@@ -2872,10 +2872,10 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     \begin{tikzpicture}[label distance=4pt] % label distance for this scope!
     \pgfdeclarelayer{grouplayer}
     \pgfsetlayers{grouplayer,main}
-    \tikzstyle{vertex}=[circle,fill,inner sep=2pt]
+    \tikzstyle{vertex}=[draw=teal,circle,fill=lime,inner sep=2pt] % try erase "draw=teal"
     % \draw[help lines] (-1,-4) grid (5,4);
     % edges from vertex a
-    \draw (0,2) --(4,3);
+    \draw[red] (0,2) --(4,3);
     \draw (0,2) --(4,1);
     \draw (0,2) --(4,-3);
     % edges from vertex b
@@ -2884,13 +2884,10 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     % edges from vertex c
     \draw (0,-2) --(4,3);
     \draw (0,-2) --(4,1);
-
     \node[vertex] (va) at (0,2) {}; % for vertex-style only
     \node[left=20pt] at (0,2) {$a$}; % for label-of-the-vertex only
-
     % combine vertex style and its label AND special label for (vb) only
     \node[vertex,label={[label distance=12pt]left:$b$}] (vb) at (0,0) {};
-
     % combine vertex style and its label AND use label distance for this scope
     \node[vertex,label=left:$c$] (vc) at (0,-2) {};
     \node[vertex,label=right:$d$] (vd) at (4,3) {};
@@ -2919,10 +2916,10 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     \begin{tikzpicture}[label distance=4pt] % label distance for this scope!
     \pgfdeclarelayer{grouplayer}
     \pgfsetlayers{grouplayer,main}
-    \tikzstyle{vertex}=[circle,fill,inner sep=2pt]
+    \tikzstyle{vertex}=[draw=teal,circle,fill=lime,inner sep=2pt] % try erase "draw=teal"
     % \draw[help lines] (-1,-4) grid (5,4);
     % edges from vertex a
-    \draw (0,2) --(4,3);
+    \draw[red] (0,2) --(4,3);
     \draw (0,2) --(4,1);
     \draw (0,2) --(4,-3);
     % edges from vertex b
@@ -2931,13 +2928,10 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     % edges from vertex c
     \draw (0,-2) --(4,3);
     \draw (0,-2) --(4,1);
-
     \node[vertex] (va) at (0,2) {}; % for vertex-style only
     \node[left=20pt] at (0,2) {$a$}; % for label-of-the-vertex only
-
     % combine vertex style and its label AND special label for (vb) only
     \node[vertex,label={[label distance=12pt]left:$b$}] (vb) at (0,0) {};
-
     % combine vertex style and its label AND use label distance for this scope
     \node[vertex,label=left:$c$] (vc) at (0,-2) {};
     \node[vertex,label=right:$d$] (vd) at (4,3) {};
@@ -2960,6 +2954,131 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     fit=(va)(vb)(vc),shift={(-10pt,0)},
     label={[draw,fill=red!10,label distance=10pt]above:source $s$}] {};
     \end{pgfonlayer}
+    \end{tikzpicture}
+\]
+
+\subsection{Field extension diagram (using Ti\textit{k}Z's graph library)}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \graph[layered layout]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=2cm]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \graph[layered layout,level distance=2cm]{a -> {b,c[nudge=(left:3mm)],d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \graph[layered layout,vertical=b to d]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        % preserve orientation of the original graph with vertical'
+        \graph[layered layout,vertical'=b to d]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \graph[layered layout]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=2cm]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \graph[layered layout,level distance=2cm]{a -> {b,c[nudge=(left:3mm)],d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \graph[layered layout,vertical=b to d]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        % preserve orientation of the original graph with vertical'
+        \graph[layered layout,vertical'=b to d]{a -> {b,c,d} -> e; };
+    \end{tikzpicture}
+\]
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \graph[layered layout,level distance=1.2cm]{
+    "$\mathbb{Q}(\sqrt{2},\sqrt{3})$" --
+    {"$\mathbb{Q}(\sqrt{2})$", "$\mathbb{Q}(\sqrt{6})$", "$\mathbb{Q}(\sqrt{3})$"};
+    {"$\mathbb{Q}(\sqrt{2})$", "$\mathbb{Q}(\sqrt{6})$", "$\mathbb{Q}(\sqrt{3})$"} --
+    "$\mathbb{Q}$";
+    };
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \graph[layered layout,level distance=1.2cm]{
+    "$\mathbb{Q}(\sqrt{2},\sqrt{3})$" --
+    {"$\mathbb{Q}(\sqrt{2})$", "$\mathbb{Q}(\sqrt{6})$", "$\mathbb{Q}(\sqrt{3})$"};
+    {"$\mathbb{Q}(\sqrt{2})$", "$\mathbb{Q}(\sqrt{6})$", "$\mathbb{Q}(\sqrt{3})$"} --
+    "$\mathbb{Q}$";
+    };
+    \end{tikzpicture}
+\]
+
+\subsubsection{Bottom-up tree}
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=1cm] {
+            {g,h,i} -- e;
+            {e,f} -- c;
+            {b,c,d} -- a;
+        };
+    \end{tikzpicture}
+    \hspace{15mm}
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=1cm] {
+            a -- {b,c,d};
+            c -- {e,f};
+            e -- {g,h,i};
+        };
+    \end{tikzpicture}
+    \hspace{15mm}
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=1cm] {
+            g -- e;
+            h -- e;
+            i -- e;
+            e -- c;
+            f -- c;
+            b -- a;
+            c -- a;
+            d -- a;
+        };
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=1cm] {
+            {g,h,i} -- e;
+            {e,f} -- c;
+            {b,c,d} -- a;
+        };
+    \end{tikzpicture}
+    \hspace{15mm}
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=1cm] {
+            a -- {b,c,d};
+            c -- {e,f};
+            e -- {g,h,i};
+        };
+    \end{tikzpicture}
+    \hspace{15mm}
+    \begin{tikzpicture}
+        \graph[layered layout,sibling distance=1cm] {
+            g -- e;
+            h -- e;
+            i -- e;
+            e -- c;
+            f -- c;
+            b -- a;
+            c -- a;
+            d -- a;
+        };
     \end{tikzpicture}
 \]
 
