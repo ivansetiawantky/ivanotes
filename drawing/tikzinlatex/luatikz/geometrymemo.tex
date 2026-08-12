@@ -3082,4 +3082,101 @@ Try some projects in \url{https://www.ams.org/arc/resources/pdfs/tikz_tutorials_
     \end{tikzpicture}
 \]
 
+\subsection{Inclined plane diagram with apple}
+
+Demonstrated here:
+\begin{itemize}
+    \item define multiple coordinates in 1 line,
+    \item calculate coordinate using other coordinate in \lstinlineiv{\path let in}, \lstinlineiv{\x1/1cm}, \lstinlineiv{{scalar()}}, % chktex 1, chktex 36
+    \item reminder that \lstinlineiv{()} means coordinate,
+    \item reminder that \lstinlineiv{($ $)} means coordinate calculation results in coordinate, % chktex 46
+    \item reminder that \lstinlineiv{{}} means calculation (or string like below \verb|\n{ratio}|),
+    \item reminder that \lstinlineiv{{$ $}} means node's content-text in math-mode. % chktex 46
+\end{itemize}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[scale=1.0]
+    % Independent coordinates:
+    \path (0,0) coordinate (A) (4,3) coordinate (C) (5/2,1/2) coordinate (E);
+    % Calculated coordinates:
+    % \draw[help lines] ($(A)-(1,2)$) grid ($(C)+(1,2)$);
+    \path (A-|C) coordinate (B);
+    \path let \p1 = (A), \p2 = (C), \p3 = (E),
+    \n{ratio} = {scalar(\x3/1cm - \x1/1cm)/scalar(\x2/1cm - \x1/1cm)} in
+    ($(\p1)!\n{ratio}!(\p2)$) coordinate (D);
+    \path let \p1 = ($(D)!1.0!90:(A)$) in
+    ($(D)!(E)!(\p1)$) coordinate (F);
+    % \draw node at (A) {$A$} node at (B) {$B$} node at (C) {$C$} node at (D) {$D$} node at (E) {$E$} node at (F) {$F$};
+    % inclined plane and infos:
+    \draw[thick] (A) --(B) --(C) --cycle;
+    \pic[draw,angle radius=2mm]{right angle=C--B--A};
+    \draw[help lines,{Bar}-{Bar}] ($(A)-(0,0.3)$) --node[pos=0.5,below=1pt]{$x$} ($(B)-(0,0.3)$);
+    \draw[help lines,{Bar}-{Bar}] ($(B)+(0.3,0)$) --($(C)+(0.3,0)$) node[pos=0.5,right=1pt]{$y$};
+    \pic[draw,angle radius=5mm,angle eccentricity=1.5,pic text={$\alpha$}]{angle=B--A--C};
+    % force arrows:
+    \draw[-{Stealth}] (D) --(E) node[pos=0.5,left=-1pt]{$F_g$}; % force of gravity (f.o.g)
+    \draw[dashed,-{Stealth}] (D) --(F) node[pos=0.5,above right=-2pt]{$F_{\perp}$};
+    \draw[dashed,-{Stealth}] (F) --(E) node[pos=0.5,below right=-1pt]{$F_{\parallel}$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[scale=1.0]
+    % Independent coordinates:
+    \path (0,0) coordinate (A) (4,3) coordinate (C) (5/2,1/2) coordinate (E);
+    % Calculated coordinates:
+    % \draw[help lines] ($(A)-(1,2)$) grid ($(C)+(1,2)$);
+    \path (A-|C) coordinate (B);
+    \path let \p1 = (A), \p2 = (C), \p3 = (E),
+    \n{ratio} = {scalar(\x3/1cm - \x1/1cm)/scalar(\x2/1cm - \x1/1cm)} in
+    ($(\p1)!\n{ratio}!(\p2)$) coordinate (D);
+    \path let \p1 = ($(D)!1.0!90:(A)$) in
+    ($(D)!(E)!(\p1)$) coordinate (F);
+    % \draw node at (A) {$A$} node at (B) {$B$} node at (C) {$C$} node at (D) {$D$} node at (E) {$E$} node at (F) {$F$};
+    % inclined plane and infos:
+    \draw[thick] (A) --(B) --(C) --cycle;
+    \pic[draw,angle radius=2mm]{right angle=C--B--A};
+    \draw[help lines,{Bar}-{Bar}] ($(A)-(0,0.3)$) --node[pos=0.5,below=1pt]{$x$} ($(B)-(0,0.3)$);
+    \draw[help lines,{Bar}-{Bar}] ($(B)+(0.3,0)$) --($(C)+(0.3,0)$) node[pos=0.5,right=1pt]{$y$};
+    \pic[draw,angle radius=5mm,angle eccentricity=1.5,pic text={$\alpha$}]{angle=B--A--C};
+    % force arrows:
+    \draw[-{Stealth}] (D) --(E) node[pos=0.5,left=-1pt]{$F_g$}; % force of gravity (f.o.g)
+    \draw[dashed,-{Stealth}] (D) --(F) node[pos=0.5,above right=-2pt]{$F_{\perp}$};
+    \draw[dashed,-{Stealth}] (F) --(E) node[pos=0.5,below right=-1pt]{$F_{\parallel}$};
+    \end{tikzpicture}
+\]
+
+\subsubsection{Exercise 4.3}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \tikzstyle{vertex}=[circle,fill,inner sep=1pt]
+    % vertices and their labels
+    \node[vertex,label={above left:$a$}] (va) at (0,3) {};
+    \node[vertex,label={above right:$b$}] (vb) at (3,3) {};
+    \node[vertex,label={below right:$c$}] (vc) at (3,0) {};
+    \node[vertex,label={below left:$d$}] (vd) at (0,0) {};
+    % the square, with arrows
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (va) --(vb);
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (vb) --(vc);
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (vc) --(vd);
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (vd) --(va);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \tikzstyle{vertex}=[circle,fill,inner sep=1pt]
+    % vertices and their labels
+    \node[vertex,label={above left:$a$}] (va) at (0,3) {};
+    \node[vertex,label={above right:$b$}] (vb) at (3,3) {};
+    \node[vertex,label={below right:$c$}] (vc) at (3,0) {};
+    \node[vertex,label={below left:$d$}] (vd) at (0,0) {};
+    % the square, with arrows
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (va) --(vb);
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (vb) --(vc);
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (vc) --(vd);
+    \draw[-{Triangle[orange,length=3mm,width=3mm]}] (vd) --(va);
+    \end{tikzpicture}
+\]
 \end{document}
