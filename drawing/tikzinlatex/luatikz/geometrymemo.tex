@@ -3146,6 +3146,337 @@ Demonstrated here:
     \end{tikzpicture}
 \]
 
+
+\subsubsection{About \texttt{\textbackslash{}node[rotate around=\{degree:(pivot)\}] at (anchor)}} % chktex 36
+
+Operation \lstinlineiv{\node[anchor=nodeAnchor,rotate=angleDegree] at (initPoint) {text};} means, put \lstinlineiv{text}'s anchor (which is \lstinlineiv{nodeAnchor}) at \lstinlineiv{initPoint}, then rotate \lstinlineiv{angleDegree} degree around \lstinlineiv{nodeAnchor}.
+
+Below diagram shows 2 points, at their initial positions, with their ``center'' and ``south east'' anchors at (4,2) and (10,1), respectively.
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % Draw origin:
+    \node[point,label=below:$O$] (O) at (0,0) {};
+    % Define the anchor's style:
+    \tikzstyle{anchorsty}=[circle,fill=orange,fill opacity=0.5,inner sep=2pt,outer sep=0pt]
+    % Define Point A:
+    \coordinate (Apoint) at (4,2);
+    % Put node/text at Point A, name the node (and also the box etc) as (A):
+    \draw let \p1 = (Apoint) in
+        node[color=red,draw=red!50,fill=red!15] (A) at (\p1)
+    {Point $A$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (A):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($A$.center)}]
+    at (A.center) {};
+    % Define Point B:
+    \coordinate (Bpoint) at (10,1);
+    % Put node/text at Point B, name the node (and also the box etc) as (B):
+    \draw let \p1 = (Bpoint) in
+        node[color=blue,draw=blue!50,fill=blue!15,anchor=south east] (B) at (\p1)
+    {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (B):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
+    at (B.south east) {};
+    % Emphasize the position of the anchors:
+    \draw[help lines] (Apoint) --(O) --(Bpoint);
+    \end{tikzpicture}
+\]
+And below diagram shows their final appearance after rotated around their respective anchors for \qty{45}{degree} and \qty{-15}{degree}, respectively.
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % Draw origin:
+    \node[point,label=below:$O$] (O) at (0,0) {};
+    % Define the anchor's style:
+    \tikzstyle{anchorsty}=[circle,fill=orange,fill opacity=0.5,inner sep=2pt,outer sep=0pt]
+    % Define Point A:
+    \coordinate (Apoint) at (4,2);
+    % Put node/text at Point A, name the node (and also the box etc) as (A):
+    \draw let \p1 = (Apoint) in
+        node[color=red,draw=red!50,fill=red!15,rotate=45] (A) at (\p1)
+    {Point $A$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (A):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($A$.center)}]
+    at (A.center) {};
+    % Define Point B:
+    \coordinate (Bpoint) at (10,1);
+    % Put node/text at Point B, name the node (and also the box etc) as (B):
+    \draw let \p1 = (Bpoint) in
+        node[color=blue,draw=blue!50,fill=blue!15,anchor=south east,rotate=-15] (B) at (\p1)
+    {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (B):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
+    at (B.south east) {};
+    % Emphasize the position of the anchors:
+    \draw[help lines] (Apoint) --(O) --(Bpoint);
+    \end{tikzpicture}
+\]
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % Draw origin:
+    \node[point,label=below:$O$] (O) at (0,0) {};
+    % Define the anchor's style:
+    \tikzstyle{anchorsty}=[circle,fill=orange,fill opacity=0.5,inner sep=2pt,outer sep=0pt]
+    % Define Point A:
+    \coordinate (Apoint) at (4,2);
+    % Put node/text at Point A, name the node (and also the box etc) as (A):
+    \draw let \p1 = (Apoint) in
+        node[color=red,draw=red!50,fill=red!15,rotate=45] (A) at (\p1)
+    {Point $A$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (A):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($A$.center)}]
+    at (A.center) {};
+    % Define Point B:
+    \coordinate (Bpoint) at (10,1);
+    % Put node/text at Point B, name the node (and also the box etc) as (B):
+    \draw let \p1 = (Bpoint) in
+        node[color=blue,draw=blue!50,fill=blue!15,anchor=south east,rotate=-15] (B) at (\p1)
+    {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (B):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
+    at (B.south east) {};
+    % Emphasize the position of the anchors:
+    \draw[help lines] (Apoint) --(O) --(Bpoint);
+    \end{tikzpicture}
+\end{lstlisting}
+
+Operation \lstinlineiv{\node[anchor=nodeAnchor,rotate around={angleDegree:(pivotPoint)}] at (initPoint) {text};} means, put \lstinlineiv{text}'s anchor (which is \lstinlineiv{nodeAnchor}) at \lstinlineiv{initPoint}, then rotate \lstinlineiv{angleDegree} degree around \lstinlineiv{pivotPoint}. % chktex 36
+\textcolor{red}{Be careful, the \textbf{\texttt{pivotPoint}} is a relative position to \textbf{\texttt{nodeAnchor}}}.
+\lstinlineiv{pivotPoint} of (0,0) makes ``\verb|rotate around|'' identical to ``\verb|rotate|''. To set absolute coordinate \lstinlineiv{(O)} as the pivot point, then set \lstinline{pivotPoint} to \lstinline{($(O)-(nodeAnchor)$)}. % chktex 36, chktex 46
+
+Below diagram shows 2 points, at their initial positions, with their ``center'' and ``south east'' anchors at (4,2) and (10,1), respectively.
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % Draw origin:
+    \node[point,label=below:$O$] (O) at (0,0) {};
+    % Define the anchor's style:
+    \tikzstyle{anchorsty}=[circle,fill=orange,fill opacity=0.5,inner sep=2pt,outer sep=0pt]
+    % Define Point A:
+    \coordinate (Apoint) at (4,2);
+    % Put node/text at Point A, name the node (and also the box etc) as (A):
+    \draw let \p1 = (Apoint) in
+        node[color=red,draw=red!50,fill=red!15] (A) at (\p1)
+    {Point $A$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (A):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($A$.center)}]
+    at (A.center) {};
+    % Define Point B:
+    \coordinate (Bpoint) at (10,1);
+    % Put node/text at Point B, name the node (and also the box etc) as (B):
+    \draw let \p1 = (Bpoint) in
+        node[color=blue,draw=blue!50,fill=blue!15,anchor=south east] (B) at (\p1)
+    {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (B):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
+    at (B.south east) {};
+    % Emphasize the position of the anchors:
+    \draw[help lines] (Apoint) --(O) --(Bpoint);
+    \end{tikzpicture}
+\]
+And below diagram shows their final appearance after rotated around \lstinlineiv{(O)} for \qty{45}{degree} and \qty{-15}{degree}, respectively.
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % Draw origin:
+    \node[point,label=below:$O$] (O) at (0,0) {};
+    % Define the anchor's style:
+    \tikzstyle{anchorsty}=[circle,fill=orange,fill opacity=0.5,inner sep=2pt,outer sep=0pt]
+    % Define Point A:
+    \coordinate (Apoint) at (4,2);
+    % Put node/text at Point A, name the node (and also the box etc) as (A):
+    \draw let \p1 = (Apoint) in
+    node[color=red,draw=red!50,fill=red!15,
+    rotate around={45:($(O)-(Apoint)$)}] (A) at (\p1)
+    {Point $A$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (A):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($A$.center)}]
+    at (A.center) {};
+    % Define Point B:
+    \coordinate (Bpoint) at (10,1);
+    % Put node/text at Point B, name the node (and also the box etc) as (B):
+    \draw let \p1 = (Bpoint) in
+    node[color=blue,draw=blue!50,fill=blue!15,anchor=south east,
+    rotate around={-15:($(O)-(Bpoint)$)}] (B) at (\p1)
+    {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (B):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
+    at (B.south east) {};
+    % Emphasize the position of the anchors:
+    \draw[help lines] (Apoint) --(O) --(Bpoint);
+    \draw[help lines,red] (A) --(O) --(B.south east);
+    \end{tikzpicture}
+\]
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    % Draw origin:
+    \node[point,label=below:$O$] (O) at (0,0) {};
+    % Define the anchor's style:
+    \tikzstyle{anchorsty}=[circle,fill=orange,fill opacity=0.5,inner sep=2pt,outer sep=0pt]
+    % Define Point A:
+    \coordinate (Apoint) at (4,2);
+    % Put node/text at Point A, name the node (and also the box etc) as (A):
+    \draw let \p1 = (Apoint) in
+    node[color=red,draw=red!50,fill=red!15,
+    rotate around={45:($(O)-(Apoint)$)}] (A) at (\p1)
+    {Point $A$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (A):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($A$.center)}]
+    at (A.center) {};
+    % Define Point B:
+    \coordinate (Bpoint) at (10,1);
+    % Put node/text at Point B, name the node (and also the box etc) as (B):
+    \draw let \p1 = (Bpoint) in
+    node[color=blue,draw=blue!50,fill=blue!15,anchor=south east,
+    rotate around={-15:($(O)-(Bpoint)$)}] (B) at (\p1)
+    {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
+    \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
+    % Visualize the center anchor of node (B):
+    \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
+        pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
+    at (B.south east) {};
+    % Emphasize the position of the anchors:
+    \draw[help lines] (Apoint) --(O) --(Bpoint);
+    \draw[help lines,red] (A) --(O) --(B.south east);
+    \end{tikzpicture}
+\end{lstlisting}
+
+Below list shows that other than \lstinlineiv{\node}, \lstinlineiv{\pgftext} can also be used.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \pgfdeclareimage[height=10mm]{the_apple}{apple.png}
+        % the base apple, sitting at (0,0) with no rotation around origin:
+        \pgftext[rotate=0, at=\pgfpoint{0cm}{0cm}]{\pgfuseimage{the_apple}}
+        % \node at (0,0) {\pgfuseimage{the_apple}};
+        % distance = 5cm, rotation = 0:
+        \node[rotate around={0:(-5,0)},inner sep=0pt,draw=red] at (5,0) {\pgfuseimage{the_apple}};
+        % distance = 5cm, rotation = 15:
+        \pgftext[rotate=15, at=\pgfpoint{5cm}{0cm}]{\pgfuseimage{the_apple}}
+        % distance = 5cm, rotation = 30:
+        \node[rotate around={30:(-5,0)},inner sep=3pt,draw=red] at (5,0) {\pgfuseimage{the_apple}};
+        % distance = 5cm, rotation = 45:
+        \pgftext[rotate=45, at=\pgfpoint{5cm}{0cm}]{\pgfuseimage{the_apple}}
+        % distance = 5cm, rotation = 60:
+        \node[rotate around={60:(-5,0)},inner sep=6pt,draw=red] at (5,0) {\pgfuseimage{the_apple}};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \pgfdeclareimage[height=10mm]{the_apple}{apple.png}
+        % the base apple, sitting at (0,0) with no rotation around origin:
+        \pgftext[rotate=0, at=\pgfpoint{0cm}{0cm}]{\pgfuseimage{the_apple}}
+        % \node at (0,0) {\pgfuseimage{the_apple}};
+        % distance = 5cm, rotation = 0:
+        \node[rotate around={0:(-5,0)},inner sep=0pt,draw=red] at (5,0) {\pgfuseimage{the_apple}};
+        % distance = 5cm, rotation = 15:
+        \pgftext[rotate=15, at=\pgfpoint{5cm}{0cm}]{\pgfuseimage{the_apple}}
+        % distance = 5cm, rotation = 30:
+        \node[rotate around={30:(-5,0)},inner sep=3pt,draw=red] at (5,0) {\pgfuseimage{the_apple}};
+        % distance = 5cm, rotation = 45:
+        \pgftext[rotate=45, at=\pgfpoint{5cm}{0cm}]{\pgfuseimage{the_apple}}
+        % distance = 5cm, rotation = 60:
+        \node[rotate around={60:(-5,0)},inner sep=6pt,draw=red] at (5,0) {\pgfuseimage{the_apple}};
+    \end{tikzpicture}
+\]
+
+And now, the inclined plane, \textbf{WITH THE APPLE}! Just change \((A), (C), (E)\) to have different dimension of the inclined plane.
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    % Independent coordinates:
+    \path (0,0) coordinate (A) (4,3) coordinate (C) (5/2,1/2) coordinate (E);
+    % \path (-1.3,-2.4) coordinate (A) (5.2,6.7) coordinate (C) (6/2,1/2) coordinate (E);
+    % Calculated coordinates:
+    % \draw[help lines] ($(A)-(1,2)$) grid ($(C)+(1,2)$);
+    \path (A-|C) coordinate (B);
+    \path let \p1 = (A), \p2 = (C), \p3 = (E),
+    \n{ratio} = {scalar(\x3/1cm - \x1/1cm)/scalar(\x2/1cm - \x1/1cm)} in
+    ($(\p1)!\n{ratio}!(\p2)$) coordinate (D);
+    \path let \p1 = ($(D)!1.0!90:(A)$) in
+    ($(D)!(E)!(\p1)$) coordinate (F);
+    % \draw node at (A) {$A$} node at (B) {$B$} node at (C) {$C$} node at (D) {$D$} node at (E) {$E$} node at (F) {$F$};
+
+    % put the apple first (underneath other parts):
+    \path let \p1 = ($(D)-(A)$),
+    \n{dist} = {veclen(\x1,\y1)},
+    \p{init} = ($(A)!\n{dist}!(B)$),
+    \p{pivot} = ($(A)-(\p{init})$),
+    \n{rot} = {atan2(\y1,\x1)}
+    in
+        node[inner sep=-0.5pt,anchor=south,rotate around={\n{rot}:(\p{pivot})}] at (\p{init}) {\includegraphics[height=10mm]{apple.png}}; % or, [height=15mm]
+
+    % inclined plane and infos:
+    \draw[thick] (A) --(B) --(C) --cycle;
+    \pic[draw,angle radius=2mm]{right angle=C--B--A};
+    \draw[help lines,{Bar}-{Bar}] ($(A)-(0,0.3)$) --node[pos=0.5,below=1pt]{$x$} ($(B)-(0,0.3)$);
+    \draw[help lines,{Bar}-{Bar}] ($(B)+(0.3,0)$) --($(C)+(0.3,0)$) node[pos=0.5,right=1pt]{$y$};
+    \pic[draw,angle radius=5mm,angle eccentricity=1.5,pic text={$\alpha$}]{angle=B--A--C};
+
+    % force arrows:
+    \draw[-{Stealth}] (D) --(E) node[pos=0.5,left=-1pt]{$F_g$}; % force of gravity (f.o.g)
+    \draw[dashed,-{Stealth}] (D) --(F) node[pos=0.5,above right=-2pt]{$F_{\perp}$};
+    \draw[dashed,-{Stealth}] (F) --(E) node[pos=0.5,below right=-1pt]{$F_{\parallel}$};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    % Independent coordinates:
+    \path (0,0) coordinate (A) (4,3) coordinate (C) (5/2,1/2) coordinate (E);
+    % \path (-1.3,-2.4) coordinate (A) (5.2,6.7) coordinate (C) (6/2,1/2) coordinate (E);
+    % Calculated coordinates:
+    % \draw[help lines] ($(A)-(1,2)$) grid ($(C)+(1,2)$);
+    \path (A-|C) coordinate (B);
+    \path let \p1 = (A), \p2 = (C), \p3 = (E),
+    \n{ratio} = {scalar(\x3/1cm - \x1/1cm)/scalar(\x2/1cm - \x1/1cm)} in
+    ($(\p1)!\n{ratio}!(\p2)$) coordinate (D);
+    \path let \p1 = ($(D)!1.0!90:(A)$) in
+    ($(D)!(E)!(\p1)$) coordinate (F);
+    % \draw node at (A) {$A$} node at (B) {$B$} node at (C) {$C$} node at (D) {$D$} node at (E) {$E$} node at (F) {$F$};
+
+    % put the apple first (underneath other parts):
+    \path let \p1 = ($(D)-(A)$),
+    \n{dist} = {veclen(\x1,\y1)},
+    \p{init} = ($(A)!\n{dist}!(B)$),
+    \p{pivot} = ($(A)-(\p{init})$),
+    \n{rot} = {atan2(\y1,\x1)}
+    in
+        node[inner sep=-0.5pt,anchor=south,rotate around={\n{rot}:(\p{pivot})}] at (\p{init}) {\includegraphics[height=10mm]{apple.png}}; % or, [height=15mm]
+
+    % inclined plane and infos:
+    \draw[thick] (A) --(B) --(C) --cycle;
+    \pic[draw,angle radius=2mm]{right angle=C--B--A};
+    \draw[help lines,{Bar}-{Bar}] ($(A)-(0,0.3)$) --node[pos=0.5,below=1pt]{$x$} ($(B)-(0,0.3)$);
+    \draw[help lines,{Bar}-{Bar}] ($(B)+(0.3,0)$) --($(C)+(0.3,0)$) node[pos=0.5,right=1pt]{$y$};
+    \pic[draw,angle radius=5mm,angle eccentricity=1.5,pic text={$\alpha$}]{angle=B--A--C};
+
+    % force arrows:
+    \draw[-{Stealth}] (D) --(E) node[pos=0.5,left=-1pt]{$F_g$}; % force of gravity (f.o.g)
+    \draw[dashed,-{Stealth}] (D) --(F) node[pos=0.5,above right=-2pt]{$F_{\perp}$};
+    \draw[dashed,-{Stealth}] (F) --(E) node[pos=0.5,below right=-1pt]{$F_{\parallel}$};
+    \end{tikzpicture}
+\]
+
 \subsubsection{Exercise 4.3}
 
 \begin{lstlisting}[
