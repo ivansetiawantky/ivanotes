@@ -3176,7 +3176,7 @@ Below diagram shows 2 points, at their initial positions, with their ``center'' 
         node[color=blue,draw=blue!50,fill=blue!15,anchor=south east] (B) at (\p1)
     {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
     \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
-    % Visualize the center anchor of node (B):
+    % Visualize the south east anchor of node (B):
     \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
         pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
     at (B.south east) {};
@@ -3209,7 +3209,7 @@ And below diagram shows their final appearance after rotated around their respec
         node[color=blue,draw=blue!50,fill=blue!15,anchor=south east,rotate=-15] (B) at (\p1)
     {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
     \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
-    % Visualize the center anchor of node (B):
+    % Visualize the south east anchor of node (B):
     \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
         pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
     at (B.south east) {};
@@ -3242,7 +3242,7 @@ And below diagram shows their final appearance after rotated around their respec
         node[color=blue,draw=blue!50,fill=blue!15,anchor=south east,rotate=-15] (B) at (\p1)
     {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
     \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
-    % Visualize the center anchor of node (B):
+    % Visualize the south east anchor of node (B):
     \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
         pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
     at (B.south east) {};
@@ -3280,7 +3280,7 @@ Below diagram shows 2 points, at their initial positions, with their ``center'' 
         node[color=blue,draw=blue!50,fill=blue!15,anchor=south east] (B) at (\p1)
     {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
     \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
-    % Visualize the center anchor of node (B):
+    % Visualize the south east anchor of node (B):
     \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
         pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
     at (B.south east) {};
@@ -3315,13 +3315,15 @@ And below diagram shows their final appearance after rotated around \lstinlineiv
     rotate around={-15:($(O)-(Bpoint)$)}] (B) at (\p1)
     {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
     \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
-    % Visualize the center anchor of node (B):
+    % Visualize the south east anchor of node (B):
     \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
         pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
     at (B.south east) {};
     % Emphasize the position of the anchors:
     \draw[help lines] (Apoint) --(O) --(Bpoint);
-    \draw[help lines,red] (A) --(O) --(B.south east);
+    % \draw[help lines,red] (A) --(O) --(B.south east);
+    \draw[help lines,red] (A.center) --(O) --(B.south east);
+    % \draw[help lines,red] let \p1 = (A.center) in (\p1) --(O) --(B.south east);
     \end{tikzpicture}
 \]
 \begin{lstlisting}[
@@ -3351,13 +3353,15 @@ And below diagram shows their final appearance after rotated around \lstinlineiv
     rotate around={-15:($(O)-(Bpoint)$)}] (B) at (\p1)
     {Point $B$(\pgfmathparse{\x1/1cm}\pgfmathprintnumber{\pgfmathresult},
     \pgfmathparse{\y1/1cm}\pgfmathprintnumber{\pgfmathresult})};
-    % Visualize the center anchor of node (B):
+    % Visualize the south east anchor of node (B):
     \node[anchorsty,pin={[color=orange,draw=orange!50,fill=orange!15,
         pin distance=1cm,pin edge={orange,thin,opacity=0.5}]above:($B$.south east)}]
     at (B.south east) {};
     % Emphasize the position of the anchors:
     \draw[help lines] (Apoint) --(O) --(Bpoint);
-    \draw[help lines,red] (A) --(O) --(B.south east);
+    % \draw[help lines,red] (A) --(O) --(B.south east);
+    \draw[help lines,red] (A.center) --(O) --(B.south east);
+    % \draw[help lines,red] let \p1 = (A.center) in (\p1) --(O) --(B.south east);
     \end{tikzpicture}
 \end{lstlisting}
 
