@@ -112,3 +112,59 @@
 
     \path[#1] ($(#3)!#6!(#5)$) --($(#5)!#7!(#3)$); % chktex 46, chktex 36
 }
+
+% For showing source code listing and the typeset result up-down, side-by-side
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,breakable,skins}
+
+\lstdefinestyle{tcbliststyleiv}{
+    language=[LaTeX]TeX,
+    basicstyle=\ttfamily\small,
+    % basicstyle=\ttfamily\small\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    numbers=left, % left, none
+    firstnumber=1,
+    numberstyle=\scriptsize,
+    breaklines=true,
+    frame=none, % tb, single
+    aboveskip=0pt,
+    belowskip=0pt,
+    % texcsstyle=*\color{blue},
+    % keywordstyle=\color{green!30!black},
+    % commentstyle=\color{red},
+    % morekeywords={},
+    % otherkeywords={$,\{,\},[,],&},
+    % backgroundcolor=\color{gray!30},
+    % escapeinside=<>,
+    % moretexcs={maketitle},
+    % showtabs=true,
+    % showspaces=true,
+    % gobble=4, % gobble is ignored in tcblisting, so use below lines hack!
+    tabsize=1,
+    framexleftmargin=-18pt, % -14pt
+    numbersep=-11pt, % -7pt
+    xleftmargin=-18pt, % -14pt
+}
+
+% See: https://tex.stackexchange.com/questions/247608/problem-with-gobble-listing-option-inside-a-tcblisting
+\tcbset{
+    colback=white,colframe=black!70,
+    fonttitle=\bfseries\normalsize,
+    boxsep=1mm,
+    top=1mm,
+    bottom=1mm,
+    % listing only,
+    left=4.8mm, % Use left=4.8mm to make the line number with 2 digits looks better
+    % right=2mm,
+    listing options={
+        style=tcbliststyleiv,
+    },
+    breakable=true,
+    enhanced jigsaw, % from skins, for page break
+    pad at break*=1mm,
+    bicolor jigsaw,
+    colback=blue!3!white,colframe=blue!75!black,
+    colbacklower=white,
+    % watermark color=white,watermark text=\Roman{tcbbreakpart},
+}

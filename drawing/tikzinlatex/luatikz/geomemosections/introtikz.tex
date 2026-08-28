@@ -3,7 +3,321 @@
 
 \begin{document}
 \section{Introduction to Ti\textit{k}Z (Ti\textit{k}Z への入門)}
+\label{sec:introtikz}
 
 In this section, we will try some codes explained here: \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf}.
+
+\subsection{座標を指定する構文}
+
+\underline{基本}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},breaklines=true,gobble=4]
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    \draw[help lines] (-1,-1) grid (4,3);
+    % x 軸とy 軸
+    \draw[->] (-1.5,0) --(4.5,0) node[right]{$x$};
+    \draw[->] (0,-1.5) --(0,3.5) node[above]{$y$};
+    % point (値は label で表示）
+    \node[point,label=below right:{(2cm,1cm)}] at (2cm,1cm) {};
+    \node[point,label=below right:{(80:2cm)}] at (80:2cm) {};
+    \node[point,label=below right:{(3,2)}] (C) at (3,2) {};
+    \node[point,label=above:{(pi/3 r:3)}] at (pi/3 r:3) {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+    \draw[help lines] (-1,-1) grid (4,3);
+    % x 軸とy 軸
+    \draw[->] (-1.5,0) --(4.5,0) node[right]{$x$};
+    \draw[->] (0,-1.5) --(0,3.5) node[above]{$y$};
+    % point (値は label で表示）
+    \node[point,label=below right:{(2cm,1cm)}] at (2cm,1cm) {};
+    \node[point,label=below right:{(80:2cm)}] at (80:2cm) {};
+    \node[point,label=below right:{(3,2)}] (C) at (3,2) {};
+    \node[point,label=above:{(pi/3 r:3)}] at (pi/3 r:3) {};
+    \end{tikzpicture}
+\]
+
+\underline{相対位置による座標指定}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw (1,0) --++(4,0) --+(1,1) --+(1,-1);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw (1,0) --++(4,0) --+(1,1) --+(1,-1);
+    \end{tikzpicture}
+\]
+
+\subsection{パス path 上のアクション}
+
+\underline{描画のアクション}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[fill=lightgray]
+        \path[draw] (1,0) --(0,0) --(0,1) --cycle; % \draw と同じ
+        \path[fill,xshift=2cm] (1,0) --(0,0) --(0,1) --cycle; % \fill と同じ
+        \path[draw,fill,xshift=4cm] (1,0) --(0,0) --(0,1) --cycle; % \filldraw と同じ
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[fill=lightgray]
+        \path[draw] (1,0) --(0,0) --(0,1) --cycle; % \draw と同じ
+        \path[fill,xshift=2cm] (1,0) --(0,0) --(0,1) --cycle; % \fill と同じ
+        \path[draw,fill,xshift=4cm] (1,0) --(0,0) --(0,1) --cycle; % \filldraw と同じ
+    \end{tikzpicture}
+\]
+
+\underline{重なる図形}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \begin{scope}
+            \fill[black] (0,0) rectangle(2,2);
+            \fill[lightgray] (1,1) rectangle(3,3);
+        \end{scope}
+        \begin{scope}[xshift=4cm]
+            \fill[lightgray] (1,1) rectangle(3,3);
+            \fill[black] (0,0) rectangle(2,2);
+        \end{scope}
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \begin{scope}
+            \fill[black] (0,0) rectangle(2,2);
+            \fill[lightgray] (1,1) rectangle(3,3);
+        \end{scope}
+        \begin{scope}[xshift=4cm]
+            \fill[lightgray] (1,1) rectangle(3,3);
+            \fill[black] (0,0) rectangle(2,2);
+        \end{scope}
+    \end{tikzpicture}
+\]
+
+\subsection{図に関するパラメータ}
+
+\underline{オプションの指定}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+        \draw[color=gray,fill=lightgray,line width=3pt] (1,0) --(0,0) --(0,1) --cycle;
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+        \draw[color=gray,fill=lightgray,line width=3pt] (1,0) --(0,0) --(0,1) --cycle;
+    \end{tikzpicture}
+\]
+
+\subsection{ノード node}
+
+\underline{ノード}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \node[draw] at (0,1) {射};
+    \draw[->] (0,0) node[left] {$A$} -- node[above] {$f$} (1,0) node[right] {$B$};
+    \draw[help lines,red] (0,1) --(0,0) --(1,0);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \node[draw] at (0,1) {射};
+    \draw[->] (0,0) node[left] {$A$} -- node[above] {$f$} (1,0) node[right] {$B$};
+    \draw[help lines,red] (0,1) --(0,0) --(1,0);
+    \end{tikzpicture}
+\]
+
+\underline{ノードの形状}
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    \draw (0,0) node[draw,circle] {$A$} (1,0) node[draw,rectangle,gray] {$B$} (2,0) node[draw=red,circle,fill=gray] {};
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    \draw (0,0) node[draw,circle] {$A$} (1,0) node[draw,rectangle,gray] {$B$} (2,0) node[draw=red,circle,fill=gray] {};
+    \end{tikzpicture}
+\]
+
+\lstinlineiv{node} の代わりに，\lstinlineiv{coordinate} を指定すれば大きさがゼロのノードを配置できます．ノードに名前を付けることができるため，点にノード名を付けて後で参照できるようにできます．また，\lstinlineiv{label} と組み合わせて使うことが多いです．
+
+図形が重なるときは後に記述した方が上位に来ますが，ノードの場合は１つのパスが最後まで描画された後に配置されます．また，そのノードを使って \lstinlineiv{\draw} するときも，そのノードが上位に来ます．
+
+\underline{ノードと他の図形の重なり}
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}[every node/.style={fill=white}]
+    \draw (0,0) node[draw,circle] {$A$} --(1,0) node[draw,circle] {$B$} --(60:1) node[draw,circle] (C) {$C$} --cycle;
+    \draw (C) --(2,1);
+    \draw[red] (C.center) --(2,0);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}[every node/.style={fill=white}]
+    \draw (0,0) node[draw,circle] {$A$} --(1,0) node[draw,circle] {$B$} --(60:1) node[draw,circle] (C) {$C$} --cycle;
+    \draw (C) --(2,1);
+    \draw[red] (C.center) --(2,0);
+    \end{tikzpicture}
+\]
+
+ノードに名前を付けることができます．そして後からそのノード名を指定することで，ノードを参照することができます．ノード名をつけるには \lstinlineiv{name} オプションを指定するか，\lstinlineiv{node (ノード名)} のように丸カッコでノード名を囲んで指定します．
+
+\underline{ノード名と参照}
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    % ノードへの命名
+    \node (O) at (0,0) {$O$};
+    \coordinate[{label=right:$A_1$}] (A) at (1,0);
+    \node[name=P] at (1,1) {$P$};
+    % ノードの参照
+    \draw[->,thick] (O) --(P);
+    \draw (O) --(A) --(P);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    % ノードへの命名
+    \node (O) at (0,0) {$O$};
+    \coordinate[{label=right:$A_0$}] (A) at (1,0);
+    \node[name=P] at (1,1) {$P$};
+    % ノードの参照
+    \draw[->,thick] (O) --(P);
+    \draw[help lines] (O) --(A) --(P);
+    \end{tikzpicture}
+\]
+
+\subsection{Using \textbf{\texttt{tcblisting}} BUT NO \textbf{\texttt{minted}}}
+
+First, do NOT use \lstinlineiv{minted}, because it will give warning about \lstinlineiv{fancyvrb}.
+
+To create a side-by-side \LaTeX~source and the typeset output as in 「ノード名と参照1」, use below:
+\begin{tcolorbox}
+    \begin{verbatim}
+\begin{tcblisting}{title=ノード名と参照1,sidebyside,sidebyside gap=1cm,
+        righthand width=5cm}
+\end{tcblisting}
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcblisting}{title=ノード名と参照1,sidebyside,sidebyside gap=1cm,
+        righthand width=5cm}
+    \begin{tikzpicture}
+        % ノードへの命名
+        \node (O) at (0,0) {$O$};
+        \coordinate[{label=right:$A_0$}] (A) at (1,0);
+        \node[name=P] at (1,1) {$P$};
+        % ノードの参照
+        \draw[->,thick] (O) --(P);
+        \draw[help lines] (O) --(A) --(P);
+        \draw[help lines,red] (O) --(0,1);
+    \end{tikzpicture}
+\end{tcblisting}
+
+To create a side-by-side, but the typeset output is outside the text as in 「ノード名と参照2」, use below. The point here is \lstinlineiv{listing outside text}.
+\begin{tcolorbox}
+    \begin{verbatim}
+\begin{tcblisting}{title=ノード名と参照2,listing outside text,
+        sidebyside,sidebyside gap=1cm,righthand width=5cm}
+\end{tcblisting}
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcblisting}{title=ノード名と参照2,listing outside text,
+        sidebyside,sidebyside gap=1cm,righthand width=5cm}
+    \begin{tikzpicture}
+        % ノードへの命名
+        \node (O) at (0,0) {$O$};
+        \coordinate[{label=right:$A_0$}] (A) at (1,0);
+        \node[name=P] at (1,1) {$P$};
+        % ノードの参照
+        \draw[->,thick] (O) --(P);
+        \draw[help lines] (O) --(A) --(P);
+        \draw[help lines,red] (O) --(0,1);
+    \end{tikzpicture}
+\end{tcblisting}
+
+In case the numbered-list is 1-digit only (up to 9 lines of codes), as in 「ノード名と参照3」, then use \lstinlineiv{left=3.8mm}.
+\begin{tcolorbox}
+    \begin{verbatim}
+\begin{tcblisting}{title=ノード名と参照3,left=3.8mm}
+\end{tcblisting}
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcblisting}{title=ノード名と参照3,left=3.8mm}
+    \begin{tikzpicture}
+        % ノードへの命名
+        \node (O) at (0,0) {$O$};
+        \coordinate[{label=right:$A_0$}] (A) at (1,0);
+        \node[name=P] at (1,1) {$P$};
+        % ノードの参照
+        \draw[->,thick] (O) --(P);
+        \draw[help lines] (O) --(A) --(P);
+    \end{tikzpicture}
+\end{tcblisting}
+
+Finally, as shown in 「ノード名と参照4」 when the line number is not needed, set \lstinlineiv{left=2.8mm} and \lstinlineiv{listing options={style=tcbliststyleiv,numbers=none}}. Furthermore, \lstinlineiv{colback=white,enhanced jigsaw} will change the background color to white, and change the skin from the preset \lstinlineiv{bicolor jigsaw} to \lstinlineiv{enhanced jigsaw}, such that the source-typeset-separator-dashed-line will re-appear.
+\begin{tcolorbox}
+    \begin{verbatim}
+\begin{tcblisting}{title=ノード名と参照4,left=2.8mm,
+        listing options={style=tcbliststyleiv,numbers=none},
+        colback=white,enhanced jigsaw}
+\end{tcblisting}
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcblisting}{title=ノード名と参照4,left=2.8mm,
+        listing options={style=tcbliststyleiv,numbers=none},
+        colback=white,enhanced jigsaw}
+    \begin{tikzpicture}
+        % ノードへの命名
+        \node (O) at (0,0) {$O$};
+        \coordinate[{label=right:$A_0$}] (A) at (1,0);
+        \node[name=P] at (1,1) {$P$};
+        % ノードの参照
+        \draw[->,thick] (O) --(P);
+        \draw[help lines] (O) --(A) --(P);
+    \end{tikzpicture}
+\end{tcblisting}
+
+Unlike cnltx-example, in tcblisting \verb|\lstinlineiv{\node}| is still usable, like this: \lstinlineiv{\node}.
+
+Also unlike cnltx-example, in tcblisting \lstinlineiv{\begin{lstlisting}...\end{lstlisting}} % chktex 31
+, is also still usable.
+
+\begin{lstlisting}[
+    language={[LaTeX] TeX},numbers=none,breaklines=true,gobble=4]
+    \begin{tikzpicture}
+    % ノードへの命名
+    \node (O) at (0,0) {$O$};
+    \coordinate[{label=right:$A_1$}] (A) at (1,0);
+    \node[name=P] at (1,1) {$P$};
+    % ノードの参照
+    \draw[->,thick] (O) --(P);
+    \draw (O) --(A) --(P);
+    \end{tikzpicture}
+\end{lstlisting}
+\[
+    \begin{tikzpicture}
+    % ノードへの命名
+    \node (O) at (0,0) {$O$};
+    \coordinate[{label=right:$A_0$}] (A) at (1,0);
+    \node[name=P] at (1,1) {$P$};
+    % ノードの参照
+    \draw[->,thick] (O) --(P);
+    \draw[help lines] (O) --(A) --(P);
+    \end{tikzpicture}
+\]
+
+\subsection{ツリー，グラフのための構文 Syntax for tree and graph}
 
 \end{document}

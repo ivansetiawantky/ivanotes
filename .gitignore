@@ -29,6 +29,8 @@
 *.xml
 *.lol
 *.cpt
+*.code
+*.listing
 
 # Ignore node_modules
 node_modules/
