@@ -77,4 +77,32 @@
     "latex-workshop.synctex.afterBuild.enabled": true,
     "latex-workshop.view.outline.sync.viewer": true,
     "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+    "latex-workshop.intellisense.package.extra": [
+        "listings",
+        "xcolor",
+        "siunitx",
+        "float",
+        "amsmath",
+        "amssymb",
+        "amsfonts",
+        "amsthm",
+        "bm",
+        "tcolorbox",
+        "graphicx",
+        "url",
+        "caption2",
+        "multirow",
+        "wrapfig",
+        "comment",
+        "cprotect",
+        "tikz",
+        "fancybox",
+        "booktabs",
+        "adjustbox",
+        "longtable",
+        "nameref"
+    ],
+    "latex-workshop.intellisense.command.user": {
+        "lstinlineiv": "lstinlineiv{${1:codetext}}"
+    },
 }
