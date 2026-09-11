@@ -913,7 +913,7 @@ To draw angle, call \verb|\usetikzlibrary{angles}|, then use \verb|pic| operatio
         \coordinate (A) at (2,0);
         \coordinate (B) at (0,0);
         \coordinate (C) at (1.5,1);
-        \draw (A) --(B) --(C) pic[draw,->,angle eccentricity=1.5,pic text={$\theta$}]{angle=A--B--C};
+        \draw (A) --(B) --(C) pic[draw,->,angle eccentricity=1.5,font=\large,pic text={$\theta$}]{angle=A--B--C};
         \end{tikzpicture}
 \end{lstlisting}
 \end{minipage}
@@ -925,7 +925,7 @@ To draw angle, call \verb|\usetikzlibrary{angles}|, then use \verb|pic| operatio
         \coordinate (A) at (2,0);
         \coordinate (B) at (0,0);
         \coordinate (C) at (1.5,1);
-        \draw (A) --(B) --(C) pic[draw,->,angle eccentricity=1.5,pic text={$\theta$}]{angle=A--B--C};
+        \draw (A) --(B) --(C) pic[draw,->,angle eccentricity=1.5,font=\large,pic text={$\theta$}]{angle=A--B--C};
         \end{tikzpicture}
     \]
 \end{minipage}
@@ -2253,7 +2253,7 @@ Good explanation taken from https://alg-d.com/math/tikz.pdf.
 \end{minipage}
 \\[1em]
 
-\textbf{\texttt{[relative=真偽値]}} \verb|[out]| や \verb|[in]| における角度の指定を「絶対的」にsるか「相対的」にするかを設定する．
+\textbf{\texttt{[relative=真偽値]}} \verb|[out]| や \verb|[in]| における角度の指定を「絶対的」にするか「相対的」にするかを設定する．
 \\[0.5em]
 \begin{minipage}{0.66 \textwidth}
     \begin{flushright}

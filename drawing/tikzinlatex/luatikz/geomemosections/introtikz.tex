@@ -916,4 +916,525 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
     \end{tikzpicture}
 \end{tcblisting}
 
+\section{並行移動，回転，拡大縮小編}
+
+\subsection{並行移動}
+
+\begin{tcblisting}{title=並行移動の基本}
+    \begin{tikzpicture}[every node/.style={draw,inner sep=5pt}]
+        \node (0,0) {指定なし};
+        \node[xshift=3cm,red] (0,0) {水平移動};
+        \node[yshift=1cm,blue] (0,0) {鉛直移動};
+        \node[shift={(3cm,1cm)},green] (0,0) {水平・鉛直移動};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{回転}
+
+\begin{tcblisting}{title=回転の基本}
+    \begin{tikzpicture}[very thick]
+        \draw[fill] (0,0) circle[radius=2pt]; % 原点
+        \draw[dashed] (1,0) rectangle(3,1); % 回転前
+        \draw[rotate=60,red] (1,0) rectangle(3,1); % 原点を中心に60度回転
+        \draw[rotate around={60:(1,0)},blue] (1,0) rectangle(3,1); % (1,0)を中心に60度回転
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=ノードへの回転（ノード自身は傾いたりはしません）}
+    \begin{tikzpicture}[very thick]
+        \draw[fill] (0,0) circle[radius=2pt]; % 原点
+        \draw[dashed] (1,0) rectangle(3,1) node[above right] {$A$};
+        \draw[rotate=60] (1,0) rectangle(3,1) node[above right] {$A$};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{拡大縮小}
+
+\begin{tcblisting}{title=拡大縮小の基本}
+    \begin{tikzpicture}[very thick]
+        \draw[fill] (0,0) circle[radius=2pt]; % 原点
+        \draw[dashed] (1,0) rectangle(3,1); % 拡大縮小前
+        \draw[scale=2,red] (1,0) rectangle(3,1);
+        \draw[scale=0.5,blue] (1,0) rectangle(3,1);
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=中心を指定した拡大縮小}
+    \begin{tikzpicture}[very thick]
+        \draw[fill] (0,0) circle[radius=2pt]; % 原点
+        \draw[dashed] (1,0) rectangle(3,1); % 拡大縮小前
+        \draw[scale around={2:(1,0)}] (1,0) rectangle(3,1); % (1,0) を中心として2倍に拡大
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=水平方向および鉛直方向のみの拡大縮小}
+    \begin{tikzpicture}[very thick]
+        \draw[fill=gray] (0,0) rectangle(2,1); % 拡大縮小前
+        \draw[xscale=2.5] (0,0) rectangle(2,1); % 原点を中心として水平方向に拡大
+        \draw[yscale=1.5] (0,0) rectangle(2,1); % 原点を中心として鉛直方向に拡大
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=ノードへの拡大縮小（ノード自身は拡大縮小しません）}
+    \begin{tikzpicture}[very thick]
+        \draw[fill] (0,0) circle[radius=2pt]; % 原点
+        \draw[dashed] (1,0) rectangle(3,1) node[above right] {$A$};
+        \draw[scale=2] (1,0) rectangle(3,1) node[above right] {$A$};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\section{作図風コマンド編}
+
+\subsection{鉛直線と水平線の交点の座標 (Perpendicular 座標系)}
+
+\texttt{\textbf{(A|-B)}} は，\lstinlineiv{(A)} からの鉛直線と \lstinlineiv{(B)} からの水平線との交点の座標です．
+
+\begin{tcblisting}{title=perpendicular 座標系の基本}
+    \begin{tikzpicture}
+        \path (0,0) coordinate[label=$A$] (A) (2,2) coordinate[label=right:$B$] (B);
+        \fill (A) circle[radius=2pt] (B) circle[radius=2pt];
+        \fill (A-|B) circle[radius=2pt] node[right] {$C$};
+        \draw[dashed] (A) --(A-|B) --(B);
+        % \draw[xshift=4cm] (0,0) -- ({(0,0)}-|{(2,2)}) --(2,2); % 直接座標を指定
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{任意のパスの交点}
+
+\lstinlineiv{intersections} ライブラリを使うことで，任意の曲線の交点を求めることができます．
+
+交点を扱うには次の手順を踏むことになります：
+\begin{enumerate}
+    \item ２つのパスを定義し，それらのパスに命名する．
+    \item ２つのパスの交点を求め，その交点にノード名をつける．
+\end{enumerate}
+\lstinlineiv{by} をつけない場合，\lstinlineiv{intersection-1} みたいにデフォルト命名されます．
+\begin{tcblisting}{title=交点の基本,left=4.8mm}
+    % \usetikzlibrary{intersections}
+    \begin{tikzpicture}
+        \draw[name path=c1] (-2,0).. controls (3,2) and (1,3).. (-3,3); % 曲線を描画しない場合，\draw を \path に変更
+        \draw[name path=c2,blue] (-4,4).. controls (-1,-1) and (1,-1).. (0,3);
+        \fill[name intersections={of=c1 and c2,by={A,B,C}},draw=green,fill=red]
+        (A) circle[radius=3pt] node[above] {A}
+        (B) circle[radius=3pt] node[below right] {B}
+        (C) circle[radius=3pt] node[below left] {C};
+        \draw[dashed] (A) --(C);
+    \end{tikzpicture}
+\end{tcblisting}
+
+以下では，指定したマクロ \lstinlineiv{\tot} に交点の数である \lstinlineiv{total} が格納されます．
+\begin{tcblisting}{title=交点数が未知の場合}
+    \begin{tikzpicture}
+        \draw[name path=c1] (-2,0).. controls (3,2) and (1,3).. (-3,3);
+        \draw[name path=c2] (-4,4).. controls (-1,-1) and (1,-1).. (0,3);
+        \fill[name intersections={of= c1 and c2,name=is,total=\tot}]
+        \foreach \n in {1,...,\tot}{(is-\n) circle[radius=1pt] node[above] {$A_{\n}$}};
+        \draw[red,dashed] (is-1) --(is-3);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{位置ベクトルの和とスカラー倍を使った座標指定}
+
+\lstinlineiv{\usetikzlibrary{calc}} を使って，座標間の計算を \lstinlineiv{($計算式$)} のようにして，座標を得ることができます．なお，和，差とスカラー倍を併用するときは，先にスカラー倍，その次に和，差を記述することに注意してください．\lstinlineiv{($1/3*(A) + 1/3*(B) + 1/3*(C)$)} は正しい文ですが，\lstinlineiv{($1/3*((A) + (B) + (C))$)} はエラーになります．数学で言うところの分配則は認識してくれません．% chktex 46
+\begin{tcblisting}{title={重心 (center-of-gravity, c.o.g) の計算}}
+    % \usetikzlibrary{calc}
+    \begin{tikzpicture}
+        \draw (0,0) coordinate (A) --(3,0) coordinate (B) --(1,3) coordinate (C) --cycle;
+        \fill ($1/3*(A) + 1/3*(B) + 1/3*(C)$) circle[radius=2pt] coordinate (D);
+        \draw[dashed] (A) --(D) --(B) (C) --(D);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=座標の直接指定で座標計算をする}
+    \begin{tikzpicture}
+        \draw (0,0) grid(5,2);
+        \draw[<->] (0,2.5) --(0,0) node[below left] {$O$} --(5.5,0);
+        \fill[red] ($2*(2,1) - (0,1)$) circle[radius=2pt];
+        \draw ($2*cos(pi/6 r)*(1,0) + 2*sin(30)*(0,1)$) circle[radius=3pt,draw=blue];
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{内分点・外分点}
+
+\begin{tcblisting}{title=単位がない場合は比率の内分点・外分点}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \path (0,0) coordinate[label=below:A] (A) (3,0) coordinate[label=below:B] (B);
+        \draw (A) --(B);
+        % \fill ($(A)!.2!(B)$) circle[radius=2pt] node[below] {C}; % 内分点
+        \node[point,label=below:C] at ($(A)!.2!(B)$) {}; % 内分点
+        \draw ($(0,0)!sqrt(2)!(3,0)$) circle[radius=2pt] node[below] {D}; % 外分点
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=回転してから内分・外分}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \path (0,0) coordinate[label=below:A] (A) (3,0) coordinate[label=below:B] (B);
+        \draw (A) --(B);
+        % \fill ($(A)!.2!60:(B)$) circle[radius=2pt] node[below] {C};
+        \node[point,label=below:C] at ($(A)!.2!60:(B)$) {};
+        \draw ($(0,0)!sqrt(2)!atan(-1):(3,0)$) circle[radius=2pt] node[below] {D};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=与えられた直線への垂直線}
+    \begin{tikzpicture}
+        \path (0,0) coordinate[label=below:O] (O) (2,1) coordinate[label=below:A] (A);
+        \draw (O) --(A);
+        \draw (O) --($(O)!1!90:(A)$) node[above] {B};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{指定した２点間の指定した距離の座標}
+
+\begin{tcblisting}{title=単位がある場合は指定した距離の内分点・外分点}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \path (0,0) coordinate[label=below:A] (A) (3,0) coordinate[label=below:B] (B);
+        \draw (A) --(B);
+        % \fill ($(A)!30pt!(B)$) circle[radius=2pt] node[below] {C};
+        \node[point,label=below:C] at ($(A)!30pt!(B)$) {};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=回転してから指定距離離れた点を取得}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \path (0,0) coordinate[label=below:A] (A) (3,0) coordinate[label=below:B] (B);
+        \draw (A) --(B);
+        % \fill ($(A)!30pt!60:(B)$) circle[radius=2pt] node[below] {C};
+        \node[point,label=below:C] at ($(A)!30pt!60:(B)$) {};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=与えられた直線への垂直線}
+    \begin{tikzpicture}
+        \path (0,0) coordinate[label=below:O] (O) (2,1) coordinate[label=below:A] (A);
+        \draw (O) --(A);
+        \draw (O) -- node[sloped,above] {\qty{2}{cm}} ($(O)!2cm!90:(A)$) circle[radius=2pt];
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{垂線との交点}
+
+\begin{tcblisting}{title=ある点からの，ある線分への垂線の足 (foot of an orthogonal projection of a point to a line segment)}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \path (0,0) coordinate[label=below:A] (A) (3,1) coordinate[label=below:B] (B);
+        \node[point,label=above:P,red] (P) at (1,1) {};
+        \draw (A) --(B);
+        \draw[dashed] (P) --($(A)!(P)!(B)$); % ($(A)!(P)!(B)$) は垂線の足の座標
+        \node[point,label=above:C,green] (C) at ($(A)!0.7!(B)$) {};
+        \draw[dashed,blue] (C) --($(C)!1cm!-90:(B)$);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{平行線を引く}
+
+\begin{tcblisting}{title=平行移動量がベクトルとして与えられている場合}
+    \begin{tikzpicture}
+        \path (0,0) coordinate[label=below:A] (A) (3,1) coordinate[label=below:B] (B) (1,1) coordinate[label=d] (d);
+        \draw (A) --(B);
+        \draw ($(A)+(d)$) --($(B)+(d)$);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=法線方向に移動した線分}
+    \begin{tikzpicture}
+        \path (0,0) coordinate[label=below:A] (A) (3,1) coordinate[label=below:B] (B);
+        \draw (A) --(B);
+        % \coordinate (d) at ($(A)!1cm!90:(B) - (A)$);
+        \path ($(A)!1cm!90:(B) - (A)$) coordinate (d); % (A) から見た法線の先っぽ
+        \draw ($(A)+(d)$) --($(B)+(d)$);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{角度記号を描く}
+
+\lstinlineiv{angles} ライブラリを使うのと，基本書式は \lstinlineiv{\draw pic {angle=A--B--C}} です．% chktex 1, chktex 8
+\lstinlineiv{draw} オプションキーを指定すると角度を表す円弧が描画されます．
+\lstinlineiv{\usetikzlibrary{quotes}} を使う場合，\lstinlineiv{pic text={$\circ$}} のようにしなくても，\lstinline[basicstyle={\ttfamily\normalsize\bfseries}]|"$\circ$"| のように，できます． % chktex 18, chktex 46
+% Be careful: \lstinlineiv with "$\circ$" can make latexindent strange.
+
+\begin{tcblisting}{title=角度描画の基本}
+    \begin{tikzpicture}
+        \draw (2,0) coordinate (A) --(0,0) coordinate (B) --(60:2) coordinate (C);
+        \draw pic["$\theta$",draw,<->,font=\large,angle eccentricity=1.2,angle radius=1cm] {angle=A--B--C};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=円弧の描画のしかた}
+    \begin{tikzpicture}
+        \draw (2,0) coordinate (A) node[right] {A} -- (0,0) coordinate (B) --(60:2) coordinate (C) node[above] {C};
+        \draw pic[draw,<->,angle radius=1.2cm] {angle=A--B--C};
+        \draw pic[fill=lightgray,angle radius=1cm] {angle=C--B--A};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=直角記号 (right angle) in 3D}
+    \begin{tikzpicture}
+        \coordinate (O) at (0,0,0);
+        \draw[<-] (1,0,0) coordinate (A) --(O);
+        \draw[<-] (0,0,1) coordinate (B) --(O);
+        \draw[<-] (0,1,0) coordinate (C) --(O);
+        \draw pic[fill=gray,angle radius=4mm] {right angle=A--O--B};
+        \draw pic[draw,thick] {right angle=A--O--C};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{与えられた中心を持ち，与えられた点を通る円}
+
+\lstinlineiv{through} ライブラリを使います．円と書きますが，実は \lstinlineiv{node} です．
+\begin{tcblisting}{title=circle through}
+    % \usetikzlibrary{through}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \path (1,2) coordinate[label=A] (A);
+        \node[draw,circle through=(A)] at (0,0) {$O$};
+        \node[draw,circle through={(1,2)}] at (3,1) {$O'$};
+        \node[point,red] at (A) {}; % put node's point style the topmost!
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{座標計算を連続して記述する}
+
+評価は前から行われます．例えば，\lstinlineiv{($(A)!.5!(B)!1cm!90:(B)$)} の場合，まず \lstinlineiv{($(A)!.5!(B)$)} という中点が計算され，それを \lstinlineiv{(C)} とします．続けて，\lstinlineiv{($(C)!1cm!90:(B)$)} が計算され，中点から \qty{1}{cm} 離れた座標が得られます． % chktex 46
+
+\begin{tcblisting}{title=２つ連続した座標計算}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \draw (0,0) coordinate (A) --(3,1) coordinate (B);
+        \node[point] at ($(A)!.5!(B)!1cm!90:(B)$) {};
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=垂直二等分線1}
+    \begin{tikzpicture}
+        \draw (0,0) coordinate (A) --(3,1) coordinate (B);
+        \draw[dashed] ($(A)!0.5!(B)!1cm!90:(B)$) --($(A)!0.5!(B)!-1cm!90:(B)$);
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=垂直二等分線2 (with intermediate variable)}
+    \begin{tikzpicture}
+        \draw (0,0) coordinate (A) --(3,1) coordinate (B);
+        \draw[dashed] ($(A)!.5!(B)$) coordinate (C) % 中点
+        ($(C)!1cm!90:(B)$) coordinate (D) % 一方の端
+        --($(D)!2!(C)$);
+        \pic[draw,thick] {right angle=A--C--D};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{レジスタ register}
+
+座標レジスタ (point/coordinate register, \lstinlineiv{\p}) と数レジスタ (number register, \lstinlineiv{\n})があります．Syntax は，
+\begin{lstlisting}[numbers=none]
+    \path let レジスタへの代入文, レジスタへの代入文,... in オペレーション列
+\end{lstlisting}
+となります．なお，レジスタの有効範囲は一つのコマンド内に限ります．
+
+\begin{tcblisting}{title=レジスタの使用例}
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) grid(3,2);
+        \draw let \p1=(1,1), \p2=(2,0), \n1=1, \n2={1pt} in
+        (0,0) --(\p1) --(\p2)
+        (\x1,0) circle[radius=\n1 pt]
+        (0,\y1) circle[radius={\n2 + 1pt}];
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{直線に接する円を描く}
+
+\begin{tcblisting}{title=直線に接する円}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1.5pt,outer sep=0pt}]
+        \draw (0,0) coordinate (A) --(3,1) coordinate (B);
+        \node[point] (P) at (1,1) {};
+        \draw let \p1=($(A)!(P)!(B) - (P)$), % 半径を表すベクトル
+        \n1={veclen(\x1,\y1)} % 半径
+        in (P) circle[radius=\n1];
+    \end{tikzpicture}
+\end{tcblisting}
+
+\section{スタイル style 編}
+
+\subsection{スタイル定義}
+
+\begin{tcblisting}{title=スタイル定義の基本}
+    \begin{tikzpicture}[annot/.style={gray,draw}] % 注釈のスタイル
+        \node[draw,circle] (p) at (0,0) {$p$};
+        \draw[<-] (p) --(2,1) node[annot,right] {ノード $p$};
+        \draw[help lines,red] (0,0) -|(2,1);
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{listing only,title=グローバルなスタイル}
+    % プリアンブル部
+    \tikzset{annot/.style={gray,draw}}
+\end{tcblisting}
+
+一方，一つの \lstinlineiv{tikzpicture} 環境であっても，さらに有効範囲を限定したい場合は \lstinlineiv{scope} 環境内でスタイルを定義します．
+\begin{tcblisting}{listing only,title=ローカルなスタイル}
+    \begin{scope}[annot/.style={gray,draw}]
+
+    \end{scope}
+\end{tcblisting}
+
+\begin{tcblisting}{title=矛盾した指定}
+    \begin{tikzpicture}[annot/.style={gray,draw}] % 注釈のスタイル
+        \node[annot,black] at (0,0) {$p$}; % black が後
+        \node[black,annot] at (1,0) {$q$}; % annot が後
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{引数付きスタイル}
+
+\begin{tcblisting}{title=引数渡しとデフォルトのスタイル}
+    \begin{tikzpicture}[annot/.style={color=#1,draw},annot/.default=gray]
+        \node[draw,circle] (p) at (0,0) {$p$};
+        \draw[<-] (p) --(2,1) node[annot=black,right] {ノード $p$};
+        \draw[<-] (p) --(2,-1) node[annot,right] {単一ノード};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{\texttt{every} 型のスタイル}
+
+\begin{tcblisting}{title=ノード全般のスタイルと別のスタイルが優先される}
+    \begin{tikzpicture}[every node/.style={gray,draw},except/.style={black}]
+        \node at (0,0) {$p$};
+        \node[except] at (1,0) {$q$};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\section{数学エンジン編}
+
+\subsection{マクロの定義}
+
+\TeX{}にはマクロという概念があって，いわゆる変数のことです．特に PGF の数学エンジンをも扱えるようにした PGF のマクロ定義文があります．
+
+マクロの定義は \lstinlineiv{\def} を使い，\lstinlineiv{\def\マクロ名{置換後の文字列}} の書式で記述します．
+\begin{tcblisting}{title=マクロ定義}
+    \begin{tikzpicture}
+        \def\r{sqrt(2)} % \r に sqrt(2) を代入 (注意： semicolon は不要)
+        \draw (0,0) circle[radius=\r] node {\r};
+    \end{tikzpicture}
+\end{tcblisting}
+上の例ではマクロ \lstinlineiv{\r} に \lstinlineiv{sqrt(2)} を定義しています．% chktex 36
+
+あたかも変数 \lstinlineiv{\r} に \(\sqrt{2}\) を代入しているように見えますし， \lstinlineiv{radius=\r} により，実際に半径 \(\sqrt{2} = 1.41421\cdots\) の円が描画されています．しかしラベルをみてください．1.41421 ではなく \lstinlineiv{sqrt(2)} と表示されています．このことから実際には \lstinlineiv{\r} と記述された箇所が単に \lstinlineiv{sqrt(2)} に置換・展開されたに過ぎないことがわかります．つまり
+\begin{tcblisting}{title=マクロ展開後,listing only}
+    \draw (0,0) circle[radius=sqrt(2)] node {sqrt(2)}; % chktex 1
+\end{tcblisting}
+と等価ということです．このようにマクロとは置換のルールを定義したものと言えます．また置換することをマクロを展開すると呼びます．
+
+以下の場合はエラーとなります．
+\begin{tcblisting}{listing only}
+    \begin{tikzpicture}
+        \def\r{sqrt(2)}
+        \draw (0,0) circle[radius=\r cm] node {\r};
+    \end{tikzpicture}
+\end{tcblisting}
+半径に単位 cm をつけたかったのですが，展開すると
+\begin{tcblisting}{listing only}
+    \draw (0,0) circle[radius=sqrt(2) cm] node {sqrt(2)}; % chktex 1
+\end{tcblisting}
+となり，cm の前に数字を期待しているが， \lstinlineiv{sqrt(2)} の string が来て，エラーとなります． % chktex 36
+
+このような場合に対処するために PGF には式の評価後の値，つまり結果の数値か長さかを，マクロ定義するコマンドがあります．結果が数値の場合は \lstinlineiv{\pgfmathsetmacro} を，長さ（の次元を持つ量）の場合は \lstinlineiv{\pgfmathsetlengthmacro} を使います．
+\begin{tcblisting}{title=数値のマクロ}
+    \begin{tikzpicture}
+        \pgfmathsetmacro\r{sqrt(2)} % \r に √2 の数値が入る．semicolon 不要
+        \draw (0,0) circle[radius=\r] node {\r};
+    \end{tikzpicture}
+\end{tcblisting}
+上の例を見ると，ラベルには \lstinlineiv{sqrt(2)} の評価後の数値 1.41421 が表示されていることがわかります． % chktex 36
+
+\begin{tcblisting}{title=長さのマクロ}
+    \begin{tikzpicture}
+        \pgfmathsetlengthmacro\a{1cm} % \a に 1cm の長さが入る
+        \pgfmathsetlengthmacro\b{\a + 5mm} % \b に \a + 5mm の長さを代入
+        \draw (0,0) rectangle(\a,\b) node[right] {\a $\times$ \b};
+    \end{tikzpicture}
+\end{tcblisting}
+上の例は \lstinlineiv{\pgfmathsetlengthmacro} を使った場合です．ラベルを見ると pt を単位とした長さが表示されています．
+
+\lstinlineiv{\pgfmathsetmacro} と \lstinlineiv{\pgfmathsetlengthmacro} は式を評価してからマクロを定義すると述べましたが，いったんマクロ定義した後は，展開時は通常の置換ルールに従うことに注意してください．例えば次の例をみてください．
+\begin{tcblisting}{title=数値のマクロ2}
+    \pgfmathsetmacro{\a}{-1}
+    \pgfmathsetmacro{\b}{\a^2}
+    \pgfmathsetmacro{\c}{(\a)^2}
+    \(a= \a, b= \b, c= \c\)
+\end{tcblisting}
+\lstinlineiv{\b} の定義では \lstinlineiv{\a^2} \rightarrow{} \lstinlineiv{-1^2} と展開されるため，式評価の結果は \(-1\) となります．一方，\lstinlineiv{\c} の定義では \lstinlineiv{(\a)^2} \rightarrow{} \lstinlineiv{(-1)^2} と展開されるため，式評価の結果 \(1\) となります．
+
+なおマクロ定義において，文末に \lstinlineiv{;} が不要です．マクロ定義の構文自体は \TeX{} や PGF のものであり，Ti\textit{k}Z とは無関係だからです．同じ理由で，マクロは \lstinlineiv{tikzpicture} 環境外でも使えます．先ほどの例がちょうどそれに当たります．
+
+\lstinlineiv{math} ライブラリを使うと，マクロ定義をもっと簡単な構文で行えます．事前に \lstinlineiv{math} ライブラリを読み込む必要があります．マクロ定義は \lstinlineiv{\tikzmath} コマンドで行います．次の例から分かるように \lstinlineiv{tikzpicture} 環境外でも使えます．また \lstinlineiv{\tikzmath} コマンドの中では，各文末にセミコロン \lstinlineiv{;} をつけなければなりません．一方，\lstinlineiv{\tikzmath} コマンド自身は \lstinlineiv{;} で終える必要はありません．
+\begin{tcblisting}{title=\texttt{math} ライブラリによるマクロ定義}
+    % \usetikzlibrary{math}
+    \tikzmath{
+        \a=-1;
+        \b=\a^2;
+        \c=(\a)^2;
+    }
+    \(a= \a, b= \b, c= \c\)
+\end{tcblisting}
+
+\subsection{演算子と数学関数}
+
+数学関数として，\lstinlineiv{veclen(x,y), pi, e, log10(x), pow(x,y), sqrt(x)} などあります．
+\begin{tcblisting}{title=関数の使用例 (マクロを使う場合)}
+    \begin{tikzpicture}
+        \pgfmathsetmacro\x{1}
+        \pgfmathsetmacro\y{2}
+        \pgfmathsetmacro\z{exp(\x) + exp(\y)}
+        \node (0,0) {$e^\x + e^\y = \z$};
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=関数の使用例2 (マクロを使わず，TikZ のコマンドの中で直接使う)}
+    \begin{tikzpicture}
+        \draw (0,0) --({2*cos(pi/4 r)}, {sin(pi/4 r)});
+    \end{tikzpicture}
+\end{tcblisting}
+
+\section{How to put caption and label to \texttt{tikzpicture}}
+
+\subsection{Case 1: Wrap the figure with wrapfigure}
+
+For Case 1, suppose we want to wrap Figure~\ref{fig:wrap1} as below. Please note that \verb|\begin{wrapfigure}| environment is better to be set as a new paragraph.
+
+\begin{wrapfigure}[5]{l}{0.3 \textwidth}
+    \centering
+    \vspace{-0.5 \baselineskip}
+    \begin{tikzpicture}[object/.style={thin,double,<->}]
+        \draw[object] (7cm,-1cm) -- (6cm,-2cm) node[midway,sloped,above] {a label};
+    \end{tikzpicture}
+    \caption{wrap figure.} \label{fig:wrap1}
+\end{wrapfigure}
+First, be careful with the vertical size of the figure, and the text's length that is intended to wrap around the figure. If the text is too short, then it will include any text which follows to wrap around the figure.
+
+Using \verb|\vspace{-1 \baselineskip}| may place the figure slightly upward, so the text can wrap earlier. Or, set the wrapped figure to occupy, as in Figure~\ref{fig:wrap1}, \textcolor{red}{to occupy 5 lines only}, using \verb|\begin{wrapfigure}[5]{l}{0.3 \textwidth}|.\ \textcolor{red}{Please note that small letter \texttt{l} is used instead of capital letter \texttt{L}, because small letter gives stricter ``here'' positioning instead of the floating capital letter}.
+
+The code to produce above wrapfigure is shown in リスト~\ref{lst:wrapfigurehow2}.
+
+\begin{lstlisting}[caption={wrapfigure の使い方},label={lst:wrapfigurehow2}]
+For Case 1, suppose we want to wrap Figure~\ref{fig:wrap1} as below. Please note that \verb|\begin{wrapfigure}| environment is better to be set as a new paragraph.
+
+\begin{wrapfigure}[5]{l}{0.3 \textwidth}
+    \centering
+    \vspace{-0.5 \baselineskip}
+    \begin{tikzpicture}[object/.style={thin,double,<->}]
+        \draw[object] (7cm,-1cm) -- (6cm,-2cm) node[midway,sloped,above] {a label};
+    \end{tikzpicture}
+    \caption{wrap figure.} \label{fig:wrap1}
+\end{wrapfigure}
+First, be careful with the vertical size of the figure, and the text's length that is intended to wrap around the figure. If the text is too short, then it will include any text which follows to wrap around the figure.
+\end{lstlisting}
+
+\subsection{Case 2: Normal, without wrapfigure}
+
+To create a figure using \lstinlineiv{tikzpicture} and put caption, label, like in Figure~\ref{fig:M1}, use below code:
+\begin{lstlisting}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[object/.style={thin,double,<->}]
+        \draw[object] (7cm,-1cm) -- (6cm,-2cm) node[midway,sloped,above] {a label};
+    \end{tikzpicture}
+    \caption{A caption.} \label{fig:M1}
+\end{figure}
+\end{lstlisting}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[object/.style={thin,double,<->}]
+        \draw[object] (7cm,-1cm) -- (6cm,-2cm) node[midway,sloped,above] {a label};
+    \end{tikzpicture}
+    \caption{A caption.} \label{fig:M1}
+\end{figure}
+
 \end{document}
