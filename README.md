@@ -132,6 +132,7 @@ Open command palette (Command+Shift+P), select *Preferences: Open Workspace Sett
     "latex-workshop.intellisense.includegraphics.preview.enabled": true,
     "latex-workshop.linting.chktex.exec.args": [
         "-wall",
+        "-n36",
         "-n19",
         "-n21",
         "-n22",
