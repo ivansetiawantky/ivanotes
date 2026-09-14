@@ -1383,6 +1383,430 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
     \end{tikzpicture}
 \end{tcblisting}
 
+\section{制御コマンド編}
+
+\subsection{繰り返し制御}
+
+\lstinlineiv{\foreach} コマンドを提供するのは \lstinlineiv{pgffor} パッケージであり，Ti\textit{k}Z パッケージをロードするときに一緒にロードされます．Ti\textit{k}Z とは別のパッケージなので \lstinlineiv{tikzpicture} 環境以外でも使用できます．
+
+\begin{tcblisting}{title=\texttt{\textbackslash{}foreach} の基本}
+    \begin{tikzpicture}
+        \path (0,0) coordinate (A) (1,0) coordinate (B) (2,0) coordinate (C);
+        \foreach \P in {A,B,C} {
+                \fill (\P) circle[radius=2pt];
+            }
+    \end{tikzpicture}
+\end{tcblisting}
+一般には \lstinlineiv{\foreach マクロ名 in {リスト}{コマンド}} の構文で記述します．% chktex 1
+
+マクロ名（変数名）は \textbf{\texttt{\textbackslash}} で始めます．\lstinlineiv{\angleinrad} など複数の文字からなる文字列も使用可能です．リストには代入したい値をカンマ区切りで記述し，それらを波カッコ (curly brace) で囲います．そのあとに繰り返し処理したいコマンドを波カッコで囲います．コマンドは複数でも構いません．なお，コマンドが１つだけの場合は波カッコを省略することができます．すると，リストの要素の数だけコマンドが実行され，その際コマンド内のマクロが記述されて箇所が，それらの要素に置換されます．
+
+上の例ではマクロにノード名を代入しています．それ以外にも数値，文字列や座標などを代入することもできます．
+\begin{tcblisting}{title=座標を直接代入}
+    \begin{tikzpicture}
+        \foreach \P in {(0,0),(1,0),(2,0)} \fill \P circle[radius=2pt];
+    \end{tikzpicture}
+\end{tcblisting}
+この例では座標(0,0)，(1,0)，および (2,0) を \lstinlineiv{\P} に代入しています． \lstinlineiv{\fill \P} としていることに注意しましょう． \lstinlineiv{\fill (\P)} としてしまうと，実行時に \lstinlineiv{\fill ((0,0))} などと置換されてしまいます．
+
+\lstinlineiv{/} で区切ることで複数のマクロ，つまり tupple macro を指定することもできます．そのときはリストの各要素も \lstinlineiv{/} で区切って指定します．
+\begin{tcblisting}{title=２つの要素を代入}
+    \begin{tikzpicture}
+        \foreach \angle/\str in {0/東,180/西,270/南,90/北} \node at (\angle:1) {\str};
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=３つの要素を代入}
+    \begin{tikzpicture}
+        \foreach \angle/\shp/\col in {0/rectangle/red,180/circle/blue,270/circle/black,90/rectangle/brown} {
+                \node[fill=\col,\shp] at (\angle:1) {};
+                \draw[\col] (0,0) --(\angle + 45:1);
+            }
+    \end{tikzpicture}
+\end{tcblisting}
+
+マクロの置換はまさにそのままの置換なので，次の例のようにノードへの命名などに使えます．
+\begin{tcblisting}{title=\texttt{\textbackslash{}foreach} でノードを命名}
+    \begin{tikzpicture}
+        % \foreach \name/\pos in {A/0,B/2,C/4} \path (\pos,\pos/2) coordinate (\name);
+        \foreach \name/\pos in {A/0,B/2,C/4} \coordinate (\name) at (\pos,\pos/2);
+        \fill (A) circle[radius=2pt];
+        \fill[red] (B) circle[radius=4pt];
+        \fill[blue] (C) circle[radius=6pt];
+    \end{tikzpicture}
+\end{tcblisting}
+
+要素のリストの列挙では省略形が使えます．
+
+\lstinlineiv{{1,2,...,10}} は \lstinlineiv{{1,2,3,4,5,6,7,8,9,10}} と解釈されます．% chktex 11
+
+\lstinlineiv{{1,3,...,10}} は \lstinlineiv{{1,3,5,7,9}} と解釈されます．% chktex 11
+
+\lstinlineiv{{10,9,...,1}} は \lstinlineiv{{10,9,8,7,6,5,4,3,2,1}} と解釈されます．% chktex 11
+
+\lstinlineiv{{p,...,s}} は \lstinlineiv{{p,q,r,s}} と解釈されます．% chktex 11
+
+冒頭でも述べたように \lstinlineiv{foreach} コマンドは \lstinlineiv{tikzpicture} 環境以外でも使えます．
+\begin{tcblisting}{title=\texttt{tikzpicture} 環境外}
+    \foreach \n in {0,...,10} {\(2^{\n}, \)} % chktex 1, chktex 11
+\end{tcblisting}
+最後がセミコロン \lstinlineiv{;} で終わっていないことに注意しましょう．\lstinlineiv{foreach} は \lstinlineiv{pgffor} パッケージのコマンドなので，\TeX{} コマンドと同様，文末をセミコロンで終える必要はありません．今までの例でセミコロンで終わっていたのは，それらが Ti\textit{k}Z のコマンドだったためです．
+
+\section{図の配置編}
+
+\subsection{図の描画領域を取得する}
+
+描画領域は \lstinlineiv{current bounding box} で取得します．実はこれ自体は一つのノードです．
+\begin{tcblisting}{title=\texttt{current bounding box} の基礎}
+    \begin{tikzpicture}
+        \path (0,0) rectangle(3,2); % path だけ定義して， draw （描画）はしない．
+        \fill[lightgray] (current bounding box.south west) rectangle(current bounding box.north east);
+        \node[below right] at (current bounding box.north west) {左上};
+        \node[above left] at (current bounding box.south east) {右下};
+    \end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title=\texttt{current bounding box} は描画する度に変わります}
+    \begin{tikzpicture}
+        \path (0,0) rectangle(2,1);
+        \fill[lightgray] (current bounding box.south west) rectangle(current bounding box.north east); % 現時点bounding box を fill
+        \node[above left] at (current bounding box.north west) {左上};
+        \node[below right] at (current bounding box.south east) {右下};
+        \draw[thick] (current bounding box.south west) rectangle(current bounding box.north east); % 上記の２つのコマンドによって現時点の bounding box が変わりました．
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{図全体を枠線で囲む}
+
+\begin{tcblisting}{title=\texttt{backround} のオプション}
+    \begin{tikzpicture}[background rectangle/.style={very thick,draw=red,fill=yellow},
+            inner frame sep=20pt,
+            show background rectangle,
+            background grid/.style={help lines,draw=blue,step=.5cm},
+            show background grid]
+        \fill[gray] (0,0) circle[x radius=2,y radius=1];
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{図を並べる}
+
+複数の図を並べるには大きく分けて，次の２つがあります．すなわち，複数の \lstinlineiv{tikzpicture} 環境で作成した図を並べる方法と，１つの \lstinlineiv{tikzpicture} 環境の中に複数の図を並べる方法です．それぞれの図にキャプションを入れたい場合は前者，複数の \lstinlineiv{tikzpicture} の方法を取ります．
+
+\subsubsection{\texttt{figure} 環境を使う}
+
+複数の \lstinlineiv{tikzpicture} 環境で作成した図を配置するときは \lstinlineiv{figure} 環境の中に \lstinlineiv{minipage} 環境を入れ子にします．なお， \lstinlineiv{figure} 環境も \lstinlineiv{minipage} 環境も Ti\textit{k}Z コマンドではありませんので，これらは Ti\textit{k}Z 以外の一般の図を貼り付けるときでも利用できます．
+
+例えば次のように記述すると２つの図が横に並んで配置されます．
+\begin{tcblisting}{listing only,title=２つの図を横に並べる}
+    \begin{figure}
+        \begin{minipage}[位置]{横の長さ}
+            ・・・
+        \end{minipage}
+        \caption{小キャプション}
+        % minipage との間は，空行はダメです．だからここでコメントアウトします．
+        \begin{minipage}[位置]{横の長さ}
+            ・・・
+        \end{minipage}
+        \caption{小キャプション}
+    \end{figure}
+\end{tcblisting}
+
+例を見てみましょう．
+\begin{tcblisting}{title=２つの図を横に並べる例,left=4.8mm}
+    \begin{figure}[H] % H は推奨されない．[htbp] が良いそうです．
+        \centering
+        \begin{minipage}[b]{0.3\columnwidth}
+            \centering
+            \begin{tikzpicture}
+                \draw (0,0) rectangle(2,2);
+                \draw[fill=white] (1,1) circle[radius=1];
+                \draw[fill=white] (0,0) --(1.5,0) --(60:1.5) --cycle;
+            \end{tikzpicture}
+            \caption*{例 1}
+        \end{minipage}
+        %
+        \begin{minipage}[b]{0.3\columnwidth}
+            \centering
+            \begin{tikzpicture}
+                \draw (0,0) rectangle(2,2);
+                \draw[fill=white] (0,0) --(1.5,0) --(60:1.5) --cycle;
+                \draw[fill=white] (1,1) circle[radius=1];
+            \end{tikzpicture}
+            \caption*{例 2}
+        \end{minipage}
+        \caption{複数の図を並べる例}
+    \end{figure}
+\end{tcblisting}
+
+位置のところには，次のオプション値を指定できます．
+\begin{table}[h]
+    \centering
+    \caption{minipage 位置オプション}
+    \begin{NiceTabular}{c|l}
+        \toprule
+        % \rowcolor{gray!30}
+        % \RowStyle{\bfseries}
+        \multicolumn{1}{c|}{\rowcolor{teal!30} \textbf{オプション値}} & \multicolumn{1}{c}{\textbf{説明}} \\
+        \midrule
+        \lstinlineiv{t}                                         & ミニページの最上行のベースラインを本文のベースラインに合わせる \\
+        \midrule
+        \lstinlineiv{c}                                         & ミニページの中央を本文のベースラインに合わせる         \\
+        \midrule
+        \lstinlineiv{b}                                         & ミニページの最下行のベースラインを本文のベースラインに合わせる \\
+        \bottomrule
+    \end{NiceTabular}
+\end{table}
+
+位置のオプション値を省略したときのデフォルトは \lstinlineiv{c} です．それぞれの違いを見てみます．
+\begin{tcblisting}{title=\texttt{b} を指定}
+    \begin{minipage}[b]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) rectangle(2,2);
+        \end{tikzpicture}
+    \end{minipage}
+    %
+    本文
+    %
+    \begin{minipage}[b]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) rectangle(2,1);
+        \end{tikzpicture}
+    \end{minipage}
+\end{tcblisting}
+
+\begin{tcblisting}{title=\texttt{c} を指定}
+    \begin{minipage}[c]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) rectangle(2,2);
+        \end{tikzpicture}
+    \end{minipage}
+    %
+    本文
+    %
+    \begin{minipage}[c]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) rectangle(2,1);
+        \end{tikzpicture}
+    \end{minipage}
+\end{tcblisting}
+
+\begin{tcblisting}{title=\texttt{t} を指定}
+    \begin{minipage}[t]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) rectangle(2,2);
+        \end{tikzpicture}
+    \end{minipage}
+    %
+    本文
+    %
+    \begin{minipage}[t]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) rectangle(2,1);
+        \end{tikzpicture}
+    \end{minipage}
+\end{tcblisting}
+例を見ると位置オプション値が b と c の場合は，想定通りの結果が出ていると思います．ところが t の場合は図の上部に「本文」の文字列が来るのではなく，むしろ下部に来ています．まるで b を指定したときと同じ挙動に見えます．
+
+実は，ミニページの中に図が１つだけある状態は，あたかも文が１行だけあるのと同じになります．したがって，ミニページの最上行と最下行は同じ行にあたります．ベースラインは図の下部にありますので，「本文」の位置は結局 b を指定したときと同じになるわけです．
+
+左右の図では上辺の位置を合わせるには，以下のように図のベースラインを変更します．
+\begin{tcblisting}{title=ベースラインを変更}
+    \begin{minipage}[t]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \draw (0,0) rectangle(2,2);
+        \end{tikzpicture}
+    \end{minipage}
+    %
+    本文
+    %
+    \begin{minipage}[t]{0.3\columnwidth}
+        \centering
+        \begin{tikzpicture}[baseline=(current bounding box.north)]
+            \draw (0,0) rectangle(2,1);
+        \end{tikzpicture}
+    \end{minipage}
+\end{tcblisting}
+
+上の例では，ベースラインを図の描画領域の上端にするよう指定しています．つまり，\lstinlineiv{tikzpicture} 環境の \lstinlineiv{baseline} オプションキーに， \lstinlineiv{(current bounding box.north)} アンカーを指定しています．\lstinlineiv{current bounding box} は描画領域を表します．\lstinlineiv{current bounding box} は自動的に生成されるノードであり，その位置と大きさは描画領域と一致するように生成されます．
+
+ところで，複数の \lstinlineiv{minipage} 環境を並べるときに，前の \textbf{\texttt{\textbackslash{}end\{minipage\}}} と次の \textbf{\texttt{\textbackslash{}begin\{minipage\}}} の間に１行を空けてしまうと，図が横ではなく縦に並んでしまいます．
+一方，\textbf{\texttt{\textbackslash{}end\{minipage\}}} と次の \textbf{\texttt{\textbackslash{}begin\{minipage\}}} の行間を詰めてしまうと，コードが見にくくなってしまいます．そこで，
+\begin{lstlisting}
+    ・・・
+    \end{minipage}
+    %
+    \begin{minipage}
+    ・・・
+\end{lstlisting}
+のようにコメントアウトしてしまえば，空の行と見なされず，結果的に横に並ぶようになります．あるいは，
+\begin{lstlisting}
+    ・・・
+    \end{minipage}
+    \qquad % Used to create 2 em space
+    % または \hfill
+    \begin{minipage}
+    ・・・
+\end{lstlisting}
+のようにすれば，図の間の間隔を確保できます．
+
+\subsubsection{マトリックス状に並べる}
+
+図をマトリックス状に並べる場合は，\lstinlineiv{figure} 環境の中に \lstinlineiv{tabular} 環境を入れ，その中にミニページを入れていきます．
+\begin{tcblisting}{title=マトリックス状に並べる}
+    \begin{tabular}{rc}
+        \begin{minipage}[b]{2cm} \centering
+            \tikz \draw (0,0) rectangle(2,2); % 左上 chktex 1
+        \end{minipage}
+         &
+        \begin{minipage}[b]{2cm} \centering
+            \tikz \draw (0,0) rectangle(2,1); % 右上 chktex 1
+        \end{minipage}
+        \\
+        \begin{minipage}[c]{1cm} \centering
+            \tikz \draw (0,0) rectangle(1,2); % 左下 chktex 1
+        \end{minipage}
+         &
+        \begin{minipage}[c]{1cm} \centering
+            \tikz \draw (0,0) rectangle(1,1); % 右下 chktex 1
+        \end{minipage}
+    \end{tabular}
+\end{tcblisting}
+横同士の図の位置を合わせるには，前述のとおり \lstinlineiv{minipage} 環境のオプション ([b]や[c]) を使用します．一方，縦同士図の位置を合わせるには，\lstinlineiv{tabular} 環境の列配置の指定 (\{rc\}) を行います．上の例では１列目を右寄せ \lstinlineiv{r}，２列目をセンタリング \lstinlineiv{c} にしています．
+
+\subsubsection{\texttt{tikzpicture} 環境を複数に並べる}
+
+１つの \lstinlineiv{tikzpicture} 環境の中に複数の図をはラベルには \lstinlineiv{\matrix} コマンドを使います．
+\begin{tcblisting}{title=マトリックス状に配置}
+    \begin{tikzpicture}
+        \matrix[row sep=0.1cm,column sep=0.1cm] {
+            \coordinate (A) at (0,0);
+            \draw (A) rectangle(2,2);
+            \draw[fill=white] (1,1) circle[radius=1];
+            \fill (A) node[below left]{(0,0)} circle[radius=2pt];
+             &
+            \coordinate (B) at (0,0);
+            \draw (B) rectangle(1.8,1.8);
+            \draw[fill=white] (0.9,0.9) circle[radius=0.9];
+            \fill (B) node[below right]{(0,0)} circle[radius=2pt];
+            \\
+            \coordinate (C) at (0,0);
+            \draw (C) rectangle(1.6,1.6);
+            \draw[fill=white] (0.8,0.8) circle[radius=0.8];
+            \fill (C) node[below left]{(0,0)} circle[radius=2pt];
+             &
+            \coordinate (D) at (0,0);
+            \draw (D) rectangle(1.4,1.4);
+            \draw[fill=white] (0.7,0.7) circle[radius=0.7];
+            \fill (D) node[below right]{(0,0)} circle[radius=2pt];
+            \\
+        };
+        \draw[very thick,densely dashed,red] (A) --(B);
+        \draw[very thick,densely dashed,red] (C) --(D);
+        \draw[very thick,densely dashed,blue] (A) --(C);
+        \draw[very thick,densely dashed,blue] (B) --(D);
+    \end{tikzpicture}
+\end{tcblisting}
+上の例ではマトリックスの各セルに図形を描画しています．このとき図形間の相対的な位置は，\textcolor{red}{\textbf{各図の原点 \((0,0)\) がそろうように位置合わせされます}}．また，\lstinlineiv{\matrix} コマンドを使うときは，\textbf{\textcolor{red}{最後の行にも \textbackslash\textbackslash{} で終わることを忘れないようにしましょう}}．
+
+図の位置合わせを任意に行いたい場合は，\textbf{\textcolor{red}{いったん図形を１つのノードの中に入れてしまい，ノードに対して位置合わせの指定を行います}}．例えばそれぞれの図を各セルの中央に配置したい場合は，以下のようにします．
+\begin{tcblisting}{title=各セルの中央に配置}
+    \begin{tikzpicture}
+        \matrix[row sep=0.1cm,column sep=0.1cm,
+            every cell/.style={anchor=center}] {
+            \node (A) {\tikz{
+                    \draw (0,0) rectangle (2,2);
+                    \draw[fill=white] (1,1) circle[radius=1];
+                    \fill (1,1) circle[radius=2pt];}
+            };
+             &
+            \node (B) {\tikz{
+                    \draw (0,0) rectangle (1.8,1.8);
+                    \draw[fill=white] (0.9,0.9) circle[radius=0.9];
+                    \fill (0.9,0.9) circle[radius=2pt];}
+            };
+            \\
+            \node (C) {\tikz{
+                    \draw (-0.8,-0.8) rectangle (0.8,0.8);
+                    \draw[fill=white] (0,0) circle[radius=0.8];
+                    \fill (0,0) circle[radius=2pt];}
+            };
+             &
+            \node (D) {\tikz{
+                    \draw (0,0) rectangle (1.4,1.4);
+                    \draw[fill=white] (0.7,0.7) circle[radius=0.7];
+                    \fill (0.7,0.7) circle[radius=2pt];}
+            };
+            \\
+        };
+        \draw[very thick,densely dashed,red] (A.center) --(B.center);
+        \draw[very thick,densely dashed,red] (C) --(D); % under the node
+        \draw[very thick,densely dashed,blue] (A.center) --(C.center);
+        \draw[very thick,densely dashed,blue] (B) --(D); % under the node
+    \end{tikzpicture}
+\end{tcblisting}
+上の例では，各セルに配置する図を \lstinlineiv{\node} コマンドの波カッコ \{\} の中に記述しています．これで図形を中に持つノードが作成されます．そして，\lstinlineiv{\matrix} コマンドのオプションとして \lstinlineiv{every cell/.style={anchor=center}} を指定しています．これで全てのセルのノードに対して \lstinlineiv{anchor=center} を指定したことになります（デフォルトは \lstinlineiv{anchor=center} なので，実は指定しなくても良いです）．
+
+それぞれのセルで異なる位置合わせを行う場合は，各 \lstinlineiv{\node} コマンドごとにオプションを指定するのが早いでしょう．
+\begin{tcblisting}{title=セルごとに位置合わせ}
+    \begin{tikzpicture}
+        \matrix[row sep=0.1cm,column sep=0.1cm] {
+            \node[anchor=south east] (A) {\tikz{
+                    \draw (0,0) rectangle (2,2);
+                    \draw[fill=white] (1,1) circle[radius=1];}
+            };
+             &
+            \node[anchor=south west] (B) {\tikz{
+                    \draw (0,0) rectangle (1.8,1.8);
+                    \draw[fill=white] (0.9,0.9) circle[radius=0.9];}
+            };
+            \\
+            \node[anchor=north east] (C) {\tikz{
+                    \draw (0,0) rectangle (1.6,1.6);
+                    \draw[fill=white] (0.8,0.8) circle[radius=0.8];}
+            };
+             &
+            \node[anchor=north west] (D) {\tikz{
+                    \draw (0,0) rectangle (1.4,1.4);
+                    \draw[fill=white] (0.7,0.7) circle[radius=0.7];}
+            };
+            \\
+        };
+        \draw[very thick,red] (A.south east) --(B.south west);
+        \draw[very thick,red] (C.north east) --(D.north west);
+        \draw[very thick,blue] (A.south east) --(C.north east);
+        \draw[very thick,blue] (B.south west) --(D.north west);
+    \end{tikzpicture}
+\end{tcblisting}
+上の例では左上の図を右下に寄せ，右上の図を左下に寄せ，左下の図を右上に寄せ，そして右下の図を左上に寄せています．
+
+マトリックス状にこだわらず，任意の位置に図を配置したいときは，それぞれの図を scope 環境で囲み，shift オ
+プションキーで移動量を指定すると作図しやすいと思います．
+\begin{tcblisting}{title=\texttt{shift} オプションで調整}
+    \begin{tikzpicture}
+        \begin{scope}
+            \draw (0,0) rectangle(2,2);
+            \draw[fill=white] (1,1) circle[radius=1];
+        \end{scope}
+        \begin{scope}[shift={(2.1cm,0.2cm)}]
+            \draw (0,0) rectangle(1.8,1.8);
+            \draw[fill=white] (0.9,0.9) circle[radius=0.9];
+        \end{scope}
+        \begin{scope}[shift={(1cm,-1.7cm)}]
+            \draw (0,0) rectangle(1.6,1.6);
+            \draw[fill=white] (0.8,0.8) circle[radius=0.8];
+        \end{scope}
+        \begin{scope}[shift={(3.1cm,-1.3cm)}]
+            \draw (0,0) rectangle(1.4,1.4);
+            \draw[fill=white] (0.7,0.7) circle[radius=0.7];
+        \end{scope}
+    \end{tikzpicture}
+\end{tcblisting}
+
 \section{How to put caption and label to \texttt{tikzpicture}}
 
 \subsection{Case 1: Wrap the figure with wrapfigure}
@@ -1436,5 +1860,19 @@ To create a figure using \lstinlineiv{tikzpicture} and put caption, label, like 
     \end{tikzpicture}
     \caption{A caption.} \label{fig:M1}
 \end{figure}
+
+\section{How to label and refer to equation}
+
+Equation~\eqref{eq:eq1} is well-known as the quadratic equation.
+\begin{equation}\label{eq:eq1}
+    ax^2+bx+c = 0
+\end{equation}
+
+\begin{tcblisting}{title=How to label and refer to equation}
+    From~\eqref{eq:mc2}, we know that mass and energy are related.
+    \begin{equation}\label{eq:mc2}
+        E = mc^2
+    \end{equation}
+\end{tcblisting}
 
 \end{document}

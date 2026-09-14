@@ -872,14 +872,14 @@ The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
     \begin{lstlisting}[language={[LaTeX] TeX},
         firstnumber=1,breaklines=true,gobble=8]
         \begin{tikzpicture}
-        \coordinate (a) at (0,0);
-        \coordinate (b) at (2,0);
-        \coordinate (c) at (2,2);
-        \coordinate (d) at (1.5,2);
-        \draw (a) --(b) --(c) --(d) --cycle;
-        \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {$1$ cm} (d);
-        \draw [ultra thin] (b) to [bend right=30] node [draw,fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
-        \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {$1.7$ cm} (b);
+            \coordinate (a) at (0,0);
+            \coordinate (b) at (2,0);
+            \coordinate (c) at (2,2);
+            \coordinate (d) at (1.5,2);
+            \draw (a) --(b) --(c) --(d) --cycle;
+            \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {\qty{1}{cm}} (d);
+            \draw [ultra thin] (b) to [bend right=30] node [draw,fill=white,midway,right,inner sep=2.0pt] {\qty{0.7}{\cm}} (c);
+            \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {\qty{1.7}{\cm}} (b);
         \end{tikzpicture}
 \end{lstlisting}
 \end{minipage}
@@ -887,14 +887,14 @@ The \verb|inner sep| sets the size of the background of the text (\(1 \) cm).
 \begin{minipage}{0.28 \textwidth}
     \[
         \begin{tikzpicture}
-        \coordinate (a) at (0,0);
-        \coordinate (b) at (2,0);
-        \coordinate (c) at (2,2);
-        \coordinate (d) at (1.5,2);
-        \draw (a) --(b) --(c) --(d) --cycle;
-        \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {$1$ cm} (d);
-        \draw [ultra thin] (b) to [bend right=30] node [draw,fill=white,midway,right,inner sep=2.0pt] {$0.7$ cm} (c);
-        \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {$1.7$ cm} (b);
+            \coordinate (a) at (0,0);
+            \coordinate (b) at (2,0);
+            \coordinate (c) at (2,2);
+            \coordinate (d) at (1.5,2);
+            \draw (a) --(b) --(c) --(d) --cycle;
+            \draw [ultra thin] (a) to [bend left=42] node [fill=white,midway,inner sep=2.5pt] {\qty{1}{cm}} (d);
+            \draw [ultra thin] (b) to [bend right=30] node [draw,fill=white,midway,right,inner sep=2.0pt] {\qty{0.7}{\cm}} (c);
+            \draw [ultra thin] (a) to [bend right=20] node [fill=white,midway,below,inner sep=2.0pt] {\qty{1.7}{\cm}} (b);
         \end{tikzpicture}
     \]
 \end{minipage}
