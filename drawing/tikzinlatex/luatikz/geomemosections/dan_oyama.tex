@@ -8,7 +8,15 @@
 In this section, we will try some codes explained here: \url{https://note.com/dan_oyama/n/n6c3ae2a270ac}.
 This is a series of explanation by 大山 壇 (Dan Oyama) a 予備校講師（数学科）.
 
-\subsection{(2) 関数グラフを描く}
+\tcbset{
+    colback=white,
+    colbacklower=blue!3!white,
+    left=3.8mm,
+}
+
+\subsection{入門(2) 関数グラフを描く}
+
+From here: \url{https://note.com/dan_oyama/n/n4a69a68f7be5}
 
 \subsubsection{座標軸}
 
@@ -75,5 +83,82 @@ This is a series of explanation by 大山 壇 (Dan Oyama) a 予備校講師（�
     \end{tikzpicture}
 \end{tcblisting}
 \lstinlineiv{node} や座標軸や，各グラフの式などは \lstinlineiv{scope} 環境の外に書かないと，切り取られてしまい描画されない可能性があります．
+
+\subsection{入門(3) 点の名前をつける}
+
+From here: \url{https://note.com/dan_oyama/n/nb75e163b8fef}
+
+今回は \lstinlineiv{\coordinate} と \lstinlineiv{\foreach} の話です．
+
+\subsubsection{正多角形を描く}
+
+\begin{tcblisting}{title=\texttt{\textbackslash{}coordinate} で座標に名前をつける}
+    \begin{tikzpicture}[scale=2]
+        \coordinate (A) at (0,1);
+        \coordinate (B) at ({cos(9*pi/10 r)},{sin(9*pi/10 r)});
+        \coordinate (C) at ({cos(13*pi/10 r)},{sin(13*pi/10 r)});
+        \path ({cos(17*pi/10 r)},{sin(17*pi/10 r)}) coordinate (D) ({cos(21*pi/10 r)},{sin(21*pi/10 r)}) coordinate (E);
+        \draw (A) --(B) --(C) --(D) --(E) --cycle;
+        \draw[very thin,dashed] (A) --(C) --(E) --(B) --(D) --cycle;
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsubsection{繰り返しの \texttt{\textbackslash{}foreach}}
+
+\begin{tcblisting}{title=\texttt{\textbackslash{}foreach} で正五角形を描く,left=4.8mm}
+    \begin{tikzpicture}[scale=2]
+        \foreach \k in {1,...,5} {
+                \coordinate (A_\k) at ({cos((4*\k+1)*pi/10 r)},{sin((4*\k+1)*pi/10 r)});
+                \node at ($(0,0)!1.25!(A_\k)$) {$\mathrm{A_\k}$};
+            }
+        \draw[red,line width=10pt,fill=yellow!75!] (A_1)
+        \foreach \k in {2,...,5} {--(A_\k)}
+        --cycle;
+        \draw[blue,ultra thick] (A_1) \foreach \k in {3,5,2,4} {--(A_\k)} --cycle;
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{入門(4) 円を描く}
+
+From here \url{https://note.com/dan_oyama/n/nd6778c7d407d}
+
+\subsubsection{\texttt{node} で頂点などを描く}
+
+\begin{tcblisting}{title=\texttt{node} の \texttt{style} で頂点などを描く}
+    \begin{tikzpicture}[scale=1,
+            point/.style={fill,shape=circle,inner sep=2pt,outer sep=0pt},label distance=-1pt]
+        \draw[step=1,help lines,very thin](-1.5,-1.5) grid(2.5,2.5);
+        \draw[->,>=stealth,semithick] (-1.5,0) --(2.5,0) node[right]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-1.5) --(0,2.5) node[left]{$y$}; %y軸
+        \draw (0,0) node[below left]{$O$}; %原点
+        \node[point] at (0,0) {};
+        \node[point,label=above right:{$A$}] at (2,1) {};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsubsection{ベン図 (Venn Diagram)}
+
+\begin{tcblisting}{title=ベン図の描き方}
+    \begin{tikzpicture}
+        \draw[fill=black!10!] (0,0) circle[radius=1];
+        \draw (1,0) circle[radius=1];
+        \node[fill=white] at ({cos(3*pi/4 r)}, {sin(3*pi/4 r)}) {A};
+        \node[fill=white] at ({1+cos(pi/4 r)}, {sin(pi/4 r)}) {B};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\lstinlineiv{\clip} コマンドは，四角形だけではなく，円の形に clip することができます．これで共通部分だけ塗りつぶすということができます．
+\begin{tcblisting}{title=\texttt{\textbackslash{}clip} で共通部分を塗りつぶす}
+    \begin{tikzpicture}
+        \draw (0,0) circle[radius=1];
+        \draw (1,0) circle[radius=1];
+        \node[fill=white] at ({cos(3*pi/4 r)}, {sin(3*pi/4 r)}) {A};
+        \node[fill=white] at ({1+cos(pi/4 r)}, {sin(pi/4 r)}) {B};
+        \begin{scope}
+            \clip (1,0) circle[radius=1];
+            \fill[black!10!] (0,0) circle[radius=1];
+        \end{scope}
+    \end{tikzpicture}
+\end{tcblisting}
 
 \end{document}
