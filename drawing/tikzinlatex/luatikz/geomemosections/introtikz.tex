@@ -1366,6 +1366,86 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
     \(a= \a, b= \b, c= \c\)
 \end{tcblisting}
 
+\lstinlineiv{\tikzmath} is used to do calculation before the calculation result is used for drawing. By default, in will use \verb|real| type variable. It can be indexed also.
+\begin{tcblisting}{title={\texttt{tikzmath} assume \texttt{real} type variable, and can be indexed}}
+    \begin{tikzpicture}
+        \tikzmath{
+            \x1 = 3+4; \x2 = 30+40; \x3 = 300+400;
+            \y = 5+1;
+            print {$x_1 = \x1, x_2 = \x2, x_3 = \x3, y = \y$}; % Use print inside tikzmath
+        }
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title={Inside \texttt{tikzmath} use \texttt{int} type variable explicitly}}
+    \begin{tikzpicture}
+        \tikzmath{
+            int \x, \y;
+            \x1 = 3+4; \x2 = 30+40; \x3 = 300+400;
+            \y = 5+1;
+            print {$x_1 = \x1, x_2 = \x2, x_3 = \x3, y = \y$}; % Use print inside tikzmath
+        }
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title={In \texttt{tikzmath}, define coordinate}}
+    \begin{tikzpicture}
+        \tikzmath{
+            coordinate \c;
+            \c = (30:20pt);
+            print {$\mathrm{\c}, \mathrm{\cx}, \mathrm{\cy}$};
+        }
+        \draw (0,0) --(\c);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title={In \texttt{tikzmath}, coordinate addition no need \$ sign}}
+    \tikzmath{
+        coordinate \c, \d;
+        \c = (-1,2)+(1,-1);
+        \d = (4cm,1cm)-(2cm,-1cm);
+        \e{x} = \cx/1cm;
+        \e{y} = \cy/1cm;
+        print {\e{x}, \e{y}, \d};
+    }
+    \tikz\draw (\c) -- (\d); % chktex 1, chktex 8
+\end{tcblisting}
+
+\begin{tcblisting}{title={In \texttt{tikzmath}, use cx1 \& cy1 to refer to x, y value of c1}}
+    \tikzmath{
+        coordinate \c;
+        \c1 = (30:20pt);
+        \c2 = (210:20pt);
+    }
+    \tikz\draw (\cx1,\cy1) -- (\cx2,\cy1) -- (\cx2,\cy2) -- (\cx1,\cy2); % chktex 1, chktex 8
+\end{tcblisting}
+
+\begin{tcblisting}{title=Calculation must be done inside \texttt{tikzmath},left=4.8mm}
+    \begin{tikzpicture}
+        \tikzmath{
+            \a = 3; \b = 2;
+        }
+        \draw (0,0) node {$\a$} (1,0) node {$\b$} (2,0) node {$\a+\b$};
+        %
+        \tikzmath{
+            \d = 3; \e = 2;
+            \f = \d + \e; % By default \f IS real!
+        }
+        \draw (0,-1) node {$\d$} (1,-1) node {$\e$} (2,-1) node {$\f$};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title=Explicitly define as integer in \texttt{tikzmath} to use integer}
+    \begin{tikzpicture}
+        \tikzmath{
+            \d = 3; \e = 2;
+            int \f;
+            \f = \d + \e; % Explicitly set to int, NOT real!
+        }
+        \draw (0,-1) node {$\d$} (1,-1) node {$\e$} (2,-1) node {$\f$};
+    \end{tikzpicture}
+\end{tcblisting}
+
 \subsection{演算子と数学関数}
 
 数学関数として，\lstinlineiv{veclen(x,y), pi, e, log10(x), pow(x,y), sqrt(x)} などあります．
@@ -1495,7 +1575,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 複数の \lstinlineiv{tikzpicture} 環境で作成した図を配置するときは \lstinlineiv{figure} 環境の中に \lstinlineiv{minipage} 環境を入れ子にします．なお， \lstinlineiv{figure} 環境も \lstinlineiv{minipage} 環境も Ti\textit{k}Z コマンドではありませんので，これらは Ti\textit{k}Z 以外の一般の図を貼り付けるときでも利用できます．
 
 例えば次のように記述すると２つの図が横に並んで配置されます．
-\begin{tcblisting}{listing only,title=２つの図を横に並べる}
+\begin{tcblisting}{listing only,title=２つの図を横に並べる,left=4.8mm}
     \begin{figure}
         \begin{minipage}[位置]{横の長さ}
             ・・・
@@ -1537,7 +1617,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 \end{tcblisting}
 
 位置のところには，次のオプション値を指定できます．
-\begin{table}[h]
+\begin{table}[htbp]
     \centering
     \caption{minipage 位置オプション}
     \begin{NiceTabular}{c|l}
@@ -1556,7 +1636,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 \end{table}
 
 位置のオプション値を省略したときのデフォルトは \lstinlineiv{c} です．それぞれの違いを見てみます．
-\begin{tcblisting}{title=\texttt{b} を指定}
+\begin{tcblisting}{title=\texttt{b} を指定,left=4.8mm}
     \begin{minipage}[b]{0.3\columnwidth}
         \centering
         \begin{tikzpicture}
@@ -1574,7 +1654,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
     \end{minipage}
 \end{tcblisting}
 
-\begin{tcblisting}{title=\texttt{c} を指定}
+\begin{tcblisting}{title=\texttt{c} を指定,left=4.8mm}
     \begin{minipage}[c]{0.3\columnwidth}
         \centering
         \begin{tikzpicture}
@@ -1592,7 +1672,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
     \end{minipage}
 \end{tcblisting}
 
-\begin{tcblisting}{title=\texttt{t} を指定}
+\begin{tcblisting}{title=\texttt{t} を指定,left=4.8mm}
     \begin{minipage}[t]{0.3\columnwidth}
         \centering
         \begin{tikzpicture}
@@ -1614,7 +1694,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 実は，ミニページの中に図が１つだけある状態は，あたかも文が１行だけあるのと同じになります．したがって，ミニページの最上行と最下行は同じ行にあたります．ベースラインは図の下部にありますので，「本文」の位置は結局 b を指定したときと同じになるわけです．
 
 左右の図では上辺の位置を合わせるには，以下のように図のベースラインを変更します．
-\begin{tcblisting}{title=ベースラインを変更}
+\begin{tcblisting}{title=ベースラインを変更,left=4.8mm}
     \begin{minipage}[t]{0.3\columnwidth}
         \centering
         \begin{tikzpicture}[baseline=(current bounding box.north)]
@@ -1657,7 +1737,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 \subsubsection{マトリックス状に並べる}
 
 図をマトリックス状に並べる場合は，\lstinlineiv{figure} 環境の中に \lstinlineiv{tabular} 環境を入れ，その中にミニページを入れていきます．
-\begin{tcblisting}{title=マトリックス状に並べる}
+\begin{tcblisting}{title=マトリックス状に並べる,left=4.8mm}
     \begin{tabular}{rc}
         \begin{minipage}[b]{2cm} \centering
             \tikz \draw (0,0) rectangle(2,2); % 左上 chktex 1
@@ -1681,7 +1761,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 \subsubsection{\texttt{tikzpicture} 環境を複数に並べる}
 
 １つの \lstinlineiv{tikzpicture} 環境の中に複数の図をはラベルには \lstinlineiv{\matrix} コマンドを使います．
-\begin{tcblisting}{title=マトリックス状に配置}
+\begin{tcblisting}{title=マトリックス状に配置,left=4.8mm}
     \begin{tikzpicture}
         \matrix[row sep=0.1cm,column sep=0.1cm] {
             \coordinate (A) at (0,0);
@@ -1714,7 +1794,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 上の例ではマトリックスの各セルに図形を描画しています．このとき図形間の相対的な位置は，\textcolor{red}{\textbf{各図の原点 \((0,0)\) がそろうように位置合わせされます}}．また，\lstinlineiv{\matrix} コマンドを使うときは，\textbf{\textcolor{red}{最後の行にも \textbackslash\textbackslash{} で終わることを忘れないようにしましょう}}．
 
 図の位置合わせを任意に行いたい場合は，\textbf{\textcolor{red}{いったん図形を１つのノードの中に入れてしまい，ノードに対して位置合わせの指定を行います}}．例えばそれぞれの図を各セルの中央に配置したい場合は，以下のようにします．
-\begin{tcblisting}{title=各セルの中央に配置}
+\begin{tcblisting}{title=各セルの中央に配置,left=4.8mm}
     \begin{tikzpicture}
         \matrix[row sep=0.1cm,column sep=0.1cm,
             every cell/.style={anchor=center}] {
@@ -1752,7 +1832,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 上の例では，各セルに配置する図を \lstinlineiv{\node} コマンドの波カッコ \{\} の中に記述しています．これで図形を中に持つノードが作成されます．そして，\lstinlineiv{\matrix} コマンドのオプションとして \lstinlineiv{every cell/.style={anchor=center}} を指定しています．これで全てのセルのノードに対して \lstinlineiv{anchor=center} を指定したことになります（デフォルトは \lstinlineiv{anchor=center} なので，実は指定しなくても良いです）．
 
 それぞれのセルで異なる位置合わせを行う場合は，各 \lstinlineiv{\node} コマンドごとにオプションを指定するのが早いでしょう．
-\begin{tcblisting}{title=セルごとに位置合わせ}
+\begin{tcblisting}{title=セルごとに位置合わせ,left=4.8mm}
     \begin{tikzpicture}
         \matrix[row sep=0.1cm,column sep=0.1cm] {
             \node[anchor=south east] (A) {\tikz{
@@ -1786,7 +1866,7 @@ See \url{http://phys.co-suite.jp/tex/Intro_Tikz.pdf} Section 5.8.
 
 マトリックス状にこだわらず，任意の位置に図を配置したいときは，それぞれの図を scope 環境で囲み，shift オ
 プションキーで移動量を指定すると作図しやすいと思います．
-\begin{tcblisting}{title=\texttt{shift} オプションで調整}
+\begin{tcblisting}{title=\texttt{shift} オプションで調整,left=4.8mm}
     \begin{tikzpicture}
         \begin{scope}
             \draw (0,0) rectangle(2,2);
