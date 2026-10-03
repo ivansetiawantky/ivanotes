@@ -161,4 +161,314 @@ From here \url{https://note.com/dan_oyama/n/nd6778c7d407d}
     \end{tikzpicture}
 \end{tcblisting}
 
+\section{Ti\textit{k}Z 実用例 --- 大山 壇}
+
+\subsection{実用例(1) 三角形の内接円 (incircle or inscribed circle)}
+
+From here: \url{https://note.com/dan_oyama/n/n18d0c0822ec7}. Triangle side lengths, \lstinlineiv{\a, \b, \c}, are the 3 independent variables to be set correctly.
+
+\begin{tcblisting}{title=内接円 Use 3 sides' length and put incircle center in origin,left=4.8mm}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt}]
+        \tikzmath{
+            \a = 8; % 底辺の辺の長さ (base length)
+            \b = 7; % 右側の辺の長さ (length of the right side)
+            \c = 5; % 左側の辺の長さ (length of the left side)
+            \B = acos((\a^2+\c^2-\b^2)/(2*\a*\c)); % angle in front of side \b
+            \S = \a*\c*sin(\B)/2; % area of triangle ABC
+            \r = 2*\S/(\a+\b+\c); % incircle radius calculated using area
+        }
+        \coordinate (I) at (0,0); % incircle center
+        \coordinate[label=left:$B$] (B) at ({-(\a-\b+\c)/2},-\r);
+        \coordinate[label=above:$A$] (A) at ($(B)+(\B:\c)$);
+        \coordinate[label=right:$C$] (C) at ($(B)+(0:\a)$);
+        \draw[thick] (I) circle[radius=\r];
+        \draw (A) --(B) --(C) --cycle;
+        \coordinate (H) at ($(B)!(I)!(C)$);
+        \draw (I) --(H);
+        \coordinate (P) at ($(H)!3mm!(I)!3mm!90:(I)$);
+        \draw[very thin] ($(I)!(P)!(H)$) --(P) --($(B)!(P)!(H)$);
+        \node[point,label=above left:$I$] at (I) {};
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{実用例(2) 三角形の外接円 (circumscribed circle)}
+
+From here: \url{https://note.com/dan_oyama/n/n365404f8014c}
+
+\begin{tcblisting}{title=外接円 Use 3 sides' length and put the vertex \(B\) in origin,left=4.8mm}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt},scale=1]
+        \tikzmath{
+            \a = 7; % 底辺の辺の長さ (base length)
+            \b = 5; % 右側の辺の長さ (length of the right side)
+            \c = 8; % 左側の辺の長さ (length of the left side)
+            \Be = acos((\a^2+\c^2-\b^2)/(2*\a*\c)); % angle in front of side \b
+            \Al = acos((\b^2+\c^2-\a^2)/(2*\b*\c)); % cannot use \A, so use \Al (alpha) instead
+            \R = \a/(2*sin(\Al)); % circumscribed circle radius
+        }
+        \coordinate (B) at (0,0);
+        \coordinate (A) at (\Be:\c);
+        \coordinate (C) at (0:\a);
+        \node[point,inner sep=2pt,label=above:$O$] (O) at (90-\Al:\R) {};
+        \draw (O) circle[radius=\R];
+        \draw[thick] (A) --(B) --(C) --cycle;
+        \foreach \P/\Q/\l in {A/B/\c,B/C/\a,C/A/\b} {
+                \draw ($(O)!11/10!(\P)$) node {$\P$};
+                \draw[dashed,very thin] (\P) to[bend right=20] node[fill=white,midway,inner sep=3pt] {$\l$} (\Q);
+            }
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{実用例(3) 三角形の傍接円 (ぼうせつえん escribed circle or excircle)}
+
+From here: \url{https://note.com/dan_oyama/n/n41f5584a6397}
+
+\begin{tcblisting}{title=傍接円 Use 3 sides' length and put the vertex \(B\) in origin,left=4.8mm}
+    \begin{tikzpicture}[scale=0.3]
+        \tikzmath{
+            \a = 5; % 底辺の辺の長さ (base length)
+            \b = 7; % 右側の辺の長さ (length of the right side)
+            \c = 8; % 左側の辺の長さ (length of the left side)
+            \Al = acos((\b^2+\c^2-\a^2)/(2*\b*\c)); % Alpha
+            \Be = acos((\a^2+\c^2-\b^2)/(2*\a*\c)); % Beta
+            \Ga = acos((\a^2+\b^2-\c^2)/(2*\a*\b)); % Gamma
+            \S = \a*\b*sin(\Ga)/2;
+            \rA = 2*\S/(\b+\c-\a); % calculate rA using area addition & subtraction
+            \rB = 2*\S/(\a+\c-\b);
+            \rC = 2*\S/(\a+\b-\c);
+        }
+        % Belows are using absolute position to draw NODEs:
+        \coordinate (A) at (\Be:\c);
+        \draw (A)+(\Be+\Al/2:13mm) node {\small A};
+        \coordinate (B) at (0,0);
+        \draw (180+\Be/2:12mm) node {\small B};
+        \coordinate (C) at (\a,0);
+        \draw (C)+(-\Ga/2:10mm) node {\small C};
+        %
+        \coordinate[label=below:{$\mathrm{J_A}$}] (JA) at (\Be/2-90:{\rA/cos(\Be/2)});
+        \coordinate[label=right:{$\mathrm{J_B}$}] (JB) at ($(C)+(90-\Ga/2:{\rB/cos(\Ga/2)})$);
+        \coordinate[label=left:{$\mathrm{J_C}$}] (JC) at (\Be/2+90:{\rC/cos(\Be/2)});
+        \draw[very thick] (A) --(B) --(C) --cycle;
+        \draw (JA) --(JB) --(JC) --cycle;
+        \foreach \P/\r in {JA/\rA,JB/\rB,JC/\rC} {
+                \draw (\P) circle[radius=\r];
+                \fill (\P) circle[radius=5pt];
+            }
+        \draw ($(A)!2!(B)$) --($(B)!2!(A)$) ($(B)!3!(C)$) --($(C)!3!(B)$) ($(C)!2.5!(A)$) --($(A)!2!(C)$);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\textcolor{red}{\textbf{VERY IMPORTANT THING WHEN DEFINING COORDINATE is}}:\vspace{-8pt}
+\begin{enumerate}
+    \item Define first the coordinate like: \lstinlineiv{\coordinate[label=below:{$J_A$}] (JA) at (0,0);} % chktex 46
+    \item In case you want to draw a small point on the coordinate, then \textcolor{red}{at the END OF tikzpicture ENVIRONMENT}, write the command \lstinlineiv{\node[point] at (JA) {};}. Write at the end because we want the small point to be at the top-most!
+    \item DO NOT DO in one-liner such as \lstinlineiv{\node[point,label=below:{$J_A$}] (JA) at (0,0) {};}, because this define (JA) as a NODE, NOT as COORDINATE!\ We cannot do cycle here! % chktex 46
+\end{enumerate}
+
+\begin{tcblisting}{title=傍接円 Same as above but use relative label position,left=4.8mm}
+    \begin{tikzpicture}[point/.style={fill,shape=circle,inner sep=1pt,outer sep=0pt},scale=0.3]
+        \tikzmath{
+            \a = 5; % 底辺の辺の長さ (base length)
+            \b = 7; % 右側の辺の長さ (length of the right side)
+            \c = 8; % 左側の辺の長さ (length of the left side)
+            \Al = acos((\b^2+\c^2-\a^2)/(2*\b*\c)); % Alpha
+            \Be = acos((\a^2+\c^2-\b^2)/(2*\a*\c)); % Beta
+            \Ga = acos((\a^2+\b^2-\c^2)/(2*\a*\b)); % Gamma
+            \S = \a*\b*sin(\Ga)/2;
+            \rA = 2*\S/(\b+\c-\a); % calculate rA using area addition & subtraction
+            \rB = 2*\S/(\a+\c-\b);
+            \rC = 2*\S/(\a+\b-\c);
+        }
+        % Belows are using relative position to write LABELs:
+        \coordinate[label={[label distance=5mm,anchor=center] (\Be+\Al/2):{\small $A$}}] (A) at (\Be:\c);
+        \coordinate[label={[label distance=5mm,anchor=center] (180+\Be/2):{\small $B$}}] (B) at (0,0);
+        \coordinate[label={[label distance=4mm,anchor=center] (-\Ga/2):{\small $C$}}] (C) at (\a,0);
+        %
+        \coordinate[label=below:{$J_A$}] (JA) at (\Be/2-90:{\rA/cos(\Be/2)});
+        \coordinate[label=right:{$J_B$}] (JB) at (\Be/2:{\rB/sin(\Be/2)});
+        \coordinate[label=left:{$J_C$}] (JC) at (\Be/2+90:{\rC/cos(\Be/2)});
+        \draw[very thick] (A) --(B) --(C) --cycle;
+        \draw (JA) --(JB) --(JC) --cycle;
+        \foreach \P/\r in {JA/\rA,JB/\rB,JC/\rC} {
+                \draw (\P) circle[radius=\r];
+                \node[point] at (\P) {};
+            }
+        \draw ($(A)!2!(B)$) --($(B)!2!(A)$) ($(B)!3!(C)$) --($(C)!3!(B)$) ($(C)!2.5!(A)$) --($(A)!2!(C)$);
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{実用例(4) \texttt{tcolorbox} の紹介}
+
+From here: \url{https://note.com/dan_oyama/n/n8866aa2d3ed7}
+
+\lstinlineiv{\noindent} prevents indentation when starting a new paragraph.
+
+\lstinlineiv{\textgt}/\lstinlineiv{\gtfamily} is \textgt{ゴシック gothic} style. Only for Japanese text.
+
+\lstinlineiv{\textmc}/\lstinlineiv{\mcfamily} is \textmc{明朝 mincho} style. Also only for Japanese text.
+
+\lstinlineiv{\par} is for stopping a line, break and then make a new paragraph.
+
+\lstinlineiv{\quad} command creates a \qty{1}{em}-space. And, \lstinlineiv{\qquad} command creates 2 of \qty{1}{em}-spaces.
+
+\begin{tcblisting}{listing only,title=An example of writing problem}
+    \noindent\textgt{【例題】}\par
+    次の2次方程式を解け．\vspace{-8pt}
+    \begin{enumerate}[(1)\;]
+        \item \(x^2=1\)
+        \item \(x^2-4x+1=0\)
+    \end{enumerate}
+    \noindent\textgt{（解答）}\par
+    (1)\quad \(x=\pm 1\) \qquad
+    (2)\quad \(x=2 \pm \sqrt{3}\)
+\end{tcblisting}
+
+プリアンブルに \lstinlineiv{\usepackage{enumerate}} を書くと，上のコードは以下のようにコンパイルされます．なお，\lstinlineiv{enumerate} 環境は直前の行間が空きすぎたりするので，\lstinlineiv{\vspace{-8pt}} で縦方向の位置調整をします．
+
+\noindent\textgt{【例題】}\par
+次の2次方程式を解け．\vspace{-8pt}
+\begin{enumerate}[(1)\;]
+    \item \(x^2=1\)
+    \item \(x^2-4x+1=0\)
+\end{enumerate}
+\noindent\textgt{（解答）}\par
+(1)\quad \(x=\pm 1\) \qquad
+(2)\quad \(x=2 \pm \sqrt{3}\)
+
+\subsubsection{\textbf{\texttt{reidai}} environment}
+\label{sec:reidai}
+
+以下のように，\lstinlineiv{reidai} 環境を定義します．
+
+\begin{tcblisting}{listing only,title=\texttt{\textbf{reidai}} 環境を定義}
+    \newtcbtheorem[]{reidai}{例題}
+    {fonttitle=\gtfamily\sffamily\bfseries\upshape\large,
+        colframe=black,colback=black!15!white,
+        rightrule=1pt,leftrule=1pt,bottomrule=2pt,
+        colbacktitle=black,theorem style=standard,breakable,arc=10pt}
+    {tha}
+\end{tcblisting}
+
+\newtcbtheorem[]{reidai}{例題}
+{fonttitle=\gtfamily\sffamily\bfseries\upshape\large,
+    colframe=black,colback=black!15!white,
+    rightrule=1pt,leftrule=1pt,bottomrule=2pt,
+    colbacktitle=black,theorem style=standard,breakable,arc=10pt}
+{tha}
+
+以下のように \lstinlineiv{reidai} 環境を使うことができます．
+\begin{tcblisting}{title=\textbf{\texttt{reidai}} 環境の使い方}
+    \begin{reidai}{2次方程式}{}
+        次の2次方程式を解け．\vspace{-8pt}
+        \begin{enumerate}[(1)\;]
+            \item \(x^2=1\)
+            \item \(x^2-4x+1=0\)
+        \end{enumerate}
+    \end{reidai}
+\end{tcblisting}
+
+上の \lstinlineiv{tcblisting} だと小さく見えますが，実際は次のようにコンパイルされます．
+\begin{reidai}{2次方程式}{}
+    次の2次方程式を解け．\vspace{-8pt}
+    \begin{enumerate}[(1)\;]
+        \item \(x^2=1\)
+        \item \(x^2-4x+1=0\)
+    \end{enumerate}
+\end{reidai}
+
+\subsubsection{\textbf{\texttt{reidai2}} environment with different setting}
+
+以下のように，\lstinlineiv{reidai2} 環境を別の設定で定義します．
+
+\begin{tcblisting}{listing only,title=\texttt{\textbf{reidai2}} 環境を定義}
+    \newtcbtheorem[]{reidai2}{例題}
+    {fonttitle=\gtfamily\sffamily\bfseries\upshape\large,
+        colframe=blue!50!black,colback=blue!15!white,
+        rightrule=1pt,leftrule=1pt,bottomrule=2pt,
+        colbacktitle=blue,theorem style=standard,breakable,arc=0pt}
+    {tha}
+\end{tcblisting}
+
+\newtcbtheorem[]{reidai2}{例題}
+{fonttitle=\gtfamily\sffamily\bfseries\upshape\large,
+    colframe=blue!50!black,colback=blue!15!white,
+    rightrule=1pt,leftrule=1pt,bottomrule=2pt,
+    colbacktitle=blue,theorem style=standard,breakable,arc=0pt}
+{tha}
+
+すると，~\ref{sec:reidai}章の式は以下になります．
+\begin{reidai2}{2次方程式}{}
+    次の2次方程式を解け．\vspace{-8pt}
+    \begin{enumerate}[(1)\;]
+        \item \(x^2=1\)
+        \item \(x^2-4x+1=0\)
+    \end{enumerate}
+\end{reidai2}
+
+\subsubsection{例題番号は自動で振ってくれる}
+
+\begin{tcblisting}{listing only,title=Automatic numbering of \textbf{\texttt{reidai}},left=4.8mm}
+    \begin{reidai2}{2次方程式}{}
+        次の2次方程式を解け．\vspace{-8pt}
+        \begin{enumerate}[(1)\;]
+            \item \(x^2=1\)
+            \item \(x^2-4x+1=0\)
+        \end{enumerate}
+    \end{reidai2}
+
+    \vspace{\baselineskip}
+
+    \begin{reidai2}{2次不等式}{}
+        次の2次不等式を解け．\vspace{-8pt}
+        \begin{enumerate}[(1)\;]
+            \item \(x^2 \geqq 4\)
+            \item \(x^2-4x+1 < 0\)
+        \end{enumerate}
+    \end{reidai2}
+\end{tcblisting}
+
+\begin{reidai2}{2次方程式}{}
+    次の2次方程式を解け．\vspace{-8pt}
+    \begin{enumerate}[(1)\;]
+        \item \(x^2=1\)
+        \item \(x^2-4x+1=0\)
+    \end{enumerate}
+\end{reidai2}
+
+\vspace{\baselineskip}
+
+\begin{reidai2}{2次不等式}{}
+    次の2次不等式を解け．\vspace{-8pt}
+    \begin{enumerate}[(1)\;]
+        \item \(x^2 \geqq 4\)
+        \item \(x^2-4x+1 < 0\)
+    \end{enumerate}
+\end{reidai2}
+
+\subsection{実用例(11) \texttt{\textbackslash{}tikzmath}}
+
+From here: \url{https://note.com/dan_oyama/n/n75a325f9d9d2}
+
+\begin{tcblisting}{title=Use \texttt{\textbackslash{}tikzmath} command to compute cell's value,left=4.8mm}
+    \begin{tikzpicture}[scale=0.5]
+        \draw (-1,1) grid[step=1] (6,-6)
+            (-1,1) --(0,0)
+            (-0.7,0.3) node {$a$}
+            (-0.3,0.7) node {$b$}
+        ;
+        \draw[very thick] (0,1) --(0,-6) (-1,0) --(6,0);
+        \foreach \a in {1,...,6} {
+                \draw (-0.5,-\a+0.5) node {$\a$}
+                (\a-0.5,0.5) node {$\a$}
+                ;
+                \foreach \b in {1,...,6} {% Try with {1} first
+                        \tikzmath{
+                            int \c; % Define as INT in order to be printed without decimal point
+                            \c = \a+\b; % Cannot use \s as variable name...
+                        }
+                        \draw (\b-0.5,-\a+0.5) node {$\c$};
+                    }
+            }
+    \end{tikzpicture}
+\end{tcblisting}
+
 \end{document}
