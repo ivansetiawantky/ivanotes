@@ -444,6 +444,78 @@ From here: \url{https://note.com/dan_oyama/n/n8866aa2d3ed7}
     \end{enumerate}
 \end{reidai2}
 
+\subsection{Action on Paths --- Filling a Path}
+
+From here: \url{https://tikz.dev/tikz-actions#sec-15.5}
+
+The \lstinlineiv{fill} option causes the path to be filled. All unclosed parts of the path are first closed, if necessary.\ \textcolor{red}{\textbf{So, if the path is a function plot, then the path will be closed by connecting the end-point to start-point (cycle-ing), and finally be filled}}.
+
+There are 2 rules. ``Non zero rule'' (the default) and ``even odd rule''. Quite complicated, but ``even odd rule'' can be used to ``drill holes'' into a path.
+
+\begin{tcblisting}{title=Fill with concerning the path orientation (from left-to-right or right-to-left)}
+    \begin{tikzpicture}
+        \fill (0,0) circle [radius=.5cm] (0.5,0) circle [radius=.5cm];
+        \fill[even odd rule] (2,0) circle [radius=.5cm] (2.5,0) circle [radius=.5cm];
+        \fill (4,0) -- (5,1) -- (6,0) circle [radius=.5cm];
+        \fill (9,0) circle [radius=.5cm] -- (8,1) -- (7,0); % circle's path is drawn counter-clockwise
+    \end{tikzpicture}
+\end{tcblisting}
+
+\begin{tcblisting}{title={\texttt{even odd rule} is less flexible, but more intuitive}}
+    \begin{tikzpicture}
+        \filldraw[fill=yellow!80!black,even odd rule]
+        (0,0) rectangle (1,1) (0.5,0.5) circle [radius=0.4cm];
+        \draw[->] (0.5,0.5) -- +(0,1) [above] node{crossings: $1+1 = 2$};
+        \filldraw[fill=green!80!black]
+        (4,0) --(5,0) --(5,1) --(4,1) --cycle (4.5,0.5) circle [radius=0.4cm];
+        \filldraw[fill=blue!80!black]
+        (8,0) --(8,1) --(9,1) --(9,0) --cycle (8.5,0.5) circle [radius=0.4cm];
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsection{TikZ 実用例（５）～領域図示～}
+
+From here: \url{https://note.com/dan_oyama/n/n86d735a1cda8}
+
+\subsubsection{関数グラフの囲む領域の図示}
+
+放物線 \(y=x^2\) と直線 \(y=x+2\) で囲まれた領域を図示する時には，2交点の座標が \((-1,1)\) と \((2,4)\) なので，\(x\)-座標 \(-1\) と \(2\) との間の関数グラフの path を fill すれば，できます．path 自体は closed されていないので，自動的に cycle で閉じます．
+
+関数 \(y=x+2\) は，交点の \(x\)-座標を求めるために利用されたが，関数グラフの path の fill には，関係ありません．
+
+\begin{tcblisting}{title=関数グラフの path の fill}
+    \begin{tikzpicture}[samples=200,scale=1]
+        \begin{scope}\clip (-3,-1) rectangle (3,5);
+            \filldraw[fill=gray!20!white,very thick] plot[domain=-1:2](\x,{pow(\x,2)});
+        \end{scope}
+        \draw[->,>=stealth,semithick] (-3,0)--(3,0) node[right]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-1)--(0,5) node[left]{$y$}; %y軸
+        \draw (0,0) node[below left]{$O$}; %原点
+    \end{tikzpicture}
+\end{tcblisting}
+
+\subsubsection{交点の \(x\)-座標を tikzmath で計算}
+
+\begin{tcblisting}{title=交点の \(x\)-座標を tikzmath で計算}
+    \begin{tikzpicture}[samples=200,scale=1]
+        \begin{scope}\clip (-3,-1) rectangle (3,5); % must clip to avoid overfull
+            \path[name path=C] plot(\x,{-pow(\x,2)+4});
+            \path[name path=L] plot(\x,{-\x/2+2});
+            \path[name intersections={of=C and L,by={A,B}}];
+            \tikzmath{
+                coordinate \c; \c{A} = (A); \c{B} = (B); \c{U} = (1,1);
+                \xA = \cx{A}/\cx{U}; \xB = \cx{B}/\cx{U}; % convert from pt to coordinate
+            }
+            \fill[gray!20!white] plot[domain=\xA:\xB](\x,{-pow(\x,2)+4});
+            \draw[thick] plot(\x,{-pow(\x,2)+4});
+            \draw[thick] plot(\x,{-\x/2+2});
+        \end{scope}
+        \draw[->,>=stealth,semithick] (-3,0)--(3,0) node[right]{$x$}; %x軸
+        \draw[->,>=stealth,semithick] (0,-1)--(0,5) node[left]{$y$}; %y軸
+        \draw (0,0) node[below left]{$O$}; %原点
+    \end{tikzpicture}
+\end{tcblisting}
+
 \subsection{実用例(11) \texttt{\textbackslash{}tikzmath}}
 
 From here: \url{https://note.com/dan_oyama/n/n75a325f9d9d2}
