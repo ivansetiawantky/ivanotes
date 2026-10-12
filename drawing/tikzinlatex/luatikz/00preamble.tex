@@ -120,7 +120,7 @@
 }
 
 % For showing source code listing and the typeset result up-down, side-by-side
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,theorems}
 
 \lstdefinestyle{tcbliststyleiv}{
@@ -173,4 +173,47 @@
     colback=blue!3!white,colframe=blue!75!black,
     colbacklower=white,
     % watermark color=white,watermark text=\Roman{tcbbreakpart},
+}
+
+% From here: \url{https://note.com/dan_oyama/n/n75a325f9d9d2}
+\newtcolorbox[auto counter]{reidai3}[1]
+{
+    enhanced,
+    boxrule=1pt,
+    colframe=black!60,
+    colback=white,
+    colbacktitle=white,
+    sharp corners=northwest,
+    sharp corners=southwest,
+    sharp corners=southeast,
+    arc=10pt,
+    title={
+            \bfseries\large 例 題 \thetcbcounter % chktex 1
+            \qquad \textcolor{black!60}{#1}
+        },
+    underlay={
+            \fill[black!60]
+            ([xshift=0.7mm,yshift=-0.7mm]frame.north west)
+            -- ++(2.26,0) -- ++(0,-0.51) -- ++(-2.26,0) -- cycle; % chktex 8
+        }
+}
+
+\newtcolorbox{teiri3}[2][]
+{
+    enhanced,
+    center,
+    boxrule=0.5pt,
+    colframe=white,
+    colback=white,
+    colbacktitle=white,
+    coltitle=black,
+    sharp corners,
+    borderline={0.5pt}{0pt}{black!50,solid},
+    title={\center\bfseries\large 《#2》},
+    #1,
+    underlay={
+            \foreach\ \P in{north west,north east,south west,south east}{
+                    \fill[black!50] ([shift={(-2pt,-2pt)}]frame.\P) rectangle ([shift={(2pt,2pt)}]frame.\P);
+                }
+        }
 }

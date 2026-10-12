@@ -543,4 +543,121 @@ From here: \url{https://note.com/dan_oyama/n/n75a325f9d9d2}
     \end{tikzpicture}
 \end{tcblisting}
 
+\subsection{TikZ 実用例(12) ～tcolorbox の制御～}
+
+From here: \url{https://note.com/dan_oyama/n/nfaeeb8f78bf0}
+
+\begin{tcblisting}{title=シンプルなBOX}
+    \begin{tcolorbox}
+        あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほ
+    \end{tcolorbox}
+\end{tcblisting}
+
+\begin{tcblisting}{title=タイトルをつける}
+    \begin{tcolorbox}[title=アイウエオ]
+        あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほ
+    \end{tcolorbox}
+\end{tcblisting}
+
+\begin{tcblisting}{title=色の変更,left=4.8mm}
+    \begin{tcolorbox}
+        [
+            colframe = blue, %%% 外枠の色
+            colback = blue!10, %%% box内の背景色
+            colbacktitle = blue!60, %%% タイトルの背景色
+            coltitle = white, %%% タイトルの文字色
+            fonttitle = \bfseries\large, %%% タイトルのフォント・大きさ
+            title = アイウエオ %%% タイトル
+        ]
+        あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほ
+    \end{tcolorbox}
+\end{tcblisting}
+
+\subsubsection{まじめなBOX, \texttt{reidai3} 環境}
+
+プリアンブルなどに，以下の環境を定義します．
+\begin{tcblisting}{listing only,title=\texttt{reidai3} 環境の定義,left=4.8mm}
+    \newtcolorbox[auto counter]{reidai3}[1]
+    {
+        enhanced,
+        boxrule=1pt,
+        colframe=black!60,
+        colback=white,
+        colbacktitle=white,
+        sharp corners=northwest,
+        sharp corners=southwest,
+        sharp corners=southeast,
+        arc=10pt,
+        title={
+                \bfseries\large 例 題 \thetcbcounter % chktex 1
+                \qquad \textcolor{black!60}{#1}
+            },
+        underlay={
+                \fill[black!60]
+                ([xshift=0.7mm,yshift=-0.7mm]frame.north west)
+                -- ++(2.26,0) -- ++(0,-0.51) -- ++(-2.26,0) -- cycle; % chktex 8
+            }
+    }
+\end{tcblisting}
+
+\begin{tcblisting}{title=\texttt{reidai3} 環境の使い方例1}
+    \begin{reidai3}{２次方程式の解の公式}
+        実数係数の2次方程式 \(ax^2+bx+c = 0\) の解は
+        \[
+            x = \dfrac{\,-b \pm \sqrt{b^2-4ac}\,}{2a}
+        \]
+        と表されることを示せ．
+    \end{reidai3}
+\end{tcblisting}
+
+\begin{tcblisting}{title=\texttt{reidai3} 環境の使い方例2}
+    \begin{reidai3}{極線}
+        円 \(C:x^2+y^2=9\) に点P\((5,\;4)\)から引いた2本の接線を\(\ell\)，\(m\)とする．
+        円 \(C\)と直線\(\ell\)の接点をA，円\(C\)と直線\(m\)の接点をBとするとき，直線ABの方程式を求めよ．
+    \end{reidai3}
+\end{tcblisting}
+
+\subsubsection{まじめなBOX, \texttt{teiri3} 環境}
+
+プリアンブルなどに，以下の環境を定義します．
+\begin{tcblisting}{listing only,title=\texttt{teiri3} 環境の定義,left=4.8mm}
+    \newtcolorbox{teiri3}[2][]
+    {
+        enhanced,
+        center,
+        boxrule=0.5pt,
+        colframe=white,
+        colback=white,
+        colbacktitle=white,
+        coltitle=black,
+        sharp corners,
+        borderline={0.5pt}{0pt}{black!50,solid},
+        title={\center\bfseries\large 《#2》},
+        #1,
+        underlay={
+                \foreach\ \P in{north west,north east,south west,south east}{
+                        \fill[black!50] ([shift={(-2pt,-2pt)}]frame.\P) rectangle ([shift={(2pt,2pt)}]frame.\P);
+                    }
+            }
+    }
+\end{tcblisting}
+
+\begin{teiri3}{三角関数の加法定理}
+    \begin{itemize}\setlength{\itemsep}{3pt}
+        \item \(\sin(\alpha+\beta) = \sin{\alpha}\cos{\beta}+\cos{\alpha}\sin{\beta}\)
+        \item \(\cos(\alpha+\beta) = \cos{\alpha}\cos{\beta}-\sin{\alpha}\sin{\beta}\)
+        \item \(\tan(\alpha+\beta) = \dfrac{\tan{\alpha}+\tan{\beta}}{\,1-\tan{\alpha}\tan{\beta}\,}\)
+    \end{itemize}
+\end{teiri3}
+
+\begin{tcblisting}{title=\texttt{teiri3} の width を調整}
+    \begin{teiri3}[width=0.45 \textwidth]{三角関数の加法定理}
+        \begin{itemize}\setlength{\itemsep}{3pt}
+            \item \(\sin(\alpha+\beta) = \sin{\alpha}\cos{\beta}+\cos{\alpha}\sin{\beta}\)
+            \item \(\cos(\alpha+\beta) = \cos{\alpha}\cos{\beta}-\sin{\alpha}\sin{\beta}\)
+            \item \(\tan(\alpha+\beta) = \dfrac{\tan{\alpha}+\tan{\beta}}{\,1-\tan{\alpha}\tan{\beta}\,}\)
+        \end{itemize}
+    \end{teiri3}
+\end{tcblisting}
+
 \end{document}
